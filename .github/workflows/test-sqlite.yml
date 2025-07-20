@@ -1,5 +1,8 @@
 name: Run Tests (SQLite)
 
+permissions:
+  contents: read
+
 on:
   workflow_call:
   workflow_dispatch:
