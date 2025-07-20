@@ -33,10 +33,6 @@ class LinkVisitsCountChart extends ChartWidget
                 'legend' => [
                     'display' => true,
                     'position' => 'bottom',
-                    'labels' => [
-                        'usePointStyle' => true,
-                        'padding' => 20,
-                    ],
                 ],
                 'tooltip' => [
                     'mode' => 'index',
@@ -63,10 +59,6 @@ class LinkVisitsCountChart extends ChartWidget
             ],
             'responsive' => true,
             'maintainAspectRatio' => false,
-            'interaction' => [
-                'mode' => 'index',
-                'intersect' => false,
-            ],
         ];
     }
 
