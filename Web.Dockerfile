@@ -2,12 +2,12 @@
 # This Dockerfile uses a multi-stage build process to optimize the final image size
 # and separate build dependencies from runtime dependencies
 
-# Stage 1: PHP Dependencies and Extensions
-# This stage installs PHP dependencies and required extensions
-FROM dunglas/frankenphp:php8.4-alpine AS php_dependencies
+# Stage 1: Build Dependencies and Assets
+# This stage installs PHP dependencies, extensions, and builds frontend assets
+FROM dunglas/frankenphp:php8.4-alpine AS build_stage
 WORKDIR /app
 
-# Install system dependencies and PHP extensions required for the application
+# Install system dependencies and PHP extensions
 RUN apk add --no-cache \
     curl \
     git \
@@ -30,12 +30,16 @@ RUN apk add --no-cache \
     && pecl install redis \
     && docker-php-ext-enable redis
 
-# Copy only composer files first for optimal caching
-# This allows Docker to cache the dependency installation layer
-COPY composer.json composer.lock ./
+# Install Node.js v22 and npm
+RUN apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main \
+    nodejs=~22 \
+    npm
 
 # Copy Composer binary from official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copy source files
+COPY . .
 
 # Install production dependencies only
 RUN composer install \
@@ -44,19 +48,16 @@ RUN composer install \
     --no-scripts \
     --optimize-autoloader
 
-# Stage 2: Frontend Assets Build
-# This stage handles the frontend assets compilation
-FROM oven/bun:latest AS frontend_assets
-WORKDIR /app
-# Copy package files and install dependencies
-COPY --link package.json bun.lock* ./
-RUN bun install --frozen-lockfile
-# Copy source files and build frontend assets
-COPY --link . .
-COPY --link --from=php_dependencies /app/vendor ./vendor
-RUN bun run build
+# Install frontend dependencies
+RUN npm ci
 
-# Stage 3: Production Runtime
+# Build frontend assets
+RUN npm run build
+
+# Publish Filament assets
+RUN php artisan filament:assets
+
+# Stage 2: Production Runtime
 # This stage creates the final production image
 FROM dunglas/frankenphp:php8.4-alpine AS production
 WORKDIR /app
@@ -87,9 +88,9 @@ RUN apk add --no-cache \
 # Copy application files
 COPY . .
 
-# Copy built assets from previous stages with correct permissions
-COPY --from=php_dependencies --chown=appuser:appuser /app/vendor ./vendor
-COPY --from=frontend_assets --chown=appuser:appuser /app/public ./public
+# Copy built assets from build stage with correct permissions
+COPY --from=build_stage --chown=appuser:appuser /app/vendor ./vendor
+COPY --from=build_stage --chown=appuser:appuser /app/public ./public
 
 # Set up entrypoint script
 COPY --chown=appuser:appuser entrypoint.sh /usr/local/bin/
