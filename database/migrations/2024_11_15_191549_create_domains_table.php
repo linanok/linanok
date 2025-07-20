@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('host');
             $table->string('protocol')->default('https');
             $table->boolean('is_active')->default(true)->index();
-            $table->boolean('is_admin_panel_available')->default(false)->index();
+            $table->boolean('is_admin_panel_active')->default(false)->index();
             $table->timestamp('created_at')->nullable();
 
             $table->unique(['protocol', 'host']);

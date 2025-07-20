@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('domain_id')
                 ->constrained('domains')
                 ->cascadeOnDelete();
+
+            $table->index('domain_id');
+            $table->index('link_id');
         });
     }
 
