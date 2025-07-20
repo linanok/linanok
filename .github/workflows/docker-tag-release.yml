@@ -1,0 +1,64 @@
+name: Tag Docker Images for Release
+
+on:
+  release:
+    types: [ published ]
+
+env:
+  REGISTRY: ghcr.io
+  PROJECT: ${{ github.repository }}
+
+jobs:
+  tag-release:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - image: web
+          - image: queue
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Set release tags
+        id: set_tags
+        run: |
+          IMAGE_PREFIX="${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ matrix.image }}"
+          VERSION="${GITHUB_REF_NAME}"
+          MAJOR=$(echo "$VERSION" | cut -d. -f1)
+          MINOR=$(echo "$VERSION" | cut -d. -f2)
+          echo "source_image=${IMAGE_PREFIX}:unstable-main" >> $GITHUB_OUTPUT
+          echo "tags<<EOF" >> $GITHUB_OUTPUT
+          echo "${IMAGE_PREFIX}:${MAJOR}" >> $GITHUB_OUTPUT
+          echo "${IMAGE_PREFIX}:${MAJOR}.${MINOR}" >> $GITHUB_OUTPUT
+          echo "${IMAGE_PREFIX}:${VERSION}" >> $GITHUB_OUTPUT
+          echo "${IMAGE_PREFIX}:latest" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull unstable-main image
+        run: |
+          docker pull ${{ steps.set_tags.outputs.source_image }}
+
+      - name: Tag and push release images
+        run: |
+          SOURCE_IMAGE="${{ steps.set_tags.outputs.source_image }}"
+          
+          # Read tags from multiline output
+          while IFS= read -r tag; do
+            if [ -n "$tag" ]; then
+              echo "Tagging $SOURCE_IMAGE as $tag"
+              docker tag "$SOURCE_IMAGE" "$tag"
+              echo "Pushing $tag"
+              docker push "$tag"
+            fi
+          done << 'EOF'
+          ${{ steps.set_tags.outputs.tags }}
+          EOF
