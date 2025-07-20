@@ -27,36 +27,6 @@ class TopCountriesChart extends ChartWidget
         return 'pie';
     }
 
-    protected function getOptions(): array
-    {
-        return [
-            'plugins' => [
-                'legend' => [
-                    'position' => 'right',
-                    'labels' => [
-                        'boxWidth' => 15,
-                        'padding' => 10,
-                        'font' => [
-                            'size' => 12,
-                        ],
-                    ],
-                ],
-                'tooltip' => [
-                    'callbacks' => [
-                        'label' => "function(context) {
-                            let label = context.label || '';
-                            let value = context.raw || 0;
-                            let total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                            let percentage = Math.round((value / total) * 100);
-                            return label + ': ' + value + ' (' + percentage + '%)';
-                        }",
-                    ],
-                ],
-            ],
-            'maintainAspectRatio' => false,
-        ];
-    }
-
     protected function getData(): array
     {
         $query = LinkVisit::query();
