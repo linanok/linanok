@@ -14,7 +14,8 @@ env:
 
 jobs:
   test:
-    permissions: {}
+    permissions:
+      contents: read
     uses: linanok/linanok/.github/workflows/test.yml@main
 
   build:
