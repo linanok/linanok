@@ -7,6 +7,7 @@ use App\Http\Middleware\EnsureAdminPanelAccessible;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -49,6 +50,15 @@ class AdminPanelProvider extends PanelProvider
             ->unsavedChangesAlerts()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
+            ->navigationItems([
+                NavigationItem::make('Performance')
+                    ->visible(fn () => request()->user()->can('viewPulse'))
+                    ->url(fn () => route('pulse'))
+                    ->openUrlInNewTab()
+                    ->icon('heroicon-o-chart-bar')
+                    ->group('Devops')
+                    ->sort(3),
+            ])
             ->pages([
                 Dashboard::class,
             ])
