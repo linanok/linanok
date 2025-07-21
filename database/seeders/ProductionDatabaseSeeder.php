@@ -24,6 +24,13 @@ class ProductionDatabaseSeeder extends Seeder
             }
         }
 
+        $permissions[] = [
+            'name' => 'view pulse',
+            'guard_name' => 'web',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+
         Permission::insertOrIgnore($permissions);
     }
 }
