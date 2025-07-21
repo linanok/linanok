@@ -61,5 +61,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::before(function (User $user, $ability) {
             return $user->is_super_admin ? true : null;
         });
+        Gate::define('viewPulse', function (User $user) {
+            return $user->can('view pulse');
+        });
     }
 }
