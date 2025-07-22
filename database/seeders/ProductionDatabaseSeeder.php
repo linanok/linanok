@@ -25,7 +25,7 @@ class ProductionDatabaseSeeder extends Seeder
         }
 
         $permissions[] = [
-            'name' => 'view pulse',
+            'name' => 'view performance',
             'guard_name' => 'web',
             'created_at' => now(),
             'updated_at' => now(),
