@@ -55,7 +55,7 @@ class DevelopmentDatabaseSeeder extends Seeder
             'protocol' => 'http',
             'host' => 'localhost:8080',
             'is_admin_panel_active' => true,
-            'is_active' => true,
+            'is_active' => false,
         ]);
         Domain::factory()->create([
             'protocol' => 'http',
