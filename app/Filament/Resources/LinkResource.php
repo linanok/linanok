@@ -92,6 +92,7 @@ class LinkResource extends Resource
                                         Grid::make(2)
                                             ->schema([
                                                 TextInput::make('slug')
+                                                    ->autocomplete(false)
                                                     ->unique(ignorable: fn ($record) => $record)
                                                     ->placeholder(fn ($record) => $record === null ? 'custom-slug' : '-')
                                                     ->helperText('Leave empty for auto-generation')
@@ -164,7 +165,7 @@ class LinkResource extends Resource
                                         TextInput::make('password')
                                             ->password()
                                             ->revealable()
-                                            ->autocomplete(false)
+                                            ->autocomplete('new-password')
                                             ->helperText('Optional: Protect the link with a password'),
 
                                         Toggle::make('is_active')
