@@ -165,7 +165,7 @@ class LinkResource extends Resource
                                         TextInput::make('password')
                                             ->password()
                                             ->revealable()
-                                            ->autocomplete('new-password')
+                                            ->autocomplete('one-time-code')
                                             ->helperText('Optional: Protect the link with a password'),
 
                                         Toggle::make('is_active')
