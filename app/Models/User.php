@@ -28,7 +28,11 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, HasRoles, LogsActivity, MyLogsActivity, Notifiable;
+    use HasFactory, HasRoles, LogsActivity, Notifiable;
+
+    use MyLogsActivity {
+        MyLogsActivity::getActivitylogOptions as superGetActivitylogOptions;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -81,6 +85,12 @@ class User extends Authenticatable implements FilamentUser
     protected function active(Builder $query): Builder
     {
         return $query->where('is_active', true);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return $this->superGetActivitylogOptions()
+            ->logExcept(['password', 'created_at', 'updated_at']);
     }
 
     /**
