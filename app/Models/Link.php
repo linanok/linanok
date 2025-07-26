@@ -91,12 +91,12 @@ class Link extends Model
     {
         $currentDomain = current_domain();
 
-        if (! isset($currentDomain)) {
+        if (! $currentDomain?->is_active) {
             return $query->whereRaw('1 = 0'); // Forces an empty result set
         }
 
         return $query->whereHas('domains', function (Builder $query) use ($currentDomain) {
-            $query->where('domains.id', $currentDomain->id)->where('domains.is_active', true);
+            $query->where('domains.id', $currentDomain->id);
         });
     }
 
