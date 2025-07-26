@@ -230,7 +230,7 @@ class LinkTest extends TestCase
     {
         // This test is more complex as it requires mocking the current_domain helper
         // For simplicity, we'll just test that the method exists
-        $this->assertTrue(method_exists(Link::class, 'scopeForCurrentDomain'));
+        $this->assertTrue(method_exists(Link::class, 'forCurrentDomain'));
     }
 
     #[Test]

@@ -17,6 +17,7 @@ jobs:
     uses: linanok/linanok/.github/workflows/test.yml@main
 
   build:
+    needs: test
     runs-on: ubuntu-latest
     strategy:
       matrix:
