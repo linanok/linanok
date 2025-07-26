@@ -6,6 +6,7 @@ use App\Enums\Protocol;
 use App\History\MyLogsActivity;
 use App\Observers\DomainObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
@@ -77,7 +78,8 @@ class Domain extends Model
      * @param  Builder  $query  The query builder instance
      * @return Builder The modified query builder
      */
-    public function scopeAvailable(Builder $query): Builder
+    #[Scope]
+    protected function available(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
@@ -90,7 +92,8 @@ class Domain extends Model
      * @param  Builder  $query  The query builder instance.
      * @return Builder The modified query builder.
      */
-    public function scopeAdminPanelAvailable(Builder $query): Builder
+    #[Scope]
+    protected function adminPanelAvailable(Builder $query): Builder
     {
         return $query->where('is_admin_panel_active', true);
     }

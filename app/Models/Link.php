@@ -5,6 +5,7 @@ namespace App\Models;
 use App\History\MyLogsActivity;
 use App\Observers\LinkObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
@@ -46,7 +47,8 @@ class Link extends Model
      * @param  Builder  $query  The query builder instance
      * @return Builder The modified query builder
      */
-    public function scopeAvailable(Builder $query): Builder
+    #[Scope]
+    protected function available(Builder $query): Builder
     {
         return $query
             ->where('is_active', true)
@@ -69,7 +71,8 @@ class Link extends Model
      * @param  Builder  $query  The query builder instance
      * @return Builder The modified query builder
      */
-    public function scopeHasPassword(Builder $query): Builder
+    #[Scope]
+    protected function passwordProtected(Builder $query): Builder
     {
         return $query->whereNotNull('password');
     }
@@ -83,7 +86,8 @@ class Link extends Model
      * @param  Builder  $query  The query builder instance
      * @return Builder The modified query builder
      */
-    public function scopeForCurrentDomain(Builder $query): Builder
+    #[Scope]
+    protected function forCurrentDomain(Builder $query): Builder
     {
         $currentDomain = current_domain();
 
