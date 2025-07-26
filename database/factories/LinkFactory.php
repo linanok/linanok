@@ -20,6 +20,7 @@ class LinkFactory extends Factory
             'is_active' => $this->faker->boolean(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
+            'description' => $this->faker->text(),
         ];
     }
 }
