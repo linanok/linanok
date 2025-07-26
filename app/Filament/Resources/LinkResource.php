@@ -14,8 +14,8 @@ use App\Models\Link;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
@@ -225,12 +225,21 @@ class LinkResource extends Resource
                             ->schema([
                                 Section::make()
                                     ->schema([
-                                        MarkdownEditor::make('description')
+                                        RichEditor::make('description')
                                             ->toolbarButtons([
-                                                'bold', 'italic', 'strike',
-                                                'bulletList', 'orderedList',
-                                                'link', 'heading',
-                                                'codeBlock', 'blockquote',
+                                                'blockquote',
+                                                'bold',
+                                                'bulletList',
+                                                'codeBlock',
+                                                'h2',
+                                                'h3',
+                                                'italic',
+                                                'link',
+                                                'orderedList',
+                                                'redo',
+                                                'strike',
+                                                'underline',
+                                                'undo',
                                             ])
                                             ->columnSpan('full'),
                                     ]),
