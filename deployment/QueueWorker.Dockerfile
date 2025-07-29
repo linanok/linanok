@@ -58,6 +58,9 @@ COPY . .
 # Copy installed dependencies from build stage
 COPY --from=build_dependencies --chown=www-data:www-data /app/vendor ./vendor
 
+# Copy custom PHP configuration
+COPY deployment/php.ini /usr/local/etc/php/conf.d/99-custom.ini
+
 # Set proper permissions for Laravel storage and cache directories
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 

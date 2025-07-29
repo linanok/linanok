@@ -92,8 +92,14 @@ COPY . .
 COPY --from=build_stage --chown=appuser:appuser /app/vendor ./vendor
 COPY --from=build_stage --chown=appuser:appuser /app/public ./public
 
+# Set up PHP production configuration
+RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
+
+# Copy custom PHP configuration
+COPY deployment/php.ini /usr/local/etc/php/conf.d/99-custom.ini
+
 # Set up entrypoint script
-COPY --chown=appuser:appuser entrypoint.sh /usr/local/bin/
+COPY --chown=appuser:appuser deployment/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Use entrypoint script to handle container startup
