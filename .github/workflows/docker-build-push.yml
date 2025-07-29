@@ -22,9 +22,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - dockerfile: Web.Dockerfile
+          - dockerfile: deployment/Web.Dockerfile
             image: web
-          - dockerfile: QueueWorker.Dockerfile
+          - dockerfile: deployment/QueueWorker.Dockerfile
             image: queue
     permissions:
       contents: read
