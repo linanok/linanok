@@ -75,7 +75,5 @@ RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 # Switch to non-root user for security
 USER www-data
 
-# Start the queue worker with optimized settings
-# --tries=3: Retry failed jobs up to 3 times
-# --max-jobs=1000: Restart the worker after processing 1000 jobs to prevent memory leaks
-CMD ["php", "artisan", "queue:work", "--tries=3", "--max-jobs=1000"]
+# The command will be specified in docker-compose.yml
+# This allows for more flexible container usage (queue worker, scheduler, etc.)
