@@ -4,17 +4,20 @@
 
 # Stage 1: Build Dependencies
 # This stage handles dependency installation and build tools
-FROM php:8.4-cli-alpine AS build_dependencies
+FROM php:8.4-cli AS build_dependencies
 
 # Install system dependencies required for PHP extensions and build tools
-RUN apk add --no-cache \
-    linux-headers \
-    $PHPIZE_DEPS \
-    postgresql-dev \
+RUN apt-get update && apt-get install -y \
+    linux-headers-generic \
+    pkg-config \
+    build-essential \
+    libpq-dev \
     libzip-dev \
     zip \
     unzip \
-    git
+    git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install required PHP extensions for the application
 RUN docker-php-ext-install pdo pdo_pgsql zip pcntl intl
@@ -36,13 +39,16 @@ RUN composer install --no-dev --optimize-autoloader
 
 # Stage 2: Production Runtime
 # This stage creates the final production image with only runtime dependencies
-FROM php:8.4-cli-alpine AS production
+FROM php:8.4-cli AS production
 
 # Install only runtime dependencies
-RUN apk add --no-cache \
-    postgresql-dev \
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
     libzip-dev \
-    $PHPIZE_DEPS
+    pkg-config \
+    build-essential \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install required PHP extensions
 RUN docker-php-ext-install pdo pdo_pgsql zip pcntl intl \
