@@ -8,9 +8,8 @@ FROM php:8.4-cli AS build_dependencies
 
 # Install system dependencies required for PHP extensions and build tools
 RUN apt-get update && apt-get install -y \
-    linux-headers-generic \
-    pkg-config \
-    build-essential \
+    linux-libc-dev \
+    $PHPIZE_DEPS \
     libpq-dev \
     libzip-dev \
     zip \
@@ -45,8 +44,7 @@ FROM php:8.4-cli AS production
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
-    pkg-config \
-    build-essential \
+    $PHPIZE_DEPS \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

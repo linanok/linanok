@@ -19,8 +19,7 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libicu-dev \
     libzip-dev \
-    pkg-config \
-    build-essential \
+    $PHPIZE_DEPS \
     && docker-php-ext-install \
     pcntl \
     pdo_pgsql \
@@ -76,8 +75,7 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libicu-dev \
     libzip-dev \
-    pkg-config \
-    build-essential \
+    $PHPIZE_DEPS \
     && docker-php-ext-install \
     pcntl \
     pdo_pgsql \
