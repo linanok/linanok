@@ -9,6 +9,7 @@ WORKDIR /app
 
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
+    build-essential \
     curl \
     git \
     unzip \
@@ -65,6 +66,7 @@ WORKDIR /app
 
 # Install runtime dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
+    build-essential \
     curl \
     git \
     unzip \
