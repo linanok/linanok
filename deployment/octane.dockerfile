@@ -107,5 +107,32 @@ COPY deployment/php.ini /usr/local/etc/php/conf.d/99-custom.ini
 COPY --chown=appuser:appuser deployment/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
+# Build arguments for dynamic metadata
+ARG VERSION=latest
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VCS_URL=https://github.com/linanok/linanok
+
+# Manifest/Metadata Labels
+LABEL org.opencontainers.image.title="Linanok Web Application"
+LABEL org.opencontainers.image.description="Laravel web application container for Linanok platform - main web server with FrankenPHP and Octane"
+LABEL org.opencontainers.image.version="${VERSION}"
+LABEL org.opencontainers.image.created="${BUILD_DATE}"
+LABEL org.opencontainers.image.source="${VCS_URL}"
+LABEL org.opencontainers.image.revision="${VCS_REF}"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.vendor="Linanok"
+LABEL org.opencontainers.image.authors="Linanok Team"
+LABEL org.opencontainers.image.documentation="${VCS_URL}/blob/main/README.md"
+LABEL app.name="linanok"
+LABEL app.component="web-server"
+LABEL app.version="${VERSION}"
+LABEL app.framework="laravel"
+LABEL app.php.version="8.4"
+LABEL app.server="frankenphp"
+LABEL app.octane="true"
+LABEL app.build.date="${BUILD_DATE}"
+LABEL app.build.revision="${VCS_REF}"
+
 # Use entrypoint script to handle container startup
 ENTRYPOINT ["entrypoint.sh"]

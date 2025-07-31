@@ -5,6 +5,10 @@ services:
     build:
       context: .
       dockerfile: deployment/octane.dockerfile
+      args:
+        VERSION: ${VERSION:-dev}
+        BUILD_DATE: ${BUILD_DATE}
+        VCS_REF: ${VCS_REF}
     ports:
       - "8000:8000"
     volumes:
@@ -31,6 +35,10 @@ services:
     build:
       context: .
       dockerfile: deployment/cli.dockerfile
+      args:
+        VERSION: ${VERSION:-dev}
+        BUILD_DATE: ${BUILD_DATE}
+        VCS_REF: ${VCS_REF}
     command: ["php", "artisan", "queue:work", "--tries=3", "--max-jobs=1000"]
     env_file:
       - .env.docker
