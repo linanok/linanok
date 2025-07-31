@@ -23,9 +23,9 @@ jobs:
       matrix:
         include:
           - dockerfile: deployment/octane.dockerfile
-            image: web
+            image: octane
           - dockerfile: deployment/cli.dockerfile
-            image: queue
+            image: cli
     permissions:
       contents: read
       packages: write
