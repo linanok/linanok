@@ -4,20 +4,21 @@
 
 # Stage 1: Build Dependencies and Assets
 # This stage installs PHP dependencies, extensions, and builds frontend assets
-FROM dunglas/frankenphp:php8.4-alpine AS build_stage
+FROM dunglas/frankenphp:php8.4 AS build_stage
 WORKDIR /app
 
 # Install system dependencies and PHP extensions
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
+    build-essential \
     curl \
     git \
     unzip \
-    postgresql-dev \
-    oniguruma-dev \
-    openssl-dev \
+    libpq-dev \
+    libonig-dev \
+    libssl-dev \
     libxml2-dev \
-    curl-dev \
-    icu-dev \
+    libcurl4-openssl-dev \
+    libicu-dev \
     libzip-dev \
     $PHPIZE_DEPS \
     && docker-php-ext-install \
@@ -28,12 +29,13 @@ RUN apk add --no-cache \
     intl \
     zip \
     && pecl install redis \
-    && docker-php-ext-enable redis
+    && docker-php-ext-enable redis \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js v22 and npm
-RUN apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main \
-    nodejs=~22 \
-    npm
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs
 
 # Copy Composer binary from official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -59,20 +61,21 @@ RUN php artisan filament:assets
 
 # Stage 2: Production Runtime
 # This stage creates the final production image
-FROM dunglas/frankenphp:php8.4-alpine AS production
+FROM dunglas/frankenphp:php8.4 AS production
 WORKDIR /app
 
 # Install runtime dependencies and PHP extensions
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
+    build-essential \
     curl \
     git \
     unzip \
-    postgresql-dev \
-    oniguruma-dev \
-    openssl-dev \
+    libpq-dev \
+    libonig-dev \
+    libssl-dev \
     libxml2-dev \
-    curl-dev \
-    icu-dev \
+    libcurl4-openssl-dev \
+    libicu-dev \
     libzip-dev \
     $PHPIZE_DEPS \
     && docker-php-ext-install \
@@ -83,7 +86,9 @@ RUN apk add --no-cache \
     intl \
     zip \
     && pecl install redis \
-    && docker-php-ext-enable redis
+    && docker-php-ext-enable redis \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy application files
 COPY . .
