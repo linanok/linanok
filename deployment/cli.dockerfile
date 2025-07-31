@@ -2,31 +2,6 @@
 # This container runs Laravel CLI commands including queue workers, schedulers, and other artisan commands
 # It's optimized for running background tasks and command-line operations
 
-# Build arguments for dynamic metadata
-ARG VERSION=latest
-ARG BUILD_DATE
-ARG VCS_REF
-ARG VCS_URL=https://github.com/linanok/linanok
-
-# Manifest/Metadata Labels
-LABEL org.opencontainers.image.title="Linanok CLI"
-LABEL org.opencontainers.image.description="Laravel CLI container for Linanok platform - handles artisan commands, queue workers, and scheduled tasks"
-LABEL org.opencontainers.image.version="${VERSION}"
-LABEL org.opencontainers.image.created="${BUILD_DATE}"
-LABEL org.opencontainers.image.source="${VCS_URL}"
-LABEL org.opencontainers.image.revision="${VCS_REF}"
-LABEL org.opencontainers.image.licenses="MIT"
-LABEL org.opencontainers.image.vendor="Linanok"
-LABEL org.opencontainers.image.authors="Linanok Team"
-LABEL org.opencontainers.image.documentation="${VCS_URL}/blob/main/README.md"
-LABEL app.name="linanok"
-LABEL app.component="cli"
-LABEL app.version="${VERSION}"
-LABEL app.framework="laravel"
-LABEL app.php.version="8.4"
-LABEL app.build.date="${BUILD_DATE}"
-LABEL app.build.revision="${VCS_REF}"
-
 # Stage 1: Build Dependencies
 # This stage handles dependency installation and build tools
 FROM php:8.4-cli AS build_dependencies
@@ -99,6 +74,31 @@ RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 
 # Switch to non-root user for security
 USER www-data
+
+# Build arguments for dynamic metadata
+ARG VERSION=latest
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VCS_URL=https://github.com/linanok/linanok
+
+# Manifest/Metadata Labels
+LABEL org.opencontainers.image.title="Linanok CLI"
+LABEL org.opencontainers.image.description="Laravel CLI container for Linanok platform - handles artisan commands, queue workers, and scheduled tasks"
+LABEL org.opencontainers.image.version="${VERSION}"
+LABEL org.opencontainers.image.created="${BUILD_DATE}"
+LABEL org.opencontainers.image.source="${VCS_URL}"
+LABEL org.opencontainers.image.revision="${VCS_REF}"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.vendor="Linanok"
+LABEL org.opencontainers.image.authors="Linanok Team"
+LABEL org.opencontainers.image.documentation="${VCS_URL}/blob/main/README.md"
+LABEL app.name="linanok"
+LABEL app.component="cli"
+LABEL app.version="${VERSION}"
+LABEL app.framework="laravel"
+LABEL app.php.version="8.4"
+LABEL app.build.date="${BUILD_DATE}"
+LABEL app.build.revision="${VCS_REF}"
 
 # The command will be specified in docker-compose.yml
 # This allows for more flexible container usage (queue worker, scheduler, etc.)
