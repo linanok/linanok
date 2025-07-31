@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: deployment/Web.Dockerfile
+      dockerfile: deployment/octane.dockerfile
     ports:
       - "8000:8000"
     volumes:
@@ -30,7 +30,8 @@ services:
   queue-worker:
     build:
       context: .
-      dockerfile: deployment/QueueWorker.Dockerfile
+      dockerfile: deployment/cli.dockerfile
+    command: ["php", "artisan", "queue:work", "--tries=3", "--max-jobs=1000"]
     env_file:
       - .env.docker
     depends_on:

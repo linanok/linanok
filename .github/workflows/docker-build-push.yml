@@ -22,9 +22,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - dockerfile: deployment/Web.Dockerfile
+          - dockerfile: deployment/octane.dockerfile
             image: web
-          - dockerfile: deployment/QueueWorker.Dockerfile
+          - dockerfile: deployment/cli.dockerfile
             image: queue
     permissions:
       contents: read
