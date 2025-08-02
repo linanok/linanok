@@ -50,8 +50,6 @@ services:
         restart: unless-stopped
         networks:
             - app
-        deploy:
-            replicas: ${QUEUE_WORKER_REPLICAS:-4}
 
     postgres:
         image: postgres:17-alpine

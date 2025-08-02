@@ -104,7 +104,7 @@ using our prebuilt Docker images.
    APP_URL=http://localhost:8000
 
    OCTANE_WORKERS=8
-   QUEUE_WORKER_REPLICAS=4
+   QUEUE_WORKER_MAX_PROCESSES=4
 
    TRUSTED_PROXIES=*
 
