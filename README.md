@@ -131,7 +131,7 @@ using our prebuilt Docker images.
    SESSION_DOMAIN=null
  
    FILESYSTEM_DISK=local
-   QUEUE_CONNECTION=database
+   QUEUE_CONNECTION=redis
 
    CACHE_STORE=redis
    CACHE_PREFIX=
