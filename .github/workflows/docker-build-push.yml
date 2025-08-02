@@ -54,7 +54,6 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=unstable-main,enable={{is_default_branch}}
             type=raw,value=unstable-demo,enable=${{ github.ref_name == 'demo' }}
 
