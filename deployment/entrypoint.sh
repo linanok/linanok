@@ -10,8 +10,6 @@ php artisan migrate --force --seed --seeder=ProductionDatabaseSeeder
 php artisan optimize:clear
 php artisan filament:optimize-clear
 php artisan optimize
-php artisan view:cache
-php artisan event:cache
 php artisan filament:optimize
 
 # Start FrankenPHP server
