@@ -50,13 +50,21 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->navigationItems([
-                NavigationItem::make('Performance')
+                NavigationItem::make('App Performance (Pulse)')
                     ->visible(fn () => request()->user()->can('viewPulse'))
                     ->url(fn () => route('pulse'))
                     ->openUrlInNewTab()
                     ->icon('heroicon-o-chart-bar')
-                    ->group('Devops')
+                    ->group('DevOps')
                     ->sort(3),
+
+                NavigationItem::make('Queue Monitoring (Horizon)')
+                    ->visible(fn () => request()->user()->can('viewHorizon'))
+                    ->url(fn () => route('horizon.index'))
+                    ->openUrlInNewTab()
+                    ->icon('heroicon-o-bolt')
+                    ->group('DevOps')
+                    ->sort(4),
             ])
             ->pages([
                 Dashboard::class,
