@@ -50,13 +50,13 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ matrix.image }}
           tags: |
-            type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=raw,value=latest,enable={{is_default_branch}}
-            type=raw,value=unstable-{{branch}},enable={{is_default_branch}}
+            type=raw,value=unstable-main,enable={{is_default_branch}}
+            type=raw,value=unstable-demo,enable=${{ github.ref_name == 'demo' }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
