@@ -53,6 +53,28 @@ services:
         networks:
             - app
 
+    init:
+        build:
+            context: .
+            dockerfile: deployment/cli.dockerfile
+            args:
+                VERSION: ${VERSION:-dev}
+                BUILD_DATE: ${BUILD_DATE}
+                VCS_REF: ${VCS_REF}
+        entrypoint: [ "./deployment/init.sh" ]
+        volumes:
+            - storage-data:/app/storage
+        env_file:
+            - .env.docker
+        depends_on:
+            postgres:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+        restart: unless-stopped
+        networks:
+            - app
+
     postgres:
         image: postgres:17-alpine
         volumes:
