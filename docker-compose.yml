@@ -12,8 +12,8 @@ services:
         ports:
             - "8000:8000"
         volumes:
-            - ./:/app:cached
             - frankenphp-data:/tmp
+            - storage-data:/app/storage
         env_file:
             - .env.docker
         depends_on:
@@ -90,6 +90,7 @@ volumes:
     postgres-data:
     redis-data:
     frankenphp-data:
+    storage-data:
 
 networks:
     app:
