@@ -106,7 +106,7 @@ COPY deployment/php.ini /usr/local/etc/php/conf.d/99-custom.ini
 # Set up entrypoint script
 COPY --chown=appuser:appuser deployment/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
-RUN chmod -R a+rw storage
+RUN chmod -R a+rw /app/storage
 
 # Build arguments for dynamic metadata
 ARG VERSION=latest
