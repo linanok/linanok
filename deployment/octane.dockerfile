@@ -139,4 +139,4 @@ LABEL app.build.date="${BUILD_DATE}"
 LABEL app.build.revision="${VCS_REF}"
 
 # Use entrypoint script to handle container startup
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
