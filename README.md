@@ -90,11 +90,11 @@ using our prebuilt Docker images.
 
 2. **Create environment file:**
    ```bash
-   cp .env.docker.example .env.docker
+   cp .env.docker.example .env
    ```
 
 3. **Configure environment variables:**
-   Edit the `.env.docker` file with your specific settings:
+   Edit the `.env` file with your specific settings:
    ```env
    APP_NAME=Linanok
    APP_ENV=production
@@ -138,7 +138,7 @@ using our prebuilt Docker images.
 
    REDIS_CLIENT=predis
    REDIS_HOST=redis
-   REDIS_PASSWORD=null
+   REDIS_PASSWORD=redis
    REDIS_PORT=6379
    REDIS_DB=0
    REDIS_CACHE_DB=1
@@ -151,7 +151,7 @@ using our prebuilt Docker images.
    ```bash
    docker-compose run --rm app php artisan key:generate --show
    ```
-   Copy the generated key and update it in the `.env.docker` file.
+   Copy the generated key and update it in the `.env` file.
 
 5. **Start the application:**
    ```bash
