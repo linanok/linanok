@@ -60,7 +60,7 @@ class LinkObserver
     private static function generateUniqueShortPath(?string $candidateShortPath = null): string
     {
         if ($candidateShortPath) {
-            // If the candidate path conflicts with reserved routes, ignore it
+            // If the candidate path conflicts with reserved routes, add _ to path
             if (self::isShortPathInReservedRoutes($candidateShortPath)) {
                 $candidateShortPath = '_'.$candidateShortPath;
             }
