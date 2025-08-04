@@ -18,33 +18,6 @@ use Illuminate\Support\Str;
 class LinkObserver
 {
     /**
-     * Reserved path prefixes that should not be used as short paths.
-     * These correspond to common web application routes and assets.
-     */
-    private const PUBLIC_PATH_PREFIXES = [
-        'admin',
-        'filament',
-        'livewire',
-        'storage',
-        'css',
-        'js',
-    ];
-
-    /**
-     * Reserved public files that should not be used as short paths.
-     * These correspond to common web server files and assets.
-     */
-    private const PUBLIC_PATHS = [
-        '.htaccess',
-        'favicon.ico',
-        'frankenphp-worker.php',
-        'index.php',
-        'linanok.svg',
-        'logo.svg',
-        'robots.txt',
-    ];
-
-    /**
      * Handle the Link "creating" event.
      *
      * Automatically generates a unique short_path for the link based on:
@@ -59,13 +32,13 @@ class LinkObserver
     public function creating(Link $link): void
     {
         if (isset($link->slug)) {
-            $link->short_path = $this->generateUniqueShortPath($link->slug);
+            $link->short_path = self::generateUniqueShortPath($link->slug);
 
             return;
         }
 
         // Generate a default unique slug if no slug is provided
-        $link->short_path = $this->generateUniqueShortPath();
+        $link->short_path = self::generateUniqueShortPath();
     }
 
     /**
@@ -84,30 +57,30 @@ class LinkObserver
      * @param  string|null  $candidateShortPath  The desired short path base
      * @return string A unique short path that doesn't exist in the database
      */
-    private function generateUniqueShortPath(?string $candidateShortPath = null): string
+    private static function generateUniqueShortPath(?string $candidateShortPath = null): string
     {
         if ($candidateShortPath) {
-            // If the candidate path conflicts with reserved routes, ignore it
-            if ($this->isShortPathInReservedRoutes($candidateShortPath)) {
-                $candidateShortPath = null;
+            // If the candidate path conflicts with reserved routes, add _ to path
+            if (self::isShortPathInReservedRoutes($candidateShortPath)) {
+                $candidateShortPath = '_'.$candidateShortPath;
             }
 
             // Reject paths starting with forward slash to avoid absolute path conflicts
-            if (Str::startsWith($candidateShortPath, '/')) {
+            if (! self::isShortPathValid($candidateShortPath)) {
                 $candidateShortPath = null;
             }
         }
 
         if ($candidateShortPath) {
             // First try the original short path candidate
-            if (! $this->isShortPathTaken($candidateShortPath)) {
+            if (! self::isShortPathTaken($candidateShortPath)) {
                 return $candidateShortPath;
             }
 
             // If taken, append random suffix until we find a unique one
             do {
-                $candidateShortPath = $candidateShortPath.Str::random(6);
-                $exists = $this->isShortPathTaken($candidateShortPath);
+                $candidateShortPath = $candidateShortPath.'_'.Str::random(6);
+                $exists = self::isShortPathTaken($candidateShortPath);
             } while ($exists);
 
             return $candidateShortPath;
@@ -118,11 +91,11 @@ class LinkObserver
             $candidateShortPath = Str::random(6);
 
             // Skip if it conflicts with reserved routes
-            if ($this->isShortPathInReservedRoutes($candidateShortPath)) {
+            if (self::isShortPathInReservedRoutes($candidateShortPath)) {
                 continue;
             }
 
-            $exists = $this->isShortPathTaken($candidateShortPath);
+            $exists = self::isShortPathTaken($candidateShortPath);
             if (! $exists) {
                 break;
             }
@@ -142,17 +115,17 @@ class LinkObserver
      * @param  string  $shortPath  The short path to check
      * @return bool True if the path conflicts with reserved routes, false otherwise
      */
-    private function isShortPathInReservedRoutes(string $shortPath): bool
+    private static function isShortPathInReservedRoutes(string $shortPath): bool
     {
         $shortPathLower = Str::lower($shortPath);
 
         // Check against exact public file matches
-        if (in_array($shortPathLower, self::PUBLIC_PATHS, true)) {
+        if (in_array($shortPathLower, config('link_constraints.public_paths'), true)) {
             return true;
         }
 
         // Check if the path starts with any reserved prefix
-        foreach (self::PUBLIC_PATH_PREFIXES as $prefix) {
+        foreach (config('link_constraints.public_path_prefixes') as $prefix) {
             if (Str::startsWith($shortPathLower, $prefix.'/')) {
                 return true;
             }
@@ -167,12 +140,36 @@ class LinkObserver
     }
 
     /**
+     * Validate that the short path contains only allowed characters and structure.
+     *
+     * Rules:
+     * - Only a-z, A-Z, 0-9, -, _, /
+     * - No leading or trailing slashes
+     * - No double slashes
+     */
+    private static function isShortPathValid(string $shortPath): bool
+    {
+        // Reject if leading or trailing slash
+        if (Str::startsWith($shortPath, '/') || Str::endsWith($shortPath, '/')) {
+            return false;
+        }
+
+        // Reject if double slashes exist
+        if (str_contains($shortPath, '//')) {
+            return false;
+        }
+
+        // Must match allowed characters only (segments of letters, numbers, -, _ separated by slashes)
+        return preg_match('/^[a-zA-Z0-9\-_\/]+$/', $shortPath) === 1;
+    }
+
+    /**
      * Check if a short path is already taken by another link in the database.
      *
      * @param  string  $shortPath  The short path to check
      * @return bool True if the path is already taken, false otherwise
      */
-    private function isShortPathTaken(string $shortPath): bool
+    private static function isShortPathTaken(string $shortPath): bool
     {
         return Link::where('short_path', $shortPath)->exists();
     }
