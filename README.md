@@ -36,6 +36,7 @@ brand identity while sharing concise, memorable links.
 - **Link Expiration & Scheduling**: Set expiration dates and schedule link activation
 - **Password Protection**: Secure sensitive links with password protection
 - **URL Tagging**: Organize links with custom tags
+- **Deep Link Support**: Create nested URL structures like `a/b/c/d` for organized link hierarchies
 
 ### 📊 Analytics & Tracking
 
@@ -179,6 +180,11 @@ If you prefer to install Linanok without Docker:
    ```bash
    composer install --no-dev --optimize-autoloader
    ```
+   
+   **Note for Windows users**: Laravel Horizon requires the `pcntl` extension which is not supported on Windows. If you're running `composer install` on Windows, use:
+   ```bash
+   composer install --no-dev --optimize-autoloader --ignore-platform-req=ext-pcntl
+   ```
 
 3. **Install Node.js dependencies:**
    ```bash
@@ -203,11 +209,22 @@ If you prefer to install Linanok without Docker:
    php artisan migrate
    php artisan db:seed --class=ProductionDatabaseSeeder
    ```
+   
+   **Note**: If you need pre-populated test data for development, you can use the DevelopmentDatabaseSeeder instead:
+   ```bash
+   php artisan db:seed --class=DevelopmentDatabaseSeeder
+   ```
 
 7. **Set up queue worker:**
    ```bash
    php artisan queue:work
    ```
+   
+   **Alternative**: You can also use Laravel Horizon for better queue management:
+   ```bash
+   php artisan horizon
+   ```
+   **Note**: Horizon only works with Redis as the queue driver.
 
 8. **Start the development server:**
    ```bash
@@ -238,6 +255,20 @@ SQLite is perfect for development and smaller deployments.
 
 **For SQLite**, the database file will be automatically created in the `database/` directory.
 
+### Redis Setup
+
+Redis is required for caching, sessions, and queue management. Configure Redis in your `.env` file:
+
+```env
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+REDIS_DB=0
+REDIS_CACHE_DB=1
+```
+
+For production, ensure Redis is properly secured and configured for your environment.
+
 ### Queue Configuration
 
 For production environments, configure a proper queue driver:
@@ -246,6 +277,22 @@ For production environments, configure a proper queue driver:
 QUEUE_CONNECTION=redis
 REDIS_HOST=your-redis-host
 REDIS_PASSWORD=your-redis-password
+```
+
+**Note**: Laravel Horizon only works with Redis as the queue driver.
+
+### Optimization Commands
+
+For production deployments, run these optimization command:
+
+```bash
+php artisan optimize
+```
+
+To clear cached configurations:
+
+```bash
+php artisan optimize:clear
 ```
 
 ### File Permissions
@@ -298,7 +345,7 @@ We welcome contributions from the community! Here's how you can help:
 
 ### Code Style
 
-- Follow PSR-12 coding standards
+- Follow Laravel Pint with Laravel preset for code formatting
 - Write meaningful commit messages
 - Add tests for new features
 - Update documentation as needed
