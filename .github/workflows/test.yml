@@ -169,7 +169,7 @@ jobs:
           - ${{ matrix.database.port }}:${{ matrix.database.port }}
         env: ${{ matrix.database.service-env }}
         options: >-
-          --health-cmd="${{ matrix.database.name == 'postgresql' && 'pg_isready -U testuser -d linanok_test' || matrix.database.name == 'mysql' && 'mysqladmin ping -h 127.0.0.1 -u testuser -ptestpass' || matrix.database.name == 'mariadb' && 'mysqladmin ping -h 127.0.0.1 -u testuser -ptestpass' || matrix.database.name == 'sqlserver' && '/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q \"SELECT 1\"' || matrix.database.name == 'sqlite' && 'echo \"SQLite is built-in\"' || 'echo \"Unknown database type\"' }}"
+          --health-cmd="${{ matrix.database.name == 'postgresql' && 'pg_isready -U testuser -d linanok_test' || matrix.database.name == 'mysql' && 'mysqladmin ping -h 127.0.0.1 -u testuser -ptestpass' || matrix.database.name == 'mariadb' && 'mariadb-admin ping -h 127.0.0.1 -u testuser -ptestpass' || matrix.database.name == 'sqlserver' && '/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q \"SELECT 1\"' || matrix.database.name == 'sqlite' && 'echo \"SQLite is built-in\"' || 'echo \"Unknown database type\"' }}"
           --health-interval=20s
           --health-timeout=5s
           --health-retries=5
