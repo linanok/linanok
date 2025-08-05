@@ -6,7 +6,9 @@ use App\Filament\Resources\LinkResource;
 use App\Models\Domain;
 use App\Models\Link;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\Test;
+use Str;
 use Tests\TestCase;
 
 class LinkResourceTest extends TestCase
@@ -85,9 +87,14 @@ class LinkResourceTest extends TestCase
         // Act
         $query = LinkResource::getEloquentQuery();
 
+        $expectedSql = 'select "links".*, (select count(*) from "link_visits" where "links"."id" = "link_visits"."link_id") as "visits_count"';
+        if (DB::connection()->getDriverName() === 'mysql' || DB::connection()->getDriverName() === 'mariadb') {
+            $expectedSql = Str::replace('"', '`', $expectedSql);
+        }
+
         // Assert
         $this->assertStringContainsString(
-            'select "links".*, (select count(*) from "link_visits" where "links"."id" = "link_visits"."link_id") as "visits_count"',
+            $expectedSql,
             $query->toSql()
         );
     }
