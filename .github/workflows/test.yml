@@ -243,6 +243,14 @@ jobs:
               ACCEPT_EULA: Y
               SA_PASSWORD: 'YourStrong@Passw0rd'
             extensions: pdo_sqlsrv, sqlsrv
+          - name: 'sqlite'
+            image: ''
+            port: 0
+            env:
+              DB_CONNECTION: sqlite
+              DB_DATABASE: ':memory:'
+            service-env: {}
+            extensions: pdo_sqlite
 
     services:
       database:
@@ -251,7 +259,7 @@ jobs:
           - ${{ matrix.database.port }}:${{ matrix.database.port }}
         env: ${{ matrix.database.service-env }}
         options: >-
-          --health-cmd="${{ matrix.database.name == 'postgresql' && 'pg_isready -U testuser -d linanok_test' || matrix.database.name == 'mysql' && 'mysqladmin ping -h 127.0.0.1 -u testuser -ptestpass' || matrix.database.name == 'mariadb' && 'mysqladmin ping -h 127.0.0.1 -u testuser -ptestpass' || matrix.database.name == 'sqlserver' && '/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q \"SELECT 1\"' || 'echo \"Unknown database type\"' }}"
+          --health-cmd="${{ matrix.database.name == 'postgresql' && 'pg_isready -U testuser -d linanok_test' || matrix.database.name == 'mysql' && 'mysqladmin ping -h 127.0.0.1 -u testuser -ptestpass' || matrix.database.name == 'mariadb' && 'mysqladmin ping -h 127.0.0.1 -u testuser -ptestpass' || matrix.database.name == 'sqlserver' && '/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q \"SELECT 1\"' || matrix.database.name == 'sqlite' && 'echo \"SQLite is built-in\"' || 'echo \"Unknown database type\"' }}"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -300,6 +308,8 @@ jobs:
               echo "Waiting for SQL Server..."
               sleep 2
             done
+          elif [ "${{ matrix.database.name }}" = "sqlite" ]; then
+            echo "SQLite is ready (built-in)"
           fi
         env: ${{ matrix.database.env }}
 
