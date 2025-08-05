@@ -7,7 +7,312 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-sqlite:
-    uses: linanok/linanok/.github/workflows/test-sqlite.yml@main
-  test-postgresql:
-    uses: linanok/linanok/.github/workflows/test-postgresql.yml@main
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ 8.1, 8.2, 8.3, 8.4 ]
+        database:
+          - name: 'postgresql'
+            image: 'postgres:13-alpine'
+            port: 5432
+            env:
+              DB_CONNECTION: pgsql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 5432
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              POSTGRES_DB: linanok_test
+              POSTGRES_USER: testuser
+              POSTGRES_PASSWORD: testpass
+            extensions: pdo_pgsql, pgsql
+          - name: 'postgresql'
+            image: 'postgres:14-alpine'
+            port: 5432
+            env:
+              DB_CONNECTION: pgsql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 5432
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              POSTGRES_DB: linanok_test
+              POSTGRES_USER: testuser
+              POSTGRES_PASSWORD: testpass
+            extensions: pdo_pgsql, pgsql
+          - name: 'postgresql'
+            image: 'postgres:15-alpine'
+            port: 5432
+            env:
+              DB_CONNECTION: pgsql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 5432
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              POSTGRES_DB: linanok_test
+              POSTGRES_USER: testuser
+              POSTGRES_PASSWORD: testpass
+            extensions: pdo_pgsql, pgsql
+          - name: 'postgresql'
+            image: 'postgres:16-alpine'
+            port: 5432
+            env:
+              DB_CONNECTION: pgsql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 5432
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              POSTGRES_DB: linanok_test
+              POSTGRES_USER: testuser
+              POSTGRES_PASSWORD: testpass
+            extensions: pdo_pgsql, pgsql
+          - name: 'postgresql'
+            image: 'postgres:17-alpine'
+            port: 5432
+            env:
+              DB_CONNECTION: pgsql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 5432
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              POSTGRES_DB: linanok_test
+              POSTGRES_USER: testuser
+              POSTGRES_PASSWORD: testpass
+            extensions: pdo_pgsql, pgsql
+          - name: 'mysql'
+            image: 'mysql:8.0'
+            port: 3306
+            env:
+              DB_CONNECTION: mysql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 3306
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              MYSQL_DATABASE: linanok_test
+              MYSQL_USER: testuser
+              MYSQL_PASSWORD: testpass
+              MYSQL_ROOT_PASSWORD: rootpass
+            extensions: pdo_mysql, mysqli
+          - name: 'mysql'
+            image: 'mysql:8.4'
+            port: 3306
+            env:
+              DB_CONNECTION: mysql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 3306
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              MYSQL_DATABASE: linanok_test
+              MYSQL_USER: testuser
+              MYSQL_PASSWORD: testpass
+              MYSQL_ROOT_PASSWORD: rootpass
+            extensions: pdo_mysql, mysqli
+          - name: 'mysql'
+            image: 'mysql:9.4'
+            port: 3306
+            env:
+              DB_CONNECTION: mysql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 3306
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              MYSQL_DATABASE: linanok_test
+              MYSQL_USER: testuser
+              MYSQL_PASSWORD: testpass
+              MYSQL_ROOT_PASSWORD: rootpass
+            extensions: pdo_mysql, mysqli
+          - name: 'mariadb'
+            image: 'mariadb:10.6'
+            port: 3306
+            env:
+              DB_CONNECTION: mysql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 3306
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              MYSQL_DATABASE: linanok_test
+              MYSQL_USER: testuser
+              MYSQL_PASSWORD: testpass
+              MYSQL_ROOT_PASSWORD: rootpass
+            extensions: pdo_mysql, mysqli
+          - name: 'mariadb'
+            image: 'mariadb:10.11'
+            port: 3306
+            env:
+              DB_CONNECTION: mysql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 3306
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              MYSQL_DATABASE: linanok_test
+              MYSQL_USER: testuser
+              MYSQL_PASSWORD: testpass
+              MYSQL_ROOT_PASSWORD: rootpass
+            extensions: pdo_mysql, mysqli
+          - name: 'mariadb'
+            image: 'mariadb:11.4'
+            port: 3306
+            env:
+              DB_CONNECTION: mysql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 3306
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              MYSQL_DATABASE: linanok_test
+              MYSQL_USER: testuser
+              MYSQL_PASSWORD: testpass
+              MYSQL_ROOT_PASSWORD: rootpass
+            extensions: pdo_mysql, mysqli
+          - name: 'mariadb'
+            image: 'mariadb:11.8'
+            port: 3306
+            env:
+              DB_CONNECTION: mysql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 3306
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              MYSQL_DATABASE: linanok_test
+              MYSQL_USER: testuser
+              MYSQL_PASSWORD: testpass
+              MYSQL_ROOT_PASSWORD: rootpass
+            extensions: pdo_mysql, mysqli
+          - name: 'sqlserver'
+            image: 'mcr.microsoft.com/mssql/server:2017-latest'
+            port: 1433
+            env:
+              DB_CONNECTION: sqlsrv
+              DB_HOST: 127.0.0.1
+              DB_PORT: 1433
+              DB_DATABASE: linanok_test
+              DB_USERNAME: sa
+              DB_PASSWORD: 'YourStrong@Passw0rd'
+            service-env:
+              ACCEPT_EULA: Y
+              SA_PASSWORD: 'YourStrong@Passw0rd'
+            extensions: pdo_sqlsrv, sqlsrv
+          - name: 'sqlserver'
+            image: 'mcr.microsoft.com/mssql/server:2019-latest'
+            port: 1433
+            env:
+              DB_CONNECTION: sqlsrv
+              DB_HOST: 127.0.0.1
+              DB_PORT: 1433
+              DB_DATABASE: linanok_test
+              DB_USERNAME: sa
+              DB_PASSWORD: 'YourStrong@Passw0rd'
+            service-env:
+              ACCEPT_EULA: Y
+              SA_PASSWORD: 'YourStrong@Passw0rd'
+            extensions: pdo_sqlsrv, sqlsrv
+          - name: 'sqlserver'
+            image: 'mcr.microsoft.com/mssql/server:2022-latest'
+            port: 1433
+            env:
+              DB_CONNECTION: sqlsrv
+              DB_HOST: 127.0.0.1
+              DB_PORT: 1433
+              DB_DATABASE: linanok_test
+              DB_USERNAME: sa
+              DB_PASSWORD: 'YourStrong@Passw0rd'
+            service-env:
+              ACCEPT_EULA: Y
+              SA_PASSWORD: 'YourStrong@Passw0rd'
+            extensions: pdo_sqlsrv, sqlsrv
+
+    services:
+      database:
+        image: ${{ matrix.database.image }}
+        ports:
+          - ${{ matrix.database.port }}:${{ matrix.database.port }}
+        env: ${{ matrix.database.service-env }}
+        options: >-
+          --health-cmd="${{ matrix.database.name == 'postgresql' && 'pg_isready -U testuser -d linanok_test' || matrix.database.name == 'mysql' && 'mysqladmin ping -h 127.0.0.1 -u testuser -ptestpass' || matrix.database.name == 'mariadb' && 'mysqladmin ping -h 127.0.0.1 -u testuser -ptestpass' || matrix.database.name == 'sqlserver' && '/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q \"SELECT 1\"' || 'echo \"Unknown database type\"' }}"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '${{ matrix.php }}'
+          extensions: pcntl, opcache, intl, zip, ${{ matrix.database.extensions }}
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Set up Bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          export BUN_INSTALL="$HOME/.bun"
+          export PATH="$BUN_INSTALL/bin:$PATH"
+          bun install
+          bun run build
+
+      - name: Prepare Laravel environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+        env: ${{ matrix.database.env }}
+
+      - name: Wait for database to be ready
+        run: |
+          if [ "${{ matrix.database.name }}" = "postgresql" ]; then
+            until pg_isready -h 127.0.0.1 -p ${{ matrix.database.port }} -U testuser -d linanok_test; do
+              echo "Waiting for PostgreSQL..."
+              sleep 2
+            done
+          elif [ "${{ matrix.database.name }}" = "mysql" ] || [ "${{ matrix.database.name }}" = "mariadb" ]; then
+            until mysqladmin ping -h 127.0.0.1 -P ${{ matrix.database.port }} -u testuser -ptestpass; do
+              echo "Waiting for MySQL/MariaDB..."
+              sleep 2
+            done
+          elif [ "${{ matrix.database.name }}" = "sqlserver" ]; then
+            until /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q "SELECT 1" > /dev/null 2>&1; do
+              echo "Waiting for SQL Server..."
+              sleep 2
+            done
+          fi
+        env: ${{ matrix.database.env }}
+
+      - name: Create database (SQL Server)
+        if: matrix.database.name == 'sqlserver'
+        run: |
+          /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q "CREATE DATABASE linanok_test"
+        env: ${{ matrix.database.env }}
+
+      - name: Run migrations
+        run: php artisan migrate --force
+        env: ${{ matrix.database.env }}
+
+      - name: Run tests
+        run: vendor/bin/phpunit
+        env: ${{ matrix.database.env }}
