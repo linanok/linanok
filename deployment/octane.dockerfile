@@ -24,7 +24,6 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install \
     pcntl \
     pdo_pgsql \
-    pgsql \
     pdo_mysql  \
     mysqli  \
     pdo_sqlite \
@@ -84,7 +83,6 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install \
     pcntl \
     pdo_pgsql \
-    pgsql \
     pdo_mysql  \
     mysqli  \
     pdo_sqlite \
