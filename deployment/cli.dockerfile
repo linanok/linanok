@@ -10,6 +10,7 @@ FROM php:8.4-cli AS build_dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     linux-libc-dev \
+    libsqlite3-dev \
     $PHPIZE_DEPS \
     libpq-dev \
     libzip-dev \
@@ -48,6 +49,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
     libicu-dev \
+    libsqlite3-dev \
     $PHPIZE_DEPS \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
