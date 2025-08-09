@@ -25,6 +25,9 @@ RUN apt-get update && apt-get install -y \
     pcntl \
     pdo_pgsql \
     pgsql \
+    pdo_mysql  \
+    mysqli  \
+    pdo_sqlite \
     opcache \
     intl \
     zip \
@@ -82,6 +85,9 @@ RUN apt-get update && apt-get install -y \
     pcntl \
     pdo_pgsql \
     pgsql \
+    pdo_mysql  \
+    mysqli  \
+    pdo_sqlite \
     opcache \
     intl \
     zip \
