@@ -20,11 +20,15 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libicu-dev \
     libzip-dev \
+    libsqlite3-dev \
     $PHPIZE_DEPS \
     && docker-php-ext-install \
     pcntl \
     pdo_pgsql \
     pgsql \
+    pdo_mysql \
+    mysqli \
+    pdo_sqlite \
     opcache \
     intl \
     zip \
@@ -77,11 +81,15 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libicu-dev \
     libzip-dev \
+    libsqlite3-dev \
     $PHPIZE_DEPS \
     && docker-php-ext-install \
     pcntl \
     pdo_pgsql \
     pgsql \
+    pdo_mysql \
+    mysqli \
+    pdo_sqlite \
     opcache \
     intl \
     zip \

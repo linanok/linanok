@@ -10,6 +10,7 @@ FROM php:8.4-cli AS build_dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     linux-libc-dev \
+    libsqlite3-dev \
     $PHPIZE_DEPS \
     libpq-dev \
     libzip-dev \
@@ -21,7 +22,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install required PHP extensions for the application
-RUN docker-php-ext-install pdo pdo_pgsql zip pcntl intl
+RUN docker-php-ext-install pdo pdo_pgsql pgsql pdo_mysql mysqli pdo_sqlite zip pcntl intl
 
 # Install Redis extension for queue processing
 RUN pecl install redis && docker-php-ext-enable redis
@@ -48,12 +49,13 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
     libicu-dev \
+    libsqlite3-dev \
     $PHPIZE_DEPS \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Install required PHP extensions
-RUN docker-php-ext-install pdo pdo_pgsql zip pcntl intl \
+RUN docker-php-ext-install pdo pdo_pgsql pgsql pdo_mysql mysqli pdo_sqlite zip pcntl intl \
     && pecl install redis \
     && docker-php-ext-enable redis
 

@@ -18,6 +18,7 @@ brand identity while sharing concise, memorable links.
 
 - [Features](#-features)
 - [Why Linanok?](#-why-linanok)
+- [Compatibility](#-compatibility)
 - [Quick Start](#-quick-start)
 - [Installation](#-installation)
 - [Configuration](#-configuration)
@@ -65,6 +66,14 @@ need advanced management, security, and organizational features.
 - **🔒 Enhanced Security**: Password protection, expiration, and scheduling features
 - **🏷️ Custom Tagging**: Scale-friendly link organization
 - **👥 Organization-Focused Design**: Built for team collaboration and enterprise workflows
+
+## 🧩 Compatibility
+
+- **PHP**: 8.2, 8.3, 8.4
+- **Databases (CI-tested)**:
+  - PostgreSQL: 13, 14, 15, 16, 17
+  - MariaDB: 10.6, 10.11, 11.4, 11.8
+  - SQLite
 
 ## ⚡ Quick Start
 
@@ -237,19 +246,24 @@ If you prefer to install Linanok without Docker:
 
 Key configuration options in your `.env` file:
 
-- **Database**: Configure PostgreSQL or SQLite connection settings
+- **Database**: Configure PostgreSQL, MariaDB, or SQLite connection settings
 - **Redis**: Set up Redis for caching and queue management
 - **Queue**: Set queue driver (Redis recommended for production)
 - **Logging**: Configure log levels and storage
 
 ### Database Setup
 
-Linanok supports both PostgreSQL and SQLite databases. PostgreSQL is recommended for production environments, while
-SQLite is perfect for development and smaller deployments.
+Linanok supports PostgreSQL, MariaDB, and SQLite databases. PostgreSQL and MariaDB are recommended for production environments, while SQLite is perfect for development and smaller deployments.
 
 **For PostgreSQL**, ensure your database is properly configured with:
 
 - UTF-8 encoding
+- Proper user permissions
+- Adequate connection limits
+
+**For MariaDB**, ensure your database is properly configured with:
+
+- UTF-8 (utf8mb4) encoding
 - Proper user permissions
 - Adequate connection limits
 
