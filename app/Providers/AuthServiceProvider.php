@@ -62,10 +62,10 @@ class AuthServiceProvider extends ServiceProvider
             return $user->is_super_admin ? true : null;
         });
         Gate::define('viewPulse', function (User $user) {
-            return current_domain()?->is_admin_panel_active && $user->can('view performance');
+            return current_domain()?->is_admin_panel_active && $user->can('view app performance');
         });
         Gate::define('viewHorizon', function (User $user) {
-            return current_domain()?->is_admin_panel_active && $user->can('view performance');
+            return current_domain()?->is_admin_panel_active && $user->can('view queue monitoring');
         });
     }
 }
