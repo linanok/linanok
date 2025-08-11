@@ -60,7 +60,8 @@ class DemoDatabaseSeeder extends Seeder
             'view tag',
             'view user',
             'view role',
-            'view performance',
+            'view app performance',
+            'view queue monitoring',
         ]);
 
         Domain::factory()->create([
