@@ -17,6 +17,9 @@ return new class extends Migration
                 ->constrained('tags')
                 ->cascadeOnDelete();
             $table->timestamp('created_at')->nullable();
+
+            $table->index('link_id');
+            $table->index('tag_id');
         });
     }
 

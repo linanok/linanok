@@ -13,12 +13,17 @@ return new class extends Migration
             $table->foreignId('link_id')
                 ->constrained('links')
                 ->cascadeOnDelete();
-            $table->foreignId('domain_id');
+            $table->foreignId('domain_id')
+                ->constrained('domains')
+                ->cascadeOnDelete();
             $table->string('country')->nullable();
             $table->string('browser')->nullable();
             $table->string('platform')->nullable();
             $table->string('ip');
             $table->timestamp('created_at')->nullable();
+
+            $table->index('domain_id');
+            $table->index('link_id');
         });
     }
 
