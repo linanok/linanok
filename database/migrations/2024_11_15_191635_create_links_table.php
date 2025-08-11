@@ -16,11 +16,11 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->dateTime('available_at')->nullable();
             $table->dateTime('unavailable_at')->nullable();
-            $table->boolean('forward_query_parameters');
+            $table->boolean('forward_query_parameters')->default(false);
             $table->string('slug')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('visit_count')->default(0);
-            $table->boolean('send_ref_query_parameter');
+            $table->boolean('send_ref_query_parameter')->default(false);
             $table->timestamps();
         });
     }
