@@ -89,13 +89,15 @@ class UserResource extends Resource
                     ->relationship('roles', 'name')
                     ->preload()
                     ->searchable()
-                    ->visible(fn ($livewire) => ! $livewire instanceof UsersRelationManager),
+                    ->visible(fn ($livewire) => ! $livewire instanceof UsersRelationManager)
+                    ->requiredWithout('permissions'),
 
                 Select::make('permissions')
                     ->multiple()
                     ->relationship('permissions', 'name')
                     ->preload()
-                    ->searchable(),
+                    ->searchable()
+                    ->requiredWithout('roles'),
 
                 Placeholder::make('created_at')
                     ->label('Created Date')
