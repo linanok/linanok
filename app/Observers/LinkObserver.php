@@ -160,7 +160,7 @@ class LinkObserver
         }
 
         // Must match allowed characters only (segments of letters, numbers, -, _ separated by slashes)
-        return preg_match('/^[a-zA-Z0-9\-_\/]+$/', $shortPath) === 1;
+        return preg_match('/^[a-zA-Z0-9\-_.\/]+$/', $shortPath) === 1;
     }
 
     /**

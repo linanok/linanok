@@ -71,9 +71,29 @@ need advanced management, security, and organizational features.
 
 - **PHP**: 8.2, 8.3, 8.4
 - **Databases (CI-tested)**:
-  - PostgreSQL: 13, 14, 15, 16, 17
-  - MariaDB: 10.6, 10.11, 11.4, 11.8
-  - SQLite
+    - PostgreSQL: 13, 14, 15, 16, 17
+    - MariaDB: 10.6, 10.11, 11.4, 11.8
+    - SQLite
+
+### ⚠️ Windows Limitations
+
+**Laravel Horizon is not supported on Windows** due to its dependency on Unix-specific process control features. Windows
+users should use the standard Laravel queue worker instead:
+
+```bash
+php artisan queue:work
+```
+
+**PCNTL and POSIX extensions are not supported on Windows**. These extensions are required for:
+
+- Process control and signal handling
+- Advanced queue management features
+- Some background job processing capabilities
+
+For Windows development, consider using one of these options:
+
+- Docker with WSL2 (recommended)
+- Standard queue workers instead of Horizon
 
 ## ⚡ Quick Start
 
@@ -189,11 +209,15 @@ If you prefer to install Linanok without Docker:
    ```bash
    composer install --no-dev --optimize-autoloader
    ```
-   
-   **Note for Windows users**: Laravel Horizon requires the `pcntl` extension which is not supported on Windows. If you're running `composer install` on Windows, use:
+
+   **⚠️ Windows Users**: Laravel Horizon requires the `pcntl` and `posix` extensions which are not supported on Windows.
+   If you're running `composer install` on Windows, use:
    ```bash
-   composer install --no-dev --optimize-autoloader --ignore-platform-req=ext-pcntl
+   composer install --no-dev --optimize-autoloader --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-posix
    ```
+
+   **Note**: This will allow you to install dependencies, but Laravel Horizon will not work on Windows. Use standard
+   queue workers instead.
 
 3. **Install Node.js dependencies:**
    ```bash
@@ -218,7 +242,7 @@ If you prefer to install Linanok without Docker:
    php artisan migrate
    php artisan db:seed --class=ProductionDatabaseSeeder
    ```
-   
+
    **Note**: If you need pre-populated test data for development, you can use the DevelopmentDatabaseSeeder instead:
    ```bash
    php artisan db:seed --class=DevelopmentDatabaseSeeder
@@ -228,12 +252,15 @@ If you prefer to install Linanok without Docker:
    ```bash
    php artisan queue:work
    ```
-   
+
    **Alternative**: You can also use Laravel Horizon for better queue management:
    ```bash
    php artisan horizon
    ```
    **Note**: Horizon only works with Redis as the queue driver.
+
+   **⚠️ Windows Users**: Laravel Horizon is not supported on Windows due to missing PCNTL and POSIX extensions. Use the
+   standard queue worker (`php artisan queue:work`) instead.
 
 8. **Start the development server:**
    ```bash
@@ -253,7 +280,8 @@ Key configuration options in your `.env` file:
 
 ### Database Setup
 
-Linanok supports PostgreSQL, MariaDB, and SQLite databases. PostgreSQL and MariaDB are recommended for production environments, while SQLite is perfect for development and smaller deployments.
+Linanok supports PostgreSQL, MariaDB, and SQLite databases. PostgreSQL and MariaDB are recommended for production
+environments, while SQLite is perfect for development and smaller deployments.
 
 **For PostgreSQL**, ensure your database is properly configured with:
 
