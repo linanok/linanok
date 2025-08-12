@@ -210,11 +210,14 @@ If you prefer to install Linanok without Docker:
    composer install --no-dev --optimize-autoloader
    ```
 
-   **Note for Windows users**: Laravel Horizon requires the `pcntl` extension which is not supported on Windows. If
-   you're running `composer install` on Windows, use:
+   **⚠️ Windows Users**: Laravel Horizon requires the `pcntl` and `posix` extensions which are not supported on Windows.
+   If you're running `composer install` on Windows, use:
    ```bash
-   composer install --no-dev --optimize-autoloader --ignore-platform-req=ext-pcntl
+   composer install --no-dev --optimize-autoloader --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-posix
    ```
+
+   **Note**: This will allow you to install dependencies, but Laravel Horizon will not work on Windows. Use standard
+   queue workers instead.
 
 3. **Install Node.js dependencies:**
    ```bash
