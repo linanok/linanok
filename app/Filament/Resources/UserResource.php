@@ -6,11 +6,13 @@ use App\Filament\Resources\RoleResource\RelationManagers\UsersRelationManager;
 use App\Filament\Resources\UserResource\Pages;
 use App\History\HistoryAction;
 use App\Models\User;
+use Closure;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -82,7 +84,8 @@ class UserResource extends Resource
                 Toggle::make('is_super_admin')
                     ->label('Super Admin')
                     ->helperText('Super admins have full access to all features')
-                    ->default(false),
+                    ->default(false)
+                    ->live(),
 
                 Select::make('roles')
                     ->multiple()
@@ -90,14 +93,23 @@ class UserResource extends Resource
                     ->preload()
                     ->searchable()
                     ->visible(fn ($livewire) => ! $livewire instanceof UsersRelationManager)
-                    ->requiredWithout('permissions'),
+                    ->live()
+                    ->visible(fn (Get $get) => ! $get('is_super_admin')),
 
                 Select::make('permissions')
                     ->multiple()
                     ->relationship('permissions', 'name')
                     ->preload()
                     ->searchable()
-                    ->requiredWithout('roles'),
+                    ->rule(fn (Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get) {
+                        $isSuperAdmin = (bool) $get('is_super_admin');
+                        $roles = $get('roles') ?? [];
+
+                        if (! $isSuperAdmin && empty($roles) && empty($value)) {
+                            $fail('Either the user must be a Super Admin, have at least one role, or have at least one permission.');
+                        }
+                    })
+                    ->visible(fn (Get $get) => ! $get('is_super_admin')),
 
                 Placeholder::make('created_at')
                     ->label('Created Date')
