@@ -5,7 +5,7 @@ namespace Livewire;
 use App\Livewire\LinkPage;
 use App\Models\Domain;
 use App\Models\Link;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\RedirectResponse;
 use PHPUnit\Framework\Attributes\Test;
@@ -132,13 +132,13 @@ class LinkPageTest extends TestCase
         // Arrange
         $component = new LinkPage;
         $component->link = $this->passwordProtectedLink;
-        $form = new Form($component);
+        $form = new Schema($component);
 
         // Act
         $formInstance = $component->form($form);
 
         // Assert
-        $this->assertInstanceOf(Form::class, $formInstance);
+        $this->assertInstanceOf(Schema::class, $formInstance);
         $this->assertEquals('data', $formInstance->getStatePath());
 
         // Test that the form has the expected structure

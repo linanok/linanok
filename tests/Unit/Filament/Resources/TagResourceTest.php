@@ -2,7 +2,7 @@
 
 namespace Filament\Resources;
 
-use App\Filament\Resources\TagResource;
+use App\Filament\Resources\Tags\TagResource;
 use App\Models\Domain;
 use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -71,6 +71,6 @@ class TagResourceTest extends TestCase
         $relations = TagResource::getRelations();
 
         $this->assertCount(1, $relations);
-        $this->assertContains('App\Filament\Resources\TagResource\RelationManagers\LinksRelationManager', $relations);
+        $this->assertContains('App\Filament\Resources\Tags\RelationManagers\LinksRelationManager', $relations);
     }
 }

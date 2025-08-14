@@ -2,7 +2,7 @@
 
 namespace Filament\Resources;
 
-use App\Filament\Resources\UserResource;
+use App\Filament\Resources\Users\UserResource;
 use App\Models\Domain;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -86,8 +86,8 @@ class UserResourceTest extends TestCase
 
         // Check that the form method has the correct parameter
         $this->assertCount(1, $parameters);
-        $this->assertEquals('form', $parameters[0]->getName());
-        $this->assertEquals('Filament\Forms\Form', $parameters[0]->getType()->getName());
+        $this->assertEquals('schema', $parameters[0]->getName());
+        $this->assertEquals('Filament\Schemas\Schema', $parameters[0]->getType()->getName());
     }
 
     #[\PHPUnit\Framework\Attributes\Test]

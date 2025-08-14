@@ -2,7 +2,7 @@
 
 namespace Filament\LinkResource\Widgets;
 
-use App\Filament\Resources\LinkResource\Widgets\LinkVisitsByPlatformPieChart;
+use App\Filament\Resources\Links\Widgets\LinkVisitsByPlatformPieChart;
 use App\Models\Domain;
 use App\Models\Link;
 use App\Models\LinkVisit;

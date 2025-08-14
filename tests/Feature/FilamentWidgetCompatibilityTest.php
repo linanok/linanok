@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Filament\Admin\Widgets\VisitsChart;
-use App\Filament\Resources\LinkResource\Widgets\LinkVisitsCountChart;
+use App\Filament\Resources\Links\Widgets\LinkVisitsCountChart;
 use App\Models\Domain;
 use App\Models\Link;
 use App\Models\LinkVisit;

@@ -8,9 +8,9 @@ use Filament\Widgets\ChartWidget;
 
 class TopCountriesChart extends ChartWidget
 {
-    protected static ?string $heading = 'Top Visitor Countries';
+    protected ?string $heading = 'Top Visitor Countries';
 
-    protected static ?string $pollingInterval = null;
+    protected ?string $pollingInterval = null;
 
     public ?string $filter = 'month';
 

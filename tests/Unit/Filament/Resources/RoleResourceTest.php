@@ -2,7 +2,7 @@
 
 namespace Filament\Resources;
 
-use App\Filament\Resources\RoleResource;
+use App\Filament\Resources\Roles\RoleResource;
 use App\Models\Domain;
 use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -80,7 +80,7 @@ class RoleResourceTest extends TestCase
         $relations = RoleResource::getRelations();
 
         $this->assertCount(1, $relations);
-        $this->assertContains('App\Filament\Resources\RoleResource\RelationManagers\UsersRelationManager', $relations);
+        $this->assertContains('App\Filament\Resources\Roles\RelationManagers\UsersRelationManager', $relations);
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
@@ -95,8 +95,8 @@ class RoleResourceTest extends TestCase
 
         // Check that the form method has the correct parameter
         $this->assertCount(1, $parameters);
-        $this->assertEquals('form', $parameters[0]->getName());
-        $this->assertEquals('Filament\Forms\Form', $parameters[0]->getType()->getName());
+        $this->assertEquals('schema', $parameters[0]->getName());
+        $this->assertEquals('Filament\Schemas\Schema', $parameters[0]->getType()->getName());
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
