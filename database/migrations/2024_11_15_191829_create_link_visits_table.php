@@ -10,12 +10,8 @@ return new class extends Migration
     {
         Schema::create('link_visits', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('link_id')
-                ->constrained('links')
-                ->cascadeOnDelete();
-            $table->foreignId('domain_id')
-                ->constrained('domains')
-                ->cascadeOnDelete();
+            $table->foreignId('link_id');
+            $table->foreignId('domain_id');
             $table->string('country')->nullable();
             $table->string('browser')->nullable();
             $table->string('platform')->nullable();
