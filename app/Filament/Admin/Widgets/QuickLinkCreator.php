@@ -41,7 +41,7 @@ class QuickLinkCreator extends Widget implements HasForms
                     ->label('URL to Shorten')
                     ->url()
                     ->placeholder('https://example.com')
-//                    ->helperText(new HtmlString('Need advanced options? <a href="#" wire:click.prevent="redirectToAdvancedOptions" class="text-primary-600 hover:text-primary-500">Create with full options</a>'))
+                    ->helperText(new HtmlString('Need advanced options? <a href="#" wire:click.prevent="redirectToAdvancedOptions" class="!text-primary-600 !hover:text-primary-500">Create with full options</a>'))
                     ->columnSpanFull(),
             ])
             ->statePath('data');
