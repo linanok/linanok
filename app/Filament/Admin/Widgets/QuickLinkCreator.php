@@ -4,12 +4,12 @@ namespace App\Filament\Admin\Widgets;
 
 use App\Models\Domain;
 use App\Models\Link;
+use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
-use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Schema;
 use Filament\Widgets\Widget;
 use Illuminate\Support\HtmlString;
 
@@ -17,7 +17,7 @@ class QuickLinkCreator extends Widget implements HasForms
 {
     use InteractsWithForms;
 
-    protected static string $view = 'filament.admin.widgets.quick-link-creator';
+    protected string $view = 'filament.admin.widgets.quick-link-creator';
 
     public ?array $data = [];
 
@@ -33,15 +33,15 @@ class QuickLinkCreator extends Widget implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make('original_url')
                     ->label('URL to Shorten')
                     ->url()
                     ->placeholder('https://example.com')
-                    ->helperText(new HtmlString('Need advanced options? <a href="#" wire:click.prevent="redirectToAdvancedOptions" class="text-primary-600 hover:text-primary-500">Create with full options</a>'))
+//                    ->helperText(new HtmlString('Need advanced options? <a href="#" wire:click.prevent="redirectToAdvancedOptions" class="text-primary-600 hover:text-primary-500">Create with full options</a>'))
                     ->columnSpanFull(),
             ])
             ->statePath('data');

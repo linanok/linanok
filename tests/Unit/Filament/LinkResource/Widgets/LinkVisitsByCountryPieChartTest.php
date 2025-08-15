@@ -2,7 +2,7 @@
 
 namespace Filament\LinkResource\Widgets;
 
-use App\Filament\Resources\LinkResource\Widgets\LinkVisitsByCountryPieChart;
+use App\Filament\Resources\Links\Widgets\LinkVisitsByCountryPieChart;
 use App\Models\Domain;
 use App\Models\Link;
 use App\Models\LinkVisit;

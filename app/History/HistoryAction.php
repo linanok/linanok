@@ -2,7 +2,7 @@
 
 namespace App\History;
 
-use Filament\Tables\Actions\Action;
+use Filament\Actions\Action;
 
 /**
  * History Action Helper

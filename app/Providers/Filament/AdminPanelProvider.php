@@ -7,13 +7,18 @@ use App\Http\Middleware\EnsureAdminPanelAccessible;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Assets\Css;
 use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentColor;
+use Filament\Tables\Columns\TextColumn;
 use Filament\View\PanelsRenderHook;
-use Filament\Widgets;
+use Filament\Widgets\AccountWidget;
+use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -22,21 +27,38 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Number;
 
 class AdminPanelProvider extends PanelProvider
 {
+    public function boot()
+    {
+        $numericAbbreviateMacroFunction = function () {
+            $this->formatStateUsing(fn ($component, $state) => Number::abbreviate($state));
+
+            return $this;
+        };
+        TextEntry::macro('numericAbbreviate', $numericAbbreviateMacroFunction);
+        TextColumn::macro('numericAbbreviate', $numericAbbreviateMacroFunction);
+    }
+
     public function panel(Panel $panel): Panel
     {
         FilamentColor::register([
-            'primary' => Color::hex('#6e73f7'),
+            'primary' => Color::generateV3Palette('#6e73f7'),
             'danger' => Color::Rose,
             'gray' => Color::Slate,
             'info' => Color::Blue,
             'success' => Color::Emerald,
             'warning' => Color::Orange,
         ]);
+        //        FilamentAsset::register([
+        // //            Css::make('tailwind-stylesheet',  __DIR__ . '/../../resources/css/app.css'),
+        //            Css::make('tailwind-stylesheet',  resource_path('css/app.css')),
+        //        ]);
 
         return $panel
+            ->default()
             ->id('admin')
             ->path('admin')
             ->brandLogo(function () {
@@ -71,8 +93,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                AccountWidget::class,
+                FilamentInfoWidget::class,
             ])
             ->middleware([
                 EnsureAdminPanelAccessible::class,
@@ -89,6 +111,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->renderHook(PanelsRenderHook::BODY_END, fn (): string => Blade::render('components.copyright'));
+            ->renderHook(PanelsRenderHook::BODY_END, fn (): string => Blade::render('components.copyright'))
+            ->viteTheme('resources/css/filament/admin/theme.css');
     }
 }

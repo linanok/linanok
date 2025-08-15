@@ -2,12 +2,14 @@
 
 namespace App\History;
 
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Form;
 use Filament\Resources\Pages\ManageRelatedRecords;
-use Filament\Tables;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -19,7 +21,7 @@ class RecordHistory extends ManageRelatedRecords
 
     protected static ?string $title = 'History';
 
-    protected static ?string $navigationIcon = 'heroicon-o-clock-rewind';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-clock-rewind';
 
     public static function getNavigationLabel(): string
     {
@@ -34,10 +36,10 @@ class RecordHistory extends ManageRelatedRecords
             ->latest('id');
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make()
                     ->schema([
                         Placeholder::make('event')
@@ -106,13 +108,13 @@ class RecordHistory extends ManageRelatedRecords
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Timestamp')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(),
 
-                Tables\Columns\TextColumn::make('event')
+                TextColumn::make('event')
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => ucfirst($state))
                     ->color(fn (string $state): string => match ($state) {
@@ -124,14 +126,14 @@ class RecordHistory extends ManageRelatedRecords
                     ->sortable()
                     ->toggleable(),
 
-                Tables\Columns\TextColumn::make('causer.name')
+                TextColumn::make('causer.name')
                     ->label('Modified By')
                     ->default('System')
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
 
-                Tables\Columns\TextColumn::make('description')
+                TextColumn::make('description')
                     ->label('Summary')
                     ->html()
                     ->formatStateUsing(fn ($record): HtmlString => $this->getChangesSummary($record))
@@ -140,12 +142,12 @@ class RecordHistory extends ManageRelatedRecords
             ])
             ->defaultSort('activity_log.id', 'desc')
             ->striped()
-            ->actions([
-                Tables\Actions\ViewAction::make()
+            ->recordActions([
+                ViewAction::make()
                     ->modalHeading('Activity Details'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('event')
+                SelectFilter::make('event')
                     ->options([
                         'created' => 'Created',
                         'updated' => 'Updated',

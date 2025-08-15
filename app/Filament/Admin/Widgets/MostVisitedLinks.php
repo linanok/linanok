@@ -2,13 +2,14 @@
 
 namespace App\Filament\Admin\Widgets;
 
-use App\Filament\Resources\DomainResource\RelationManagers\LinksRelationManager;
-use App\Filament\Resources\LinkResource;
+use App\Filament\Resources\Domains\RelationManagers\LinksRelationManager;
+use App\Filament\Resources\Links\LinkResource;
 use App\Models\Link;
-use Filament\Forms\Form;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ViewAction;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Notifications\Notification;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -36,8 +37,6 @@ class MostVisitedLinks extends BaseWidget
             ->columns([
                 TextColumn::make('short_path')
                     ->label('Short URL')
-                    ->searchable()
-                    ->sortable()
                     ->url(function ($record, $livewire) {
                         if ($livewire instanceof LinksRelationManager) {
                             $domain = $livewire->ownerRecord;
@@ -53,7 +52,6 @@ class MostVisitedLinks extends BaseWidget
 
                 TextColumn::make('original_url')
                     ->label('Original URL')
-                    ->searchable()
                     ->limit(30)
                     ->tooltip(function ($record) {
                         return $record->original_url;
@@ -67,26 +65,32 @@ class MostVisitedLinks extends BaseWidget
 
                 TextColumn::make('visit_count')
                     ->label('Visits')
-                    ->sortable()
                     ->alignRight()
                     ->badge()
-                    ->color('success'),
+                    ->color('success')
+                    ->numericAbbreviate()
+                    ->tooltip(fn ($record) => number_format($record->visit_count)),
             ])
-            ->actions([
+            ->recordActions([
                 Action::make('copy')
                     ->icon('heroicon-m-clipboard')
+                    ->tooltip('Copy to clipboard')
+                    ->disabled(fn (Link $record) => ! $record->is_available)
                     ->extraAttributes(fn ($record) => [
-                        'data-copy-url' => get_short_url($record),
-                        'data-tooltip-message' => 'URL copied to clipboard',
-                        'x-on:click' => 'navigator.clipboard.writeText($el.dataset.copyUrl); $tooltip($el.dataset.tooltipMessage);',
-                    ]),
+                        'onclick' => "navigator.clipboard.writeText('".get_short_url($record)."')",
+                    ])
+                    ->action(fn () => Notification::make('link_copied_to_clipboard')
+                        ->title('URL copied to clipboard')
+                        ->success()
+                        ->send()
+                    ),
 
                 ViewAction::make()
-                    ->form(fn (Form $form): Form => LinkResource::form($form))
+                    ->schema(fn (Schema $schema): Schema => LinkResource::form($schema))
                     ->visible(fn ($record) => auth()->user()->can('view', $record) && ! auth()->user()->can('update', $record)),
 
                 EditAction::make()
-                    ->form(fn (Form $form): Form => LinkResource::form($form))
+                    ->schema(fn (Schema $schema): Schema => LinkResource::form($schema))
                     ->visible(fn ($record) => auth()->user()->can('update', $record)),
             ])
             ->paginated(false)

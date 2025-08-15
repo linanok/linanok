@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Filament\Resources;
 
-use App\Filament\Resources\LinkResource;
+use App\Filament\Resources\Links\LinkResource;
 use App\Models\Domain;
 use App\Models\Link;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -75,10 +75,10 @@ class LinkResourceTest extends TestCase
 
         // Assert
         $this->assertCount(4, $widgets);
-        $this->assertContains('App\Filament\Resources\LinkResource\Widgets\LinkVisitsCountChart', $widgets);
-        $this->assertContains('App\Filament\Resources\LinkResource\Widgets\LinkVisitsByBrowserPieChart', $widgets);
-        $this->assertContains('App\Filament\Resources\LinkResource\Widgets\LinkVisitsByPlatformPieChart', $widgets);
-        $this->assertContains('App\Filament\Resources\LinkResource\Widgets\LinkVisitsByCountryPieChart', $widgets);
+        $this->assertContains('App\Filament\Resources\Links\Widgets\LinkVisitsCountChart', $widgets);
+        $this->assertContains('App\Filament\Resources\Links\Widgets\LinkVisitsByBrowserPieChart', $widgets);
+        $this->assertContains('App\Filament\Resources\Links\Widgets\LinkVisitsByPlatformPieChart', $widgets);
+        $this->assertContains('App\Filament\Resources\Links\Widgets\LinkVisitsByCountryPieChart', $widgets);
     }
 
     #[Test]

@@ -13,9 +13,9 @@ class VisitsChart extends ChartWidget
 {
     use DatabaseCompatible;
 
-    protected static ?string $heading = 'Visits Timeline';
+    protected ?string $heading = 'Visits Timeline';
 
-    protected static ?string $pollingInterval = null;
+    protected ?string $pollingInterval = null;
 
     public ?string $filter = 'month';
 

@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 
 class StatsOverview extends BaseWidget
 {
-    protected static ?string $pollingInterval = null;
+    protected ?string $pollingInterval = null;
 
     public static function canView(): bool
     {

@@ -1,0 +1,7 @@
+@import 'tailwindcss' layer(utilities);
+@import 'tailwindcss/preflight' layer(utilities);
+
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/Admin/**/*';
+@source '../../../../resources/views/filament/admin/**/*';

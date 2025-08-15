@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('forward_query_parameters')->default(false);
             $table->string('slug')->nullable();
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('visit_count')->default(0);
+            $table->unsignedBigInteger('visit_count')->default(0)->index();
             $table->boolean('send_ref_query_parameter')->default(false);
             $table->timestamps();
         });

@@ -2,10 +2,10 @@
 
 namespace App\Filament\Admin\Widgets;
 
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
-use Filament\Tables\Actions\ViewAction;
+use Filament\Schemas\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -47,9 +47,9 @@ class RecentActivity extends BaseWidget
                     ->searchable(false)
                     ->sortable(false),
             ])
-            ->actions([
+            ->recordActions([
                 ViewAction::make()
-                    ->form([
+                    ->schema([
                         Section::make()
                             ->schema([
                                 Placeholder::make('event')

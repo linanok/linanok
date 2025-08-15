@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Laravel\Horizon\HorizonApplicationServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
-class HorizonServiceProvider extends HorizonApplicationServiceProvider
+class HorizonServiceProvider extends ServiceProvider
 {
     /**
      * Intentionally left blank: Horizon authorization is handled

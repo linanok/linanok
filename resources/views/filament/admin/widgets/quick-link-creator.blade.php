@@ -3,7 +3,7 @@
         <form wire:submit.prevent="create">
             {{ $this->form }}
 
-            <div class="flex justify-between items-center mt-4">
+            <div class="flex justify-between items-center !mt-4">
                 <div class="text-xs text-gray-500 dark:text-gray-400">
                     <span class="inline-flex items-center">
                         <x-filament::icon

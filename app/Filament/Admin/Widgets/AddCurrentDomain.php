@@ -10,7 +10,7 @@ class AddCurrentDomain extends Widget
 {
     protected int|string|array $columnSpan = 'full';
 
-    protected static string $view = 'filament.admin.widgets.add-current-domain';
+    protected string $view = 'filament.admin.widgets.add-current-domain';
 
     public bool $isVisible = true;
 
