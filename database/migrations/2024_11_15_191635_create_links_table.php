@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('links', function (Blueprint $table) {
             $table->id();
-            $table->string('original_url', 2048)->index();
+            $table->string('original_url', 2048);
             $table->string('short_path')->index();
             $table->string('password')->nullable();
             $table->boolean('is_active')->default(true);
