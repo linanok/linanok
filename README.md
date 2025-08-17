@@ -69,7 +69,7 @@ need advanced management, security, and organizational features.
 
 ## 🧩 Compatibility
 
-- **PHP**: 8.2, 8.3, 8.4
+- **PHP**: 8.3, 8.4
 - **Databases (CI-tested)**:
     - PostgreSQL: 13, 14, 15, 16, 17
     - MariaDB: 10.6, 10.11, 11.4, 11.8

@@ -13,13 +13,12 @@ class VisitsChart extends ChartWidget
 {
     use DatabaseCompatible;
 
-    protected ?string $heading = 'Visits Timeline';
-
-    protected ?string $pollingInterval = null;
-
     public ?string $filter = 'month';
 
+    protected ?string $heading = 'Visits Timeline';
+
     // Add filter state
+    protected ?string $pollingInterval = null;
 
     public static function canView(): bool
     {
