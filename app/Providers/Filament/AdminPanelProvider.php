@@ -11,9 +11,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Assets\Css;
 use Filament\Support\Colors\Color;
-use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentColor;
 use Filament\Tables\Columns\TextColumn;
 use Filament\View\PanelsRenderHook;
@@ -52,10 +50,6 @@ class AdminPanelProvider extends PanelProvider
             'success' => Color::Emerald,
             'warning' => Color::Orange,
         ]);
-        //        FilamentAsset::register([
-        // //            Css::make('tailwind-stylesheet',  __DIR__ . '/../../resources/css/app.css'),
-        //            Css::make('tailwind-stylesheet',  resource_path('css/app.css')),
-        //        ]);
 
         return $panel
             ->default()
