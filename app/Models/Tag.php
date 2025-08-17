@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -38,5 +39,15 @@ class Tag extends Model
     public function links(): BelongsToMany
     {
         return $this->belongsToMany(Link::class, LinkTag::class);
+    }
+
+    /**
+     * Get all link visits for links associated with this tag.
+     *
+     * @return HasManyThrough<LinkVisit> The link visits relationship
+     */
+    public function linkVisits(): HasManyThrough
+    {
+        return $this->hasManyThrough(LinkVisit::class, LinkTag::class, 'tag_id', 'link_id', 'id', 'link_id');
     }
 }
