@@ -39,7 +39,6 @@ use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Filament Resource for managing shortened links.
@@ -352,10 +351,5 @@ class LinkResource extends Resource
             LinkVisitsByPlatformPieChart::class,
             LinkVisitsByCountryPieChart::class,
         ];
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->withCount('visits');
     }
 }
