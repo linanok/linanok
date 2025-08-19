@@ -7,6 +7,10 @@ use App\Filament\Resources\Tags\Pages\EditTag;
 use App\Filament\Resources\Tags\Pages\ListTags;
 use App\Filament\Resources\Tags\Pages\TagHistory;
 use App\Filament\Resources\Tags\RelationManagers\LinksRelationManager;
+use App\Filament\Resources\Tags\Widgets\TagVisitsByBrowserPieChart;
+use App\Filament\Resources\Tags\Widgets\TagVisitsByCountryPieChart;
+use App\Filament\Resources\Tags\Widgets\TagVisitsByPlatformPieChart;
+use App\Filament\Resources\Tags\Widgets\TagVisitsCountChart;
 use App\History\HistoryAction;
 use App\Models\Tag;
 use Filament\Actions\DeleteAction;
@@ -122,6 +126,21 @@ class TagResource extends Resource
             'create' => CreateTag::route('/create'),
             'edit' => EditTag::route('/{record}/edit'),
             'history' => TagHistory::route('/{record}/history'),
+        ];
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'description'];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            TagVisitsCountChart::class,
+            TagVisitsByBrowserPieChart::class,
+            TagVisitsByPlatformPieChart::class,
+            TagVisitsByCountryPieChart::class,
         ];
     }
 }

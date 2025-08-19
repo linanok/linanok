@@ -2,7 +2,9 @@
 
 namespace Models;
 
+use App\Models\Domain;
 use App\Models\Link;
+use App\Models\LinkVisit;
 use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
@@ -63,5 +65,18 @@ class TagTest extends TestCase
         $tag = new Tag;
 
         $this->assertEquals([], $tag->getGuarded());
+    }
+
+    #[Test]
+    public function it_has_link_visits_relationship(): void
+    {
+        $domain = Domain::factory()->create(['is_active' => true, 'is_admin_panel_active' => true]);
+        $tag = Tag::factory()->create();
+        $link = Link::factory()->create();
+        $link->tags()->attach($tag);
+        $visit = LinkVisit::factory()->create(['link_id' => $link->id, 'domain_id' => $domain->id]);
+
+        $this->assertTrue($tag->linkVisits->contains($visit));
+        $this->assertEquals(1, $tag->linkVisits->count());
     }
 }
