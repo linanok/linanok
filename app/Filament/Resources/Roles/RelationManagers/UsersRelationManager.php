@@ -32,13 +32,12 @@ class UsersRelationManager extends RelationManager
                     ->recordSelectSearchColumns(['name', 'email']),
             ])
             ->recordActions([
-                // ...
                 EditAction::make(),
                 DetachAction::make(),
             ])
             ->toolbarActions([
-                // ...
-                DetachBulkAction::make(),
+                DetachBulkAction::make()
+                    ->fetchSelectedRecords(false),
             ]);
     }
 }
