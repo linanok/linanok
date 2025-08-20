@@ -67,6 +67,8 @@ if (! function_exists('get_short_url')) {
         }
 
         // Generate the route URL for the link redirect
-        return "{$domain->protocol->value}://$domain->host/$link->short_path";
+        $path = route('link.redirect', ['short_path' => $link->short_path], absolute: false);
+
+        return "{$domain->protocol->value}://$domain->host$path";
     }
 }

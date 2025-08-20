@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
  * Handles link model events to automatically generate unique short paths.
  * This observer ensures that every link has a unique short_path that can be
  * used in URLs, either based on a custom slug or randomly generated.
- * It also prevents conflicts with reserved routes and public paths.
  *
  * @see \App\Models\Link
  */
@@ -24,8 +23,8 @@ class LinkObserver
      * 1. The provided slug (if available) - ensures uniqueness by adding random suffix if needed
      * 2. A randomly generated string (if no slug provided)
      *
-     * The generated short_path is guaranteed to be unique and not conflict with
-     * reserved routes or existing links in the database.
+     * The generated short_path is guaranteed to be unique and not already taken
+     * by existing links in the database.
      *
      * @param  Link  $link  The link being created
      */
@@ -50,9 +49,8 @@ class LinkObserver
      *
      * The method ensures the generated short path:
      * - Is unique in the database
-     * - Does not conflict with reserved routes
-     * - Does not conflict with public paths
-     * - Does not start with a forward slash (to avoid absolute path conflicts)
+     * - Does not start or end with a slash, and contains no double slashes
+     * - Uses only allowed characters: a-z, A-Z, 0-9, -, _, ., and /
      *
      * @param  string|null  $candidateShortPath  The desired short path base
      * @return string A unique short path that doesn't exist in the database
@@ -60,12 +58,7 @@ class LinkObserver
     private static function generateUniqueShortPath(?string $candidateShortPath = null): string
     {
         if ($candidateShortPath) {
-            // If the candidate path conflicts with reserved routes, add _ to path
-            if (self::isShortPathInReservedRoutes($candidateShortPath)) {
-                $candidateShortPath = '_'.$candidateShortPath;
-            }
-
-            // Reject paths starting with forward slash to avoid absolute path conflicts
+            // Reject invalid short paths (leading/trailing slash, double slashes, or invalid characters)
             if (! self::isShortPathValid($candidateShortPath)) {
                 $candidateShortPath = null;
             }
@@ -89,61 +82,17 @@ class LinkObserver
         // Generate random short path if no base slug provided
         do {
             $candidateShortPath = Str::random(6);
-
-            // Skip if it conflicts with reserved routes
-            if (self::isShortPathInReservedRoutes($candidateShortPath)) {
-                continue;
-            }
-
             $exists = self::isShortPathTaken($candidateShortPath);
-            if (! $exists) {
-                break;
-            }
-        } while (true);
+        } while ($exists);
 
         return $candidateShortPath;
-    }
-
-    /**
-     * Check if a short path conflicts with reserved routes or public paths.
-     *
-     * This method prevents conflicts with:
-     * - Exact matches with public files (favicon.ico, robots.txt, etc.)
-     * - Paths starting with reserved prefixes (admin/, css/, etc.)
-     * - Exact matches with reserved prefixes (admin, css, etc.)
-     *
-     * @param  string  $shortPath  The short path to check
-     * @return bool True if the path conflicts with reserved routes, false otherwise
-     */
-    private static function isShortPathInReservedRoutes(string $shortPath): bool
-    {
-        $shortPathLower = Str::lower($shortPath);
-
-        // Check against exact public file matches
-        if (in_array($shortPathLower, config('link_constraints.public_paths'), true)) {
-            return true;
-        }
-
-        // Check if the path starts with any reserved prefix
-        foreach (config('link_constraints.public_path_prefixes') as $prefix) {
-            if (Str::startsWith($shortPathLower, $prefix.'/')) {
-                return true;
-            }
-
-            // Also consider exact match with prefix (like 'admin' or 'css')
-            if ($shortPathLower === $prefix) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
      * Validate that the short path contains only allowed characters and structure.
      *
      * Rules:
-     * - Only a-z, A-Z, 0-9, -, _, /
+     * - Only a-z, A-Z, 0-9, -, _, ., and /
      * - No leading or trailing slashes
      * - No double slashes
      */
@@ -159,7 +108,7 @@ class LinkObserver
             return false;
         }
 
-        // Must match allowed characters only (segments of letters, numbers, -, _ separated by slashes)
+        // Must match allowed characters only (segments of letters, numbers, -, _, . separated by slashes)
         return preg_match('/^[a-zA-Z0-9\-_.\/]+$/', $shortPath) === 1;
     }
 

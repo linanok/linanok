@@ -62,7 +62,7 @@ class GetShortUrlTest extends TestCase
         $result = get_short_url($this->link, $this->domain1);
 
         // Assert
-        $this->assertEquals('https://example.com/test-link', $result);
+        $this->assertEquals('https://example.com/l/test-link', $result);
     }
 
     /**
@@ -82,7 +82,7 @@ class GetShortUrlTest extends TestCase
         $result = get_short_url($this->link, $unassociatedDomain);
 
         // Assert
-        $this->assertEquals('https://example.com/test-link', $result);
+        $this->assertEquals('https://example.com/l/test-link', $result);
     }
 
     /**
@@ -99,7 +99,7 @@ class GetShortUrlTest extends TestCase
         $result = get_short_url($this->link);
 
         // Assert
-        $this->assertEquals('https://example.com/test-link', $result);
+        $this->assertEquals('https://example.com/l/test-link', $result);
     }
 
     /**
@@ -120,7 +120,7 @@ class GetShortUrlTest extends TestCase
         $result = get_short_url($this->link);
 
         // Assert
-        $this->assertEquals('https://example.com/test-link', $result);
+        $this->assertEquals('https://example.com/l/test-link', $result);
     }
 
     /**
@@ -136,7 +136,7 @@ class GetShortUrlTest extends TestCase
         $result = get_short_url($this->link);
 
         // Assert
-        $this->assertEquals('https://example.com/test-link', $result);
+        $this->assertEquals('https://example.com/l/test-link', $result);
     }
 
     /**
@@ -149,6 +149,6 @@ class GetShortUrlTest extends TestCase
         $result = get_short_url($this->link, $this->domain2);
 
         // Assert
-        $this->assertEquals('http://other-domain.com/test-link', $result);
+        $this->assertEquals('http://other-domain.com/l/test-link', $result);
     }
 }
