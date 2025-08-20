@@ -2,6 +2,8 @@
     <div class="w-full max-w-md px-4 md:mt-64">
         <form>
             {{ $this->form }}
+
+            <x-filament::button class="!mt-2" type="submit" wire:click="submit">Submit</x-filament::button>
         </form>
 
         <script>

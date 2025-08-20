@@ -34,13 +34,12 @@ class LinksRelationManager extends RelationManager
                     ]),
             ])
             ->recordActions([
-                // ...
                 EditAction::make(),
                 DetachAction::make(),
             ])
             ->toolbarActions([
-                // ...
-                DetachBulkAction::make(),
+                DetachBulkAction::make()
+                    ->fetchSelectedRecords(false),
             ]);
     }
 }

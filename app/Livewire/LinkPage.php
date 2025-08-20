@@ -7,11 +7,9 @@ use App\Services\LinkVisitService;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\ViewField;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
-use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Livewire\Component;
 
@@ -51,21 +49,11 @@ class LinkPage extends Component implements HasForms
     {
         return $schema
             ->components([
-                Section::make('Password Protected')
-                    ->schema([
-                        TextInput::make('password')
-                            ->label('Please enter the password to access this link')
-                            ->placeholder('******')
-                            ->password()
-                            ->revealable(),
-
-                        ViewField::make('submit')
-                            ->view('components.filament-button')
-                            ->viewData([
-                                'text' => 'Submit',
-                                'click' => 'submit',
-                            ]),
-                    ]),
+                TextInput::make('password')
+                    ->label('Please enter the password to access this link')
+                    ->placeholder('******')
+                    ->password()
+                    ->revealable(),
             ])
             ->statePath('data');
     }

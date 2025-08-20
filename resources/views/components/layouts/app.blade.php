@@ -1,31 +1,7 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>{{ $title ?? 'Page Title' }}</title>
-
-    @livewireStyles
-    @filamentStyles
-    <link href="{{ asset('css/filament/filament/app.css') }}" rel="stylesheet" data-navigate-track/>
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet"/>
-
-    @vite('resources/css/app.css')
-</head>
-<body
-    class="fi-body min-h-screen bg-gray-50 font-normal text-gray-950 antialiased dark:bg-gray-950 dark:text-white flex flex-col">
-<header
-    class="fi-simple-header flex h-16 w-full items-center border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
-    <div class="flex items-center justify-between px-4 sm:px-6 lg:px-8 w-full">
-        <div class="flex flex-1">
-            <div class="flex items-center">
-                <span class="font-bold text-xl">{{ $title ?? 'Page Title' }}</span>
-            </div>
-        </div>
+<x-filament-panels::layout.base xmlns:x-filament-panels="http://www.w3.org/1999/html">
+    <x-filament-topbar :title="$title">
         <div
-            class="flex gap-2"
+            class="flex"
             x-data="{
                         theme: localStorage.getItem('theme') || 'system',
                         init: function () {
@@ -37,40 +13,40 @@
                             $dispatch('theme-changed', newTheme)
                         }
                     }">
-            <x-theme-switcher-button
+            <x-filament::button
+                class="!mx-1"
                 icon="heroicon-m-computer-desktop"
-                theme="system"
                 x-on:click="toggleTheme('system')"
-            ></x-theme-switcher-button>
+                x-bind:class="theme == 'system' ? '' : 'fi-text-color-700 dark:fi-text-color-300 fi-outlined'"
+            >
+                System
+            </x-filament::button>
 
-            <x-theme-switcher-button
+            <x-filament::button
+                class="!mx-1"
                 icon="heroicon-m-moon"
-                theme="dark"
                 x-on:click="toggleTheme('dark')"
-            ></x-theme-switcher-button>
+                x-bind:class="theme == 'dark' ? '' : 'fi-text-color-700 dark:fi-text-color-300 fi-outlined'"
+            >
+                Dark
+            </x-filament::button>
 
-            <x-theme-switcher-button
+            <x-filament::button
+                class="!mx-1"
                 icon="heroicon-m-sun"
-                theme="light"
                 x-on:click="toggleTheme('light')"
-            ></x-theme-switcher-button>
+                x-bind:class="theme == 'light' ? '' : 'fi-text-color-700 dark:fi-text-color-300 fi-outlined'"
+            >
+                Light
+            </x-filament::button>
         </div>
+    </x-filament-topbar>
+
+    <div class="flex h-screen justify-center items-center">
+        <x-filament::card class="w-fit">
+            {{ $slot }}
+        </x-filament::card>
     </div>
-</header>
 
-<main class="flex-1 p-4 sm:p-6 lg:p-8">
-    {{ $slot }}
-</main>
-
-@livewireScripts
-@livewire('notifications')
-@filamentScripts()
-
-<script src="{{ asset('js/filament/filament/echo.js') }}"></script>
-<script src="{{ asset('js/filament/filament/app.js') }}"></script>
-
-@vite('resources/js/app.js')
-
-@include('components.copyright')
-</body>
-</html>
+    <x-copyright/>
+</x-filament-panels::layout.base>
