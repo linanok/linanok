@@ -14,6 +14,7 @@
                         }
                     }">
             <x-filament::button
+                class="!mx-1"
                 icon="heroicon-m-computer-desktop"
                 x-on:click="toggleTheme('system')"
                 x-bind:class="theme == 'system' ? '' : 'fi-text-color-700 dark:fi-text-color-300 fi-outlined'"
@@ -22,6 +23,7 @@
             </x-filament::button>
 
             <x-filament::button
+                class="!mx-1"
                 icon="heroicon-m-moon"
                 x-on:click="toggleTheme('dark')"
                 x-bind:class="theme == 'dark' ? '' : 'fi-text-color-700 dark:fi-text-color-300 fi-outlined'"
@@ -30,6 +32,7 @@
             </x-filament::button>
 
             <x-filament::button
+                class="!mx-1"
                 icon="heroicon-m-sun"
                 x-on:click="toggleTheme('light')"
                 x-bind:class="theme == 'light' ? '' : 'fi-text-color-700 dark:fi-text-color-300 fi-outlined'"
