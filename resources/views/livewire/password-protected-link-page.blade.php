@@ -3,7 +3,7 @@
         <form>
             {{ $this->form }}
 
-            <x-filament::button class="!mt-2" type="submit" wire:click="submit">Submit</x-filament::button>
+            <x-filament::button class="!mt-4" type="submit" wire:click="submit">Submit</x-filament::button>
         </form>
 
         <script>
