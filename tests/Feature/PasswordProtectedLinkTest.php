@@ -36,7 +36,7 @@ class PasswordProtectedLinkTest extends TestCase
         $link->domains()->attach($domain);
 
         // Act
-        $response = $this->get('https://example.com/abc123');
+        $response = $this->get('https://example.com/l/abc123');
 
         // Assert
         $response->assertOk()

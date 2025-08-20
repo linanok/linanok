@@ -33,7 +33,7 @@ class LinkRedirectionTest extends TestCase
         $link->domains()->attach($domain);
 
         // Act
-        $response = $this->get('https://example.com/abc123');
+        $response = $this->get('https://example.com/l/abc123');
 
         // Assert
         $response->assertRedirect('https://target-site.com');
@@ -60,7 +60,7 @@ class LinkRedirectionTest extends TestCase
         $link->domains()->attach($domain);
 
         // Act
-        $response = $this->get('https://example.com/abc123');
+        $response = $this->get('https://example.com/l/abc123');
 
         // Assert
         $response->assertRedirect('https://target-site.com/?ref=example.com');
@@ -88,7 +88,7 @@ class LinkRedirectionTest extends TestCase
         $link->domains()->attach($domain);
 
         // Act
-        $response = $this->get('https://example.com/abc123?param1=value1&param2=value2');
+        $response = $this->get('https://example.com/l/abc123?param1=value1&param2=value2');
 
         // Assert
         $response->assertRedirect('https://target-site.com/?param1=value1&param2=value2');
@@ -98,7 +98,7 @@ class LinkRedirectionTest extends TestCase
     public function it_returns_404_when_link_not_found(): void
     {
         // Act
-        $response = $this->get('/nonexistent', ['HTTP_HOST' => 'example.com']);
+        $response = $this->get('/l/nonexistent', ['HTTP_HOST' => 'example.com']);
 
         // Assert
         $response->assertNotFound();

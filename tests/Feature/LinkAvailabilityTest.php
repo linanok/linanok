@@ -35,7 +35,7 @@ class LinkAvailabilityTest extends TestCase
         $link->domains()->attach($domain);
 
         // Act
-        $response = $this->get('https://example.com/abc123');
+        $response = $this->get('https://example.com/l/abc123');
 
         // Assert
         $response->assertRedirect('https://target-site.com');
@@ -62,7 +62,7 @@ class LinkAvailabilityTest extends TestCase
         $link->domains()->attach($domain);
 
         // Act
-        $response = $this->get('https://example.com/inactive123');
+        $response = $this->get('https://example.com/l/inactive123');
 
         // Assert
         $response->assertStatus(404);
@@ -89,7 +89,7 @@ class LinkAvailabilityTest extends TestCase
         $link->domains()->attach($domain);
 
         // Act
-        $response = $this->get('https://example.com/abc123');
+        $response = $this->get('https://example.com/l/abc123');
 
         // Assert
         $response->assertNotFound();
@@ -116,7 +116,7 @@ class LinkAvailabilityTest extends TestCase
         $link->domains()->attach($domain);
 
         // Act
-        $response = $this->get('https://example.com/abc123');
+        $response = $this->get('https://example.com/l/abc123');
 
         // Assert
         $response->assertNotFound();
@@ -145,7 +145,7 @@ class LinkAvailabilityTest extends TestCase
         $link->domains()->attach($domain);
 
         // Act
-        $response = $this->get('https://example.com/abc123');
+        $response = $this->get('https://example.com/l/abc123');
 
         // Assert
         $response->assertRedirect('https://target-site.com');
