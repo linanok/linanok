@@ -10,4 +10,10 @@
     </div>
 
     <x-copyright/>
+
+    <script>
+        // prevent closing on theme switch
+        function close() {
+        }
+    </script>
 </x-filament-panels::layout.base>
