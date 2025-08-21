@@ -34,6 +34,7 @@ trait MyLogsActivity
             ->logAll()
             ->logOnlyDirty()
             ->logExcept(['created_at', 'updated_at'])
-            ->dontSubmitEmptyLogs();
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn () => $this->__toString());
     }
 }
