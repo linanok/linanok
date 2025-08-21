@@ -24,12 +24,11 @@ class RecentActivity extends BaseWidget
         return $table
             ->query(
                 Activity::query()
-                    ->with(['causer', 'subject'])
                     ->orderBy('id', 'desc')
                     ->limit(5)
             )
             ->columns([
-                TextColumn::make('subject')
+                TextColumn::make('description')
                     ->label('Activity')
                     ->icon(fn ($record): string => match ($record->event) {
                         'created' => 'heroicon-m-plus',
