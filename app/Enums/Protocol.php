@@ -2,6 +2,10 @@
 
 namespace App\Enums;
 
+use Filament\Support\Contracts\HasDescription;
+use Filament\Support\Contracts\HasLabel;
+use Illuminate\Contracts\Support\Htmlable;
+
 /**
  * Protocol Enum
  *
@@ -11,8 +15,24 @@ namespace App\Enums;
  *
  * @see \App\Models\Domain
  */
-enum Protocol: string
+enum Protocol: string implements HasDescription, HasLabel
 {
     case HTTP = 'http';
     case HTTPS = 'https';
+
+    public function getDescription(): string|Htmlable|null
+    {
+        return match ($this) {
+            self::HTTP => 'Unencrypted protocol, not recommended for production.',
+            self::HTTPS => 'Secure protocol with SSL/TLS encryption.',
+        };
+    }
+
+    public function getLabel(): string|Htmlable|null
+    {
+        return match ($this) {
+            self::HTTP => 'HTTP',
+            self::HTTPS => 'HTTPS',
+        };
+    }
 }

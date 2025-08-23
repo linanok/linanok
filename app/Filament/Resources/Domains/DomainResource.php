@@ -16,7 +16,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
@@ -54,7 +54,7 @@ class DomainResource extends Resource
     {
         return $schema
             ->components([
-                Select::make('protocol')
+                Radio::make('protocol')
                     ->options(Protocol::class)
                     ->default(Protocol::HTTPS)
                     ->required(),
