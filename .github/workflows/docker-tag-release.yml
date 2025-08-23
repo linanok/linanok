@@ -14,8 +14,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - image: web
-          - image: queue
+          - image: octane
+          - image: cli
     permissions:
       contents: read
       packages: write
@@ -50,7 +50,7 @@ jobs:
       - name: Tag and push release images
         run: |
           SOURCE_IMAGE="${{ steps.set_tags.outputs.source_image }}"
-          
+
           # Read tags from multiline output
           while IFS= read -r tag; do
             if [ -n "$tag" ]; then
