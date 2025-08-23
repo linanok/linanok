@@ -91,7 +91,7 @@ class User extends Authenticatable implements FilamentUser
     public function getActivitylogOptions(): LogOptions
     {
         return $this->superGetActivitylogOptions()
-            ->logExcept(['password', 'created_at', 'updated_at']);
+            ->logExcept(['password', 'remember_token', 'created_at', 'updated_at']);
     }
 
     /**
