@@ -53,13 +53,13 @@ class DevelopmentDatabaseSeeder extends Seeder
 
         Domain::factory()->create([
             'protocol' => 'http',
-            'host' => 'localhost:8080',
+            'host' => 'localhost:8000',
             'is_admin_panel_active' => true,
             'is_active' => false,
         ]);
         Domain::factory()->create([
             'protocol' => 'http',
-            'host' => '127.0.0.1:8080',
+            'host' => '127.0.0.1:8000',
             'is_admin_panel_active' => false,
             'is_active' => true,
         ]);

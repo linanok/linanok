@@ -61,7 +61,7 @@ class DomainResource extends Resource
 
                 TextInput::make('host')
                     ->required()
-                    ->placeholder('example.com:8080, localhost:8080, or 192.168.1.1:8080')
+                    ->placeholder('example.com:8000, localhost:8000, or 192.168.1.100:8000')
                     ->helperText('Domain name, localhost, or IP address with optional port number')
                     ->regex('/^localhost(:\d+)?$|^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])(:\d+)?$|^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?$/')
                     ->validationAttribute('host')
