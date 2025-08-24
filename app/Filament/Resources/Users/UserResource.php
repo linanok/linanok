@@ -56,13 +56,15 @@ class UserResource extends Resource
             ->components([
                 TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->helperText('Full name of the user'),
 
                 TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255)
-                    ->unique(ignoreRecord: true),
+                    ->unique(ignoreRecord: true)
+                    ->helperText('Email address used for login and notifications'),
 
                 TextInput::make('password')
                     ->password()
@@ -71,13 +73,15 @@ class UserResource extends Resource
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (string $context): bool => $context === 'create')
                     ->confirmed()
-                    ->visible(fn (string $context): bool => $context === 'create'),
+                    ->visible(fn (string $context): bool => $context === 'create')
+                    ->helperText('Secure password for user authentication'),
 
                 TextInput::make('password_confirmation')
                     ->password()
                     ->revealable()
                     ->required(fn (string $context): bool => $context === 'create')
-                    ->visible(fn (string $context): bool => $context === 'create'),
+                    ->visible(fn (string $context): bool => $context === 'create')
+                    ->helperText('Confirm the password by typing it again'),
 
                 Toggle::make('is_active')
                     ->label('Active')
@@ -97,7 +101,8 @@ class UserResource extends Resource
                     ->searchable()
                     ->visible(fn ($livewire) => ! $livewire instanceof UsersRelationManager)
                     ->live()
-                    ->visible(fn (Get $get) => ! $get('is_super_admin')),
+                    ->visible(fn (Get $get) => ! $get('is_super_admin'))
+                    ->helperText('Assign roles to grant groups of permissions'),
 
                 Select::make('permissions')
                     ->multiple()
@@ -112,7 +117,8 @@ class UserResource extends Resource
                             $fail('Either the user must be a Super Admin, have at least one role, or have at least one permission.');
                         }
                     })
-                    ->visible(fn (Get $get) => ! $get('is_super_admin')),
+                    ->visible(fn (Get $get) => ! $get('is_super_admin'))
+                    ->helperText('Grant specific permissions directly to this user'),
 
                 Placeholder::make('created_at')
                     ->label('Created Date')

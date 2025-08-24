@@ -54,7 +54,8 @@ class TagResource extends Resource
                 TextInput::make('name')
                     ->unique(ignoreRecord: true)
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->helperText('A unique name to identify this tag'),
 
                 RichEditor::make('description')
                     ->toolbarButtons([
@@ -72,7 +73,8 @@ class TagResource extends Resource
                         'underline',
                         'undo',
                     ])
-                    ->columnSpan('full'),
+                    ->columnSpan('full')
+                    ->helperText('Optional description to explain what this tag represents'),
 
                 Placeholder::make('created_at')
                     ->label('Created Date')

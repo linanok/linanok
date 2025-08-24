@@ -57,21 +57,24 @@ class DomainResource extends Resource
                 Radio::make('protocol')
                     ->options(Protocol::class)
                     ->default(Protocol::HTTPS)
-                    ->required(),
+                    ->required()
+                    ->helperText('Choose HTTP or HTTPS protocol for this domain'),
 
                 TextInput::make('host')
                     ->required()
-                    ->placeholder('example.com:8080, localhost:8080, or 192.168.1.1:8080')
+                    ->placeholder('example.com:8000, localhost:8000, or 192.168.1.100:8000')
                     ->helperText('Domain name, localhost, or IP address with optional port number')
                     ->regex('/^localhost(:\d+)?$|^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])(:\d+)?$|^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?$/')
                     ->validationAttribute('host')
                     ->maxLength(255),
 
                 Toggle::make('is_active')
-                    ->default(true),
+                    ->default(true)
+                    ->helperText('Enable or disable this domain for creating new links'),
 
                 Toggle::make('is_admin_panel_active')
-                    ->default(false),
+                    ->default(false)
+                    ->helperText('Allow this domain to host the admin panel interface'),
 
                 Placeholder::make('created_at')
                     ->label('Created Date')
