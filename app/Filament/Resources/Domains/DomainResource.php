@@ -57,7 +57,8 @@ class DomainResource extends Resource
                 Radio::make('protocol')
                     ->options(Protocol::class)
                     ->default(Protocol::HTTPS)
-                    ->required(),
+                    ->required()
+                    ->helperText('Choose HTTP or HTTPS protocol for this domain'),
 
                 TextInput::make('host')
                     ->required()
@@ -68,10 +69,12 @@ class DomainResource extends Resource
                     ->maxLength(255),
 
                 Toggle::make('is_active')
-                    ->default(true),
+                    ->default(true)
+                    ->helperText('Enable or disable this domain for creating new links'),
 
                 Toggle::make('is_admin_panel_active')
-                    ->default(false),
+                    ->default(false)
+                    ->helperText('Allow this domain to host the admin panel interface'),
 
                 Placeholder::make('created_at')
                     ->label('Created Date')

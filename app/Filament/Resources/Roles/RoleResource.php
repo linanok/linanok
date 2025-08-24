@@ -50,13 +50,15 @@ class RoleResource extends Resource
                 TextInput::make('name')
                     ->required()
                     ->unique(ignoreRecord: true)
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->helperText('A unique name for this role (e.g., "Editor", "Moderator")'),
 
                 Select::make('permissions')
                     ->relationship('permissions', 'name')
                     ->multiple()
                     ->preload()
-                    ->searchable(),
+                    ->searchable()
+                    ->helperText('Select specific permissions to assign to this role'),
 
                 Placeholder::make('created_at')
                     ->label('Created Date')

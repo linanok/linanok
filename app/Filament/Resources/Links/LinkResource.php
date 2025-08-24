@@ -165,13 +165,15 @@ class LinkResource extends Resource
                                                 DateTimePicker::make('available_at')
                                                     ->label('Available From')
                                                     ->placeholder('Select date/time')
-                                                    ->seconds(false),
+                                                    ->seconds(false)
+                                                    ->helperText('Optional: Set when this link becomes available'),
 
                                                 DateTimePicker::make('unavailable_at')
                                                     ->label('Available Until')
                                                     ->placeholder('Select date/time')
                                                     ->seconds(false)
-                                                    ->after('available_at'),
+                                                    ->after('available_at')
+                                                    ->helperText('Optional: Set when this link expires'),
                                             ]),
                                     ]),
                             ]),
@@ -197,13 +199,15 @@ class LinkResource extends Resource
                                             ->multiple()
                                             ->preload()
                                             ->required()
-                                            ->searchable(),
+                                            ->searchable()
+                                            ->helperText('Choose which domains can host this shortened link'),
 
                                         Select::make('tags')
                                             ->relationship('tags', 'name')
                                             ->multiple()
                                             ->preload()
-                                            ->searchable(),
+                                            ->searchable()
+                                            ->helperText('Add tags to categorize and organize this link'),
                                     ]),
                             ]),
 
@@ -228,7 +232,8 @@ class LinkResource extends Resource
                                                 'underline',
                                                 'undo',
                                             ])
-                                            ->columnSpan('full'),
+                                            ->columnSpan('full')
+                                            ->helperText('Optional description to help identify and organize this link'),
                                     ]),
                             ]),
                     ])
