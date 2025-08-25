@@ -2,15 +2,15 @@
 
 namespace Filament\LinkResource\Widgets;
 
-use App\Filament\Resources\Links\Widgets\BaseLinkVisitsPieChart;
+use App\Filament\Resources\Links\Widgets\BaseVisitsPieChart;
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
 use App\Models\User;
+use App\Models\Visit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class BaseLinkVisitsPieChartTest extends TestCase
+class BaseVisitsPieChartTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -83,7 +83,7 @@ class BaseLinkVisitsPieChartTest extends TestCase
         $widget = $this->createWidget();
 
         // Create a query
-        $query = LinkVisit::query();
+        $query = Visit::query();
 
         // Instead of testing the applyDateFilter method directly, we'll test that
         // the filter property can be set correctly
@@ -99,7 +99,7 @@ class BaseLinkVisitsPieChartTest extends TestCase
     protected function createWidget()
     {
         // Create a concrete implementation of the abstract class for testing
-        $widget = new class extends BaseLinkVisitsPieChart
+        $widget = new class extends BaseVisitsPieChart
         {
             protected ?string $chartHeading = 'Test Chart';
         };

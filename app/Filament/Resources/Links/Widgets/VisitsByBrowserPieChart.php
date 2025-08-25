@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\Links\Widgets;
 
-use App\Models\LinkVisit;
+use App\Models\Visit;
 use Illuminate\Support\Collection;
 
-class LinkVisitsByBrowserPieChart extends BaseLinkVisitsPieChart
+class VisitsByBrowserPieChart extends BaseVisitsPieChart
 {
     protected ?string $chartHeading = 'Visitors By Browser';
 
@@ -16,7 +16,7 @@ class LinkVisitsByBrowserPieChart extends BaseLinkVisitsPieChart
      */
     protected function getData(): array
     {
-        $query = LinkVisit::query()->where('link_id', $this->record->id);
+        $query = Visit::query()->where('link_id', $this->record->id);
 
         // Apply date filters
         $query = $this->applyDateFilter($query);
@@ -67,12 +67,11 @@ class LinkVisitsByBrowserPieChart extends BaseLinkVisitsPieChart
     }
 
     /**
-     * Normalize browser names to group similar browsers
+     * Normalize browser names to group similar browsers together
      */
     protected function normalizeBrowserNames(Collection $data): Collection
     {
         $normalized = collect();
-        $totals = [];
 
         foreach ($data as $item) {
             $browser = $item->browser;

@@ -7,7 +7,7 @@ use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Database\Eloquent\Builder;
 
-class BaseLinkVisitsPieChart extends ChartWidget
+class BaseVisitsPieChart extends ChartWidget
 {
     use InteractsWithRecord;
 

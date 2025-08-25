@@ -2,15 +2,15 @@
 
 namespace Filament\LinkResource\Widgets;
 
-use App\Filament\Resources\Links\Widgets\LinkVisitsByPlatformPieChart;
+use App\Filament\Resources\Links\Widgets\VisitsByPlatformPieChart;
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
 use App\Models\User;
+use App\Models\Visit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class LinkVisitsByPlatformPieChartTest extends TestCase
+class VisitsByPlatformPieChartTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -60,19 +60,19 @@ class LinkVisitsByPlatformPieChartTest extends TestCase
     public function it_generates_correct_data_structure()
     {
         // Create visits with different platforms
-        LinkVisit::factory()->count(5)->create([
+        Visit::factory()->count(5)->create([
             'link_id' => $this->link->id,
             'platform' => 'Windows',
             'created_at' => now(),
         ]);
 
-        LinkVisit::factory()->count(3)->create([
+        Visit::factory()->count(3)->create([
             'link_id' => $this->link->id,
             'platform' => 'macOS',
             'created_at' => now(),
         ]);
 
-        LinkVisit::factory()->count(2)->create([
+        Visit::factory()->count(2)->create([
             'link_id' => $this->link->id,
             'platform' => 'iOS',
             'created_at' => now(),
@@ -104,13 +104,13 @@ class LinkVisitsByPlatformPieChartTest extends TestCase
     public function it_normalizes_platform_names()
     {
         // Create visits with different platform variations
-        LinkVisit::factory()->count(2)->create([
+        Visit::factory()->count(2)->create([
             'link_id' => $this->link->id,
             'platform' => 'Windows 10',
             'created_at' => now(),
         ]);
 
-        LinkVisit::factory()->count(3)->create([
+        Visit::factory()->count(3)->create([
             'link_id' => $this->link->id,
             'platform' => 'Windows 11',
             'created_at' => now(),
@@ -134,7 +134,7 @@ class LinkVisitsByPlatformPieChartTest extends TestCase
      */
     protected function createWidget()
     {
-        $widget = new LinkVisitsByPlatformPieChart;
+        $widget = new VisitsByPlatformPieChart;
 
         // Set the record property using reflection
         $this->setProperty($widget, 'record', $this->link);

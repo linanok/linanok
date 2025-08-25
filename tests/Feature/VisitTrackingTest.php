@@ -2,18 +2,18 @@
 
 namespace Tests\Feature;
 
-use App\Jobs\SaveLinkVisitJob;
+use App\Jobs\SaveVisitJob;
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
-use App\Services\LinkVisitService;
+use App\Models\Visit;
+use App\Services\VisitService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use PHPUnit\Framework\Attributes\Test;
 use ReflectionClass;
 use Tests\TestCase;
 
-class LinkVisitTrackingTest extends TestCase
+class VisitTrackingTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -45,7 +45,7 @@ class LinkVisitTrackingTest extends TestCase
         // Assert
         $response->assertRedirect('https://target-site.com');
 
-        Queue::assertPushed(SaveLinkVisitJob::class, function ($job) use ($link) {
+        Queue::assertPushed(SaveVisitJob::class, function ($job) use ($link) {
             // We can't access private properties directly, so we'll use reflection
             $reflection = new ReflectionClass($job);
             $property = $reflection->getProperty('linkId');
@@ -80,7 +80,7 @@ class LinkVisitTrackingTest extends TestCase
         // Assert
         $response->assertRedirect('https://target-site.com');
 
-        $visit = LinkVisit::latest()->first();
+        $visit = Visit::latest()->first();
         $this->assertNotNull($visit);
         $this->assertEquals($link->id, $visit->link_id);
         $this->assertEquals($domain->id, $visit->domain_id);
@@ -115,14 +115,14 @@ class LinkVisitTrackingTest extends TestCase
         $this->app->instance('request', $request);
 
         // Act
-        $response = LinkVisitService::redirectToOriginalUrl($link);
+        $response = VisitService::redirectToOriginalUrl($link);
 
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('https://target-site.com', $response->headers->get('Location'));
 
         // Verify the job was dispatched with the correct link ID
-        Queue::assertPushed(SaveLinkVisitJob::class, function ($job) use ($link) {
+        Queue::assertPushed(SaveVisitJob::class, function ($job) use ($link) {
             $reflection = new ReflectionClass($job);
             $property = $reflection->getProperty('linkId');
 

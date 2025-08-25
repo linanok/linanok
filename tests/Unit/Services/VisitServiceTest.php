@@ -2,22 +2,22 @@
 
 namespace Tests\Unit\Services;
 
-use App\Jobs\SaveLinkVisitJob;
+use App\Jobs\SaveVisitJob;
 use App\Models\Domain;
 use App\Models\Link;
-use App\Services\LinkVisitService;
+use App\Services\VisitService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Queue;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class LinkVisitServiceTest extends TestCase
+class VisitServiceTest extends TestCase
 {
     use RefreshDatabase;
 
     #[Test]
-    public function it_dispatches_save_link_visit_job(): void
+    public function it_dispatches_save_visit_job(): void
     {
         // Arrange
         Queue::fake();
@@ -34,10 +34,10 @@ class LinkVisitServiceTest extends TestCase
         ]);
 
         // Act
-        LinkVisitService::redirectToOriginalUrl($link);
+        VisitService::redirectToOriginalUrl($link);
 
         // Assert
-        Queue::assertPushed(SaveLinkVisitJob::class, function ($job) {
+        Queue::assertPushed(SaveVisitJob::class, function ($job) {
             // We can't access private properties directly, so just verify the job was pushed
             return true;
         });
@@ -61,14 +61,14 @@ class LinkVisitServiceTest extends TestCase
         ]);
 
         // Act
-        $response = LinkVisitService::redirectToOriginalUrl($link);
+        $response = VisitService::redirectToOriginalUrl($link);
 
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
         $this->assertEquals('https://example.org', $response->headers->get('Location'));
 
         // Verify the job was dispatched
-        Queue::assertPushed(SaveLinkVisitJob::class);
+        Queue::assertPushed(SaveVisitJob::class);
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
@@ -89,7 +89,7 @@ class LinkVisitServiceTest extends TestCase
         });
 
         // Act
-        $response = LinkVisitService::redirectToOriginalUrl($link);
+        $response = VisitService::redirectToOriginalUrl($link);
 
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
@@ -117,7 +117,7 @@ class LinkVisitServiceTest extends TestCase
         $_GET = ['utm_source' => 'test', 'utm_medium' => 'email'];
 
         // Act
-        $response = LinkVisitService::redirectToOriginalUrl($link);
+        $response = VisitService::redirectToOriginalUrl($link);
 
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
@@ -128,7 +128,7 @@ class LinkVisitServiceTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function it_combines_ref_and_query_parameters_when_both_enabled()
+    public function it_combines_ref_and_query_parameters()
     {
         // Arrange
         $link = Link::factory()->create([
@@ -148,7 +148,7 @@ class LinkVisitServiceTest extends TestCase
         $_GET = ['utm_source' => 'test'];
 
         // Act
-        $response = LinkVisitService::redirectToOriginalUrl($link);
+        $response = VisitService::redirectToOriginalUrl($link);
 
         // Assert
         $this->assertEquals(302, $response->getStatusCode());
@@ -179,7 +179,7 @@ class LinkVisitServiceTest extends TestCase
         $_GET = ['utm_source' => 'test'];
 
         // Act
-        $response = LinkVisitService::redirectToOriginalUrl($link);
+        $response = VisitService::redirectToOriginalUrl($link);
 
         // Assert
         $this->assertEquals(302, $response->getStatusCode());

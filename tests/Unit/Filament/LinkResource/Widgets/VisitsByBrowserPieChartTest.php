@@ -2,15 +2,15 @@
 
 namespace Filament\LinkResource\Widgets;
 
-use App\Filament\Resources\Links\Widgets\LinkVisitsByBrowserPieChart;
+use App\Filament\Resources\Links\Widgets\VisitsByBrowserPieChart;
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
 use App\Models\User;
+use App\Models\Visit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class LinkVisitsByBrowserPieChartTest extends TestCase
+class VisitsByBrowserPieChartTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -60,19 +60,19 @@ class LinkVisitsByBrowserPieChartTest extends TestCase
     public function it_generates_correct_data_structure()
     {
         // Create visits with different browsers
-        LinkVisit::factory()->count(5)->create([
+        Visit::factory()->count(5)->create([
             'link_id' => $this->link->id,
             'browser' => 'Chrome',
             'created_at' => now(),
         ]);
 
-        LinkVisit::factory()->count(3)->create([
+        Visit::factory()->count(3)->create([
             'link_id' => $this->link->id,
             'browser' => 'Firefox',
             'created_at' => now(),
         ]);
 
-        LinkVisit::factory()->count(2)->create([
+        Visit::factory()->count(2)->create([
             'link_id' => $this->link->id,
             'browser' => 'Safari',
             'created_at' => now(),
@@ -104,13 +104,13 @@ class LinkVisitsByBrowserPieChartTest extends TestCase
     public function it_normalizes_browser_names()
     {
         // Create visits with different browser variations
-        LinkVisit::factory()->count(2)->create([
+        Visit::factory()->count(2)->create([
             'link_id' => $this->link->id,
             'browser' => 'Chrome Mobile',
             'created_at' => now(),
         ]);
 
-        LinkVisit::factory()->count(3)->create([
+        Visit::factory()->count(3)->create([
             'link_id' => $this->link->id,
             'browser' => 'Chrome',
             'created_at' => now(),
@@ -134,7 +134,7 @@ class LinkVisitsByBrowserPieChartTest extends TestCase
      */
     protected function createWidget()
     {
-        $widget = new LinkVisitsByBrowserPieChart;
+        $widget = new VisitsByBrowserPieChart;
 
         // Set the record property using reflection
         $this->setProperty($widget, 'record', $this->link);

@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Link;
-use App\Services\LinkVisitService;
+use App\Services\VisitService;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 use Filament\Forms\Components\TextInput;
@@ -29,7 +29,7 @@ class LinkPage extends Component implements HasForms
             ->firstOrFail();
 
         if (! $this->link->hasPassword) {
-            return LinkVisitService::redirectToOriginalUrl($this->link);
+            return VisitService::redirectToOriginalUrl($this->link);
         }
     }
 
@@ -95,6 +95,6 @@ class LinkPage extends Component implements HasForms
             return;
         }
 
-        return LinkVisitService::redirectToOriginalUrl($this->link);
+        return VisitService::redirectToOriginalUrl($this->link);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\LinkVisit;
+use App\Models\Visit;
 use donatj\UserAgent\UserAgentParser;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\DB;
 use MaxMind\Db\Reader;
 
 /**
- * Save Link Visit Job
+ * Save Visit Job
  *
- * Asynchronously processes and saves link visit analytics data.
+ * Asynchronously processes and saves visit analytics data.
  * This job is dispatched whenever a shortened link is accessed to avoid
  * blocking the redirect response with analytics processing.
  *
@@ -24,10 +24,10 @@ use MaxMind\Db\Reader;
  * - IP geolocation lookup using MaxMind GeoLite2 database
  * - Database storage of visit analytics
  *
- * @see \App\Models\LinkVisit
- * @see \App\Services\LinkVisitService
+ * @see \App\Models\Visit
+ * @see \App\Services\VisitService
  */
-class SaveLinkVisitJob implements ShouldQueue
+class SaveVisitJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -59,7 +59,7 @@ class SaveLinkVisitJob implements ShouldQueue
             $maxMindReader = new Reader(storage_path('maxmind/GeoLite2-Country.mmdb'));
 
             // Create the visit record with parsed analytics data
-            LinkVisit::create([
+            Visit::create([
                 'link_id' => $this->linkId,
                 'ip' => $this->request['ip'],
                 'browser' => $parsedUserAgent->browser(),

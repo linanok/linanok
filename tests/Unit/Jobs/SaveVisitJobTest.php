@@ -2,16 +2,16 @@
 
 namespace Tests\Unit\Jobs;
 
-use App\Jobs\SaveLinkVisitJob;
+use App\Jobs\SaveVisitJob;
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
+use App\Models\Visit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Tests\TestCase;
 
-class SaveLinkVisitJobTest extends TestCase
+class SaveVisitJobTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -54,18 +54,18 @@ class SaveLinkVisitJobTest extends TestCase
         ];
 
         // Act
-        $job = new SaveLinkVisitJob($this->link->id, $requestData);
+        $job = new SaveVisitJob($this->link->id, $requestData);
         $job->handle();
 
         // Assert
-        $this->assertDatabaseHas('link_visits', [
+        $this->assertDatabaseHas('visits', [
             'link_id' => $this->link->id,
             'domain_id' => $this->domain->id,
             'ip' => '8.8.8.8',
         ]);
 
         // Check that browser and platform were parsed
-        $visit = LinkVisit::where('link_id', $this->link->id)->first();
+        $visit = Visit::where('link_id', $this->link->id)->first();
         $this->assertNotNull($visit->browser);
         $this->assertNotNull($visit->platform);
     }
@@ -92,7 +92,7 @@ class SaveLinkVisitJobTest extends TestCase
         ];
 
         // Act
-        $job = new SaveLinkVisitJob($this->link->id, $requestData);
+        $job = new SaveVisitJob($this->link->id, $requestData);
         $job->handle();
 
         // Refresh the link from the database

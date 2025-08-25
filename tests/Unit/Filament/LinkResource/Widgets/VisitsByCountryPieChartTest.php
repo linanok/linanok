@@ -2,15 +2,15 @@
 
 namespace Filament\LinkResource\Widgets;
 
-use App\Filament\Resources\Links\Widgets\LinkVisitsByCountryPieChart;
+use App\Filament\Resources\Links\Widgets\VisitsByCountryPieChart;
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
 use App\Models\User;
+use App\Models\Visit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class LinkVisitsByCountryPieChartTest extends TestCase
+class VisitsByCountryPieChartTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -60,19 +60,19 @@ class LinkVisitsByCountryPieChartTest extends TestCase
     public function it_generates_correct_data_structure()
     {
         // Create visits with different countries
-        LinkVisit::factory()->count(5)->create([
+        Visit::factory()->count(5)->create([
             'link_id' => $this->link->id,
             'country' => 'United States',
             'created_at' => now(),
         ]);
 
-        LinkVisit::factory()->count(3)->create([
+        Visit::factory()->count(3)->create([
             'link_id' => $this->link->id,
             'country' => 'Canada',
             'created_at' => now(),
         ]);
 
-        LinkVisit::factory()->count(2)->create([
+        Visit::factory()->count(2)->create([
             'link_id' => $this->link->id,
             'country' => 'United Kingdom',
             'created_at' => now(),
@@ -110,7 +110,7 @@ class LinkVisitsByCountryPieChartTest extends TestCase
         ];
 
         foreach ($countries as $index => $country) {
-            LinkVisit::factory()->count($index + 1)->create([
+            Visit::factory()->count($index + 1)->create([
                 'link_id' => $this->link->id,
                 'country' => $country,
                 'created_at' => now(),
@@ -133,7 +133,7 @@ class LinkVisitsByCountryPieChartTest extends TestCase
      */
     protected function createWidget()
     {
-        $widget = new LinkVisitsByCountryPieChart;
+        $widget = new VisitsByCountryPieChart;
 
         // Set the record property using reflection
         $this->setProperty($widget, 'record', $this->link);

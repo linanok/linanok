@@ -3,10 +3,10 @@
 namespace App\Filament\Resources\Links\Pages;
 
 use App\Filament\Resources\Links\LinkResource;
-use App\Filament\Resources\Links\Widgets\LinkVisitsByBrowserPieChart;
-use App\Filament\Resources\Links\Widgets\LinkVisitsByCountryPieChart;
-use App\Filament\Resources\Links\Widgets\LinkVisitsByPlatformPieChart;
-use App\Filament\Resources\Links\Widgets\LinkVisitsCountChart;
+use App\Filament\Resources\Links\Widgets\VisitsByBrowserPieChart;
+use App\Filament\Resources\Links\Widgets\VisitsByCountryPieChart;
+use App\Filament\Resources\Links\Widgets\VisitsByPlatformPieChart;
+use App\Filament\Resources\Links\Widgets\VisitsCountChart;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
@@ -24,10 +24,10 @@ class EditLink extends EditRecord
     protected function getHeaderWidgets(): array
     {
         return [
-            LinkVisitsCountChart::class,
-            LinkVisitsByBrowserPieChart::class,
-            LinkVisitsByPlatformPieChart::class,
-            LinkVisitsByCountryPieChart::class,
+            VisitsCountChart::class,
+            VisitsByBrowserPieChart::class,
+            VisitsByPlatformPieChart::class,
+            VisitsByCountryPieChart::class,
         ];
     }
 }

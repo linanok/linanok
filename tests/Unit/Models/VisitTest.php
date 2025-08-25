@@ -4,12 +4,12 @@ namespace Models;
 
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
+use App\Models\Visit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class LinkVisitTest extends TestCase
+class VisitTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -19,7 +19,7 @@ class LinkVisitTest extends TestCase
         $link = Link::factory()->create();
         $domain = Domain::factory()->create();
 
-        $visit = new LinkVisit([
+        $visit = new Visit([
             'link_id' => $link->id,
             'domain_id' => $domain->id,
             'country' => 'US',
@@ -29,7 +29,7 @@ class LinkVisitTest extends TestCase
         ]);
         $visit->save();
 
-        $this->assertDatabaseHas('link_visits', [
+        $this->assertDatabaseHas('visits', [
             'link_id' => $link->id,
             'domain_id' => $domain->id,
             'country' => 'US',
@@ -50,7 +50,7 @@ class LinkVisitTest extends TestCase
     public function it_belongs_to_a_link()
     {
         $link = Link::factory()->create();
-        $visit = new LinkVisit([
+        $visit = new Visit([
             'link_id' => $link->id,
             'domain_id' => Domain::first()->id,
             'ip' => '127.0.0.1',
@@ -64,7 +64,7 @@ class LinkVisitTest extends TestCase
     public function it_has_only_created_at_timestamp()
     {
         $link = Link::factory()->create();
-        $visit = new LinkVisit([
+        $visit = new Visit([
             'link_id' => $link->id,
             'domain_id' => Domain::first()->id,
             'ip' => '127.0.0.1',
@@ -78,7 +78,7 @@ class LinkVisitTest extends TestCase
     #[Test]
     public function it_has_guarded_attributes()
     {
-        $visit = new LinkVisit;
+        $visit = new Visit;
 
         $this->assertEquals([], $visit->getGuarded());
     }

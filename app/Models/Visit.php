@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Observers\LinkVisitObserver;
+use App\Observers\VisitObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,18 +10,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Link Visit Model
+ * Visit Model
  *
  * Represents analytics data for individual link visits.
  * Each visit record captures information about when and how a link was accessed,
  * including browser, platform, country, and IP address information.
  *
  * @see \App\Models\Link
- * @see \App\Jobs\SaveLinkVisitJob
- * @see \App\Observers\LinkVisitObserver
+ * @see \App\Jobs\SaveVisitJob
+ * @see \App\Observers\VisitObserver
  */
-#[ObservedBy([LinkVisitObserver::class])]
-class LinkVisit extends Model
+#[ObservedBy([VisitObserver::class])]
+class Visit extends Model
 {
     use HasFactory, HasTimestamps;
 

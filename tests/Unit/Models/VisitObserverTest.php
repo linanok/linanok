@@ -4,12 +4,12 @@ namespace Models;
 
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
-use App\Observers\LinkVisitObserver;
+use App\Models\Visit;
+use App\Observers\VisitObserver;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class LinkVisitObserverTest extends TestCase
+class VisitObserverTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -32,7 +32,7 @@ class LinkVisitObserverTest extends TestCase
         $link = Link::factory()->create(['visit_count' => 0]);
 
         // Create a visit for the link
-        $visit = new LinkVisit([
+        $visit = new Visit([
             'link_id' => $link->id,
             'domain_id' => Domain::first()->id,
             'ip' => '127.0.0.1',
@@ -54,7 +54,7 @@ class LinkVisitObserverTest extends TestCase
 
         // Create multiple visits for the link
         for ($i = 0; $i < 3; $i++) {
-            $visit = new LinkVisit([
+            $visit = new Visit([
                 'link_id' => $link->id,
                 'domain_id' => Domain::first()->id,
                 'ip' => '127.0.0.1',
@@ -76,14 +76,14 @@ class LinkVisitObserverTest extends TestCase
         $link = Link::factory()->create(['visit_count' => 0]);
 
         // Create a visit for the link
-        $visit = new LinkVisit([
+        $visit = new Visit([
             'link_id' => $link->id,
             'domain_id' => Domain::first()->id,
             'ip' => '127.0.0.1',
         ]);
 
         // Manually call the observer method
-        $observer = new LinkVisitObserver;
+        $observer = new VisitObserver;
         $observer->created($visit);
 
         // Refresh the link from the database

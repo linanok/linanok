@@ -42,12 +42,12 @@ class Tag extends Model
     }
 
     /**
-     * Get all link visits for links associated with this tag.
+     * Get all visits for links associated with this tag.
      *
-     * @return HasManyThrough<LinkVisit> The link visits relationship
+     * @return HasManyThrough<Visit> The visits relationship
      */
-    public function linkVisits(): HasManyThrough
+    public function visits(): HasManyThrough
     {
-        return $this->hasManyThrough(LinkVisit::class, LinkTag::class, 'tag_id', 'link_id', 'id', 'link_id');
+        return $this->hasManyThrough(Visit::class, LinkTag::class, 'tag_id', 'link_id', 'id', 'link_id');
     }
 }

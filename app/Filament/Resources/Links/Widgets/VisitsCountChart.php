@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Links\Widgets;
 
-use App\Models\LinkVisit;
+use App\Models\Visit;
 use App\Traits\DatabaseCompatible;
 use Carbon\Carbon;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
@@ -10,7 +10,7 @@ use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 
-class LinkVisitsCountChart extends ChartWidget
+class VisitsCountChart extends ChartWidget
 {
     use DatabaseCompatible, InteractsWithRecord;
 
@@ -82,7 +82,7 @@ class LinkVisitsCountChart extends ChartWidget
 
         // Get total visits data
         $data = Trend::query(
-            LinkVisit::query()
+            Visit::query()
                 ->where('link_id', $this->record->id)
         )
             ->between(
@@ -95,11 +95,11 @@ class LinkVisitsCountChart extends ChartWidget
         // Get unique visitors data using database-compatible date truncation
         $dateTruncSql = $this->getDateTruncSql($interval, 'created_at');
         $uniqueVisitors = Trend::query(
-            LinkVisit::query()
+            Visit::query()
                 ->select('datetime')
                 ->selectRaw('count(*) as aggregate')
                 ->fromSub(
-                    LinkVisit::query()
+                    Visit::query()
                         ->selectRaw("$dateTruncSql as datetime")
                         ->where('link_id', $this->record->id)
                         ->groupBy('ip', 'datetime'),

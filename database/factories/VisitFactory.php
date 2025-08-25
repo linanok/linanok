@@ -4,15 +4,15 @@ namespace Database\Factories;
 
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
+use App\Models\Visit;
 use donatj\UserAgent\Browsers;
 use donatj\UserAgent\Platforms;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use ReflectionClass;
 
-class LinkVisitFactory extends Factory
+class VisitFactory extends Factory
 {
-    protected $model = LinkVisit::class;
+    protected $model = Visit::class;
 
     public function definition(): array
     {

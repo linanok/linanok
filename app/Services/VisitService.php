@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Jobs\SaveLinkVisitJob;
+use App\Jobs\SaveVisitJob;
 use App\Models\Link;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
 /**
- * Link Visit Service
+ * Visit Service
  *
  * Handles the redirection logic for shortened links and tracks visit analytics.
  * This service is responsible for:
@@ -18,10 +18,10 @@ use Illuminate\Routing\Redirector;
  * - Adding referrer information
  * - Redirecting users to the original URL
  *
- * @see \App\Jobs\SaveLinkVisitJob
+ * @see \App\Jobs\SaveVisitJob
  * @see \App\Models\Link
  */
-class LinkVisitService
+class VisitService
 {
     /**
      * Redirect to the original URL and track the visit.
@@ -40,7 +40,7 @@ class LinkVisitService
         $request = request();
 
         // Dispatch job to save visit analytics asynchronously
-        SaveLinkVisitJob::dispatch($link->id, [
+        SaveVisitJob::dispatch($link->id, [
             'headers' => $request->headers,
             'ip' => $request->ip(),
             'domain_id' => current_domain()->id,

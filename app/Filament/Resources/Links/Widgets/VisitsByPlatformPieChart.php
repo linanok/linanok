@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\Links\Widgets;
 
-use App\Models\LinkVisit;
+use App\Models\Visit;
 use Illuminate\Support\Collection;
 
-class LinkVisitsByPlatformPieChart extends BaseLinkVisitsPieChart
+class VisitsByPlatformPieChart extends BaseVisitsPieChart
 {
     protected ?string $chartHeading = 'Visitors By Platform';
 
@@ -16,7 +16,7 @@ class LinkVisitsByPlatformPieChart extends BaseLinkVisitsPieChart
      */
     protected function getData(): array
     {
-        $query = LinkVisit::query()->where('link_id', $this->record->id);
+        $query = Visit::query()->where('link_id', $this->record->id);
 
         // Apply date filters
         $query = $this->applyDateFilter($query);
