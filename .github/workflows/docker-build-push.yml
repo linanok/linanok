@@ -22,9 +22,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - dockerfile: deployment/octane.dockerfile
+          - dockerfile: deployment/octane.Dockerfile
             image: octane
-          - dockerfile: deployment/cli.dockerfile
+          - dockerfile: deployment/cli.Dockerfile
             image: cli
     permissions:
       contents: read
@@ -61,7 +61,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ${{ matrix.dockerfile }}
+          file: ${{ matrix.Dockerfile }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

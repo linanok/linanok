@@ -23,7 +23,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * various configuration options for query parameter handling.
  *
  * @see \App\Observers\LinkObserver
- * @see \App\Services\LinkVisitService
+ * @see \App\Services\VisitService
  */
 #[ObservedBy([LinkObserver::class])]
 class Link extends Model
@@ -130,11 +130,11 @@ class Link extends Model
     /**
      * Get the visits associated with this link.
      *
-     * @return HasMany<LinkVisit> The visits relationship
+     * @return HasMany<Visit> The visits relationship
      */
     public function visits(): HasMany
     {
-        return $this->hasMany(LinkVisit::class, 'link_id');
+        return $this->hasMany(Visit::class, 'link_id');
     }
 
     /**

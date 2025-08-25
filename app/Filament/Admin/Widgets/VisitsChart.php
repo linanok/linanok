@@ -2,7 +2,7 @@
 
 namespace App\Filament\Admin\Widgets;
 
-use App\Models\LinkVisit;
+use App\Models\Visit;
 use App\Traits\DatabaseCompatible;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
@@ -72,7 +72,7 @@ class VisitsChart extends ChartWidget
         $dateRange = $this->getDateRange();
         $interval = $this->getInterval();
 
-        $data = Trend::query(LinkVisit::query())
+        $data = Trend::query(Visit::query())
             ->between(
                 start: $dateRange['start'],
                 end: $dateRange['end'],
@@ -83,11 +83,11 @@ class VisitsChart extends ChartWidget
         // Get unique visitors data using database-compatible date truncation
         $dateTruncSql = $this->getDateTruncSql($interval, 'created_at');
         $uniqueVisitors = Trend::query(
-            LinkVisit::query()
+            Visit::query()
                 ->select('datetime')
                 ->selectRaw('count(*) as aggregate')
                 ->fromSub(
-                    LinkVisit::query()
+                    Visit::query()
                         ->selectRaw("$dateTruncSql as datetime")
                         ->groupBy('ip', 'datetime'),
                     'sub')

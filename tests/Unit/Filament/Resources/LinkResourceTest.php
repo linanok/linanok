@@ -73,10 +73,10 @@ class LinkResourceTest extends TestCase
 
         // Assert
         $this->assertCount(4, $widgets);
-        $this->assertContains('App\Filament\Resources\Links\Widgets\LinkVisitsCountChart', $widgets);
-        $this->assertContains('App\Filament\Resources\Links\Widgets\LinkVisitsByBrowserPieChart', $widgets);
-        $this->assertContains('App\Filament\Resources\Links\Widgets\LinkVisitsByPlatformPieChart', $widgets);
-        $this->assertContains('App\Filament\Resources\Links\Widgets\LinkVisitsByCountryPieChart', $widgets);
+        $this->assertContains('App\Filament\Resources\Links\Widgets\VisitsCountChart', $widgets);
+        $this->assertContains('App\Filament\Resources\Links\Widgets\VisitsByBrowserPieChart', $widgets);
+        $this->assertContains('App\Filament\Resources\Links\Widgets\VisitsByPlatformPieChart', $widgets);
+        $this->assertContains('App\Filament\Resources\Links\Widgets\VisitsByCountryPieChart', $widgets);
     }
 
     protected function setUp(): void

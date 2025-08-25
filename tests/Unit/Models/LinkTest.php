@@ -4,8 +4,8 @@ namespace Tests\Unit\Models;
 
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
 use App\Models\Tag;
+use App\Models\Visit;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
@@ -90,7 +90,7 @@ class LinkTest extends TestCase
     {
         // Arrange
         $link = Link::factory()->create();
-        $visit = LinkVisit::factory()->create(['link_id' => $link->id]);
+        $visit = Visit::factory()->create(['link_id' => $link->id]);
 
         // Assert
         $this->assertTrue($link->visits->contains($visit));

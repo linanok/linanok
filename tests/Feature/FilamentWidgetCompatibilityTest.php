@@ -3,11 +3,11 @@
 namespace Tests\Feature;
 
 use App\Filament\Admin\Widgets\VisitsChart;
-use App\Filament\Resources\Links\Widgets\LinkVisitsCountChart;
+use App\Filament\Resources\Links\Widgets\VisitsCountChart;
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
 use App\Models\User;
+use App\Models\Visit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\Test;
@@ -45,7 +45,7 @@ class FilamentWidgetCompatibilityTest extends TestCase
     }
 
     #[Test]
-    public function it_can_render_link_visits_count_chart_with_sqlite(): void
+    public function it_can_render_visits_count_chart_with_sqlite(): void
     {
         // Create test data
         $link = $this->createTestData();
@@ -55,7 +55,7 @@ class FilamentWidgetCompatibilityTest extends TestCase
         $this->actingAs($user);
 
         // Test that the widget can be instantiated
-        $widget = new LinkVisitsCountChart;
+        $widget = new VisitsCountChart;
         $widget->record = $link;
         $widget->filter = 'week';
 
@@ -113,7 +113,7 @@ class FilamentWidgetCompatibilityTest extends TestCase
         $dateTruncSql = $method->invoke($widget, 'day', 'created_at');
 
         // This should not throw a database error
-        $result = DB::table('link_visits')
+        $result = DB::table('visits')
             ->selectRaw("$dateTruncSql as date_group, COUNT(*) as count")
             ->groupBy('date_group')
             ->get();
@@ -171,8 +171,8 @@ class FilamentWidgetCompatibilityTest extends TestCase
         $data = $method->invoke($visitsWidget);
         $this->assertIsArray($data);
 
-        // Test LinkVisitsCountChart with no data
-        $linkWidget = new LinkVisitsCountChart;
+        // Test VisitsCountChart with no data
+        $linkWidget = new VisitsCountChart;
         $linkWidget->record = $link;
         $linkWidget->filter = 'week';
 
@@ -202,7 +202,7 @@ class FilamentWidgetCompatibilityTest extends TestCase
             $sql = $method->invoke($widget, $interval, 'created_at');
 
             // Execute a simple query to ensure the SQL is valid
-            $result = DB::select("SELECT $sql as truncated_date FROM link_visits LIMIT 1");
+            $result = DB::select("SELECT $sql as truncated_date FROM visits LIMIT 1");
 
             // Should not throw an exception and should return a result
             $this->assertIsArray($result);
@@ -232,21 +232,21 @@ class FilamentWidgetCompatibilityTest extends TestCase
 
         // Create some visits with different timestamps
         $now = now();
-        LinkVisit::factory()->create([
+        Visit::factory()->create([
             'link_id' => $link->id,
             'domain_id' => $domain->id,
             'ip' => '192.168.1.1',
             'created_at' => $now->copy()->subDays(1),
         ]);
 
-        LinkVisit::factory()->create([
+        Visit::factory()->create([
             'link_id' => $link->id,
             'domain_id' => $domain->id,
             'ip' => '192.168.1.2',
             'created_at' => $now->copy()->subDays(2),
         ]);
 
-        LinkVisit::factory()->create([
+        Visit::factory()->create([
             'link_id' => $link->id,
             'domain_id' => $domain->id,
             'ip' => '192.168.1.1', // Same IP as first visit

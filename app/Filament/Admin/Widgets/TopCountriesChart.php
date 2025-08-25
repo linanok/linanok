@@ -2,7 +2,7 @@
 
 namespace App\Filament\Admin\Widgets;
 
-use App\Models\LinkVisit;
+use App\Models\Visit;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 
@@ -29,7 +29,7 @@ class TopCountriesChart extends ChartWidget
 
     protected function getData(): array
     {
-        $query = LinkVisit::query();
+        $query = Visit::query();
 
         // Apply date filter
         $dateRange = $this->getDateRange();

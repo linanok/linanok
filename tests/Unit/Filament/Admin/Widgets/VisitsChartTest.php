@@ -5,10 +5,10 @@ namespace Filament\Admin\Widgets;
 use App\Filament\Admin\Widgets\VisitsChart;
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Visit;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -120,20 +120,20 @@ class VisitsChartTest extends TestCase
         $today = Carbon::today();
 
         // Create visits for today
-        LinkVisit::factory()->count(3)->create([
+        Visit::factory()->count(3)->create([
             'link_id' => $this->link->id,
             'created_at' => $today,
             'ip' => '192.168.1.1',
         ]);
 
         // Create visits for yesterday with different IPs
-        LinkVisit::factory()->count(2)->create([
+        Visit::factory()->count(2)->create([
             'link_id' => $this->link->id,
             'created_at' => $today->copy()->subDay(),
             'ip' => '192.168.1.2',
         ]);
 
-        LinkVisit::factory()->count(1)->create([
+        Visit::factory()->count(1)->create([
             'link_id' => $this->link->id,
             'created_at' => $today->copy()->subDay(),
             'ip' => '192.168.1.3',

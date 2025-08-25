@@ -5,10 +5,10 @@ namespace Filament\Admin\Widgets;
 use App\Filament\Admin\Widgets\StatsOverview;
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Visit;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -96,7 +96,7 @@ class StatsOverviewTest extends TestCase
         $this->actingAs($this->user);
 
         // Create some visits
-        LinkVisit::factory()->count(10)->create([
+        Visit::factory()->count(10)->create([
             'link_id' => $this->link->id,
             'created_at' => now(),
         ]);

@@ -3,8 +3,8 @@
 namespace App\Filament\Admin\Widgets;
 
 use App\Models\Link;
-use App\Models\LinkVisit;
 use App\Models\User;
+use App\Models\Visit;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Carbon;
@@ -28,13 +28,13 @@ class StatsOverview extends BaseWidget
         $availableLinks = Link::available()->count();
 
         // Get unique visitors (by IP) in the last 30 days
-        $uniqueVisitors = LinkVisit::select('ip')
+        $uniqueVisitors = Visit::select('ip')
             ->where('created_at', '>=', Carbon::now()->subDays(30))
             ->distinct('ip')
             ->count();
 
         // Get unique visitors from the previous 30 days
-        $previousMonthUniqueVisitors = LinkVisit::select('ip')
+        $previousMonthUniqueVisitors = Visit::select('ip')
             ->where('created_at', '>=', Carbon::now()->subDays(60))
             ->where('created_at', '<', Carbon::now()->subDays(30))
             ->distinct('ip')
@@ -46,11 +46,11 @@ class StatsOverview extends BaseWidget
             : 100;
 
         // Calculate trend percentages
-        $previousMonthVisits = LinkVisit::where('created_at', '>=', Carbon::now()->subDays(60))
+        $previousMonthVisits = Visit::where('created_at', '>=', Carbon::now()->subDays(60))
             ->where('created_at', '<', Carbon::now()->subDays(30))
             ->count();
 
-        $currentMonthVisits = LinkVisit::where('created_at', '>=', Carbon::now()->subDays(30))
+        $currentMonthVisits = Visit::where('created_at', '>=', Carbon::now()->subDays(30))
             ->count();
 
         $visitsTrend = $previousMonthVisits > 0
@@ -59,7 +59,7 @@ class StatsOverview extends BaseWidget
 
         // Get top performing link
         $topLink = Link::orderBy('visit_count', 'desc')->first();
-        $topLinkVisits = $topLink ? $topLink->visit_count : 0;
+        $topVisits = $topLink ? $topLink->visit_count : 0;
         $topLinkUrl = $topLink ? get_short_url($topLink) : '#';
 
         return [
@@ -99,7 +99,7 @@ class StatsOverview extends BaseWidget
                 ->color($uniqueVisitorsTrend >= 0 ? 'success' : 'danger')
                 ->icon('heroicon-o-users'),
 
-            Stat::make('Top Performing Link', number_format($topLinkVisits))
+            Stat::make('Top Performing Link', number_format($topVisits))
                 ->description($topLink ? substr($topLink->original_url, 0, 30).'...' : 'No links yet')
                 ->descriptionIcon('heroicon-m-star')
                 ->url($topLinkUrl, shouldOpenInNewTab: true)

@@ -8,10 +8,10 @@ use App\Filament\Resources\Links\Pages\CreateLink;
 use App\Filament\Resources\Links\Pages\EditLink;
 use App\Filament\Resources\Links\Pages\LinkHistory;
 use App\Filament\Resources\Links\Pages\ListLinks;
-use App\Filament\Resources\Links\Widgets\LinkVisitsByBrowserPieChart;
-use App\Filament\Resources\Links\Widgets\LinkVisitsByCountryPieChart;
-use App\Filament\Resources\Links\Widgets\LinkVisitsByPlatformPieChart;
-use App\Filament\Resources\Links\Widgets\LinkVisitsCountChart;
+use App\Filament\Resources\Links\Widgets\VisitsByBrowserPieChart;
+use App\Filament\Resources\Links\Widgets\VisitsByCountryPieChart;
+use App\Filament\Resources\Links\Widgets\VisitsByPlatformPieChart;
+use App\Filament\Resources\Links\Widgets\VisitsCountChart;
 use App\History\HistoryAction;
 use App\Models\Link;
 use Filament\Actions\Action;
@@ -52,7 +52,7 @@ use Filament\Tables\Table;
  * - Access control features (passwords, availability windows)
  *
  * @see \App\Models\Link
- * @see \App\Services\LinkVisitService
+ * @see \App\Services\VisitService
  */
 class LinkResource extends Resource
 {
@@ -351,10 +351,10 @@ class LinkResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            LinkVisitsCountChart::class,
-            LinkVisitsByBrowserPieChart::class,
-            LinkVisitsByPlatformPieChart::class,
-            LinkVisitsByCountryPieChart::class,
+            VisitsCountChart::class,
+            VisitsByBrowserPieChart::class,
+            VisitsByPlatformPieChart::class,
+            VisitsByCountryPieChart::class,
         ];
     }
 }

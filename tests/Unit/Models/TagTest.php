@@ -4,8 +4,8 @@ namespace Models;
 
 use App\Models\Domain;
 use App\Models\Link;
-use App\Models\LinkVisit;
 use App\Models\Tag;
+use App\Models\Visit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -68,15 +68,15 @@ class TagTest extends TestCase
     }
 
     #[Test]
-    public function it_has_link_visits_relationship(): void
+    public function it_has_visits_relationship(): void
     {
         $domain = Domain::factory()->create(['is_active' => true, 'is_admin_panel_active' => true]);
         $tag = Tag::factory()->create();
         $link = Link::factory()->create();
         $link->tags()->attach($tag);
-        $visit = LinkVisit::factory()->create(['link_id' => $link->id, 'domain_id' => $domain->id]);
+        $visit = Visit::factory()->create(['link_id' => $link->id, 'domain_id' => $domain->id]);
 
-        $this->assertTrue($tag->linkVisits->contains($visit));
-        $this->assertEquals(1, $tag->linkVisits->count());
+        $this->assertTrue($tag->visits->contains($visit));
+        $this->assertEquals(1, $tag->visits->count());
     }
 }
