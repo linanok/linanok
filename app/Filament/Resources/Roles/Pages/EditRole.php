@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Roles\Pages;
 use App\Filament\Resources\Roles\RoleResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Spatie\Permission\PermissionRegistrar;
 
 class EditRole extends EditRecord
 {
@@ -15,5 +16,10 @@ class EditRole extends EditRecord
         return [
             DeleteAction::make(),
         ];
+    }
+
+    protected function afterSave(): void
+    {
+        app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 }
