@@ -23,6 +23,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * Domains can be active/inactive and can optionally host the admin panel.
  * Each domain can be associated with multiple links through a many-to-many relationship.
  *
+ * @property \App\Enums\Protocol $protocol The protocol (HTTP/HTTPS) for this domain
+ * @property string $host The hostname for this domain
+ *
  * @see \App\Observers\DomainObserver
  * @see \App\Enums\Protocol
  */
@@ -38,7 +41,7 @@ class Domain extends Model
     /**
      * Get the links associated with this domain.
      *
-     * @return BelongsToMany<Link> The links relationship
+     * @return BelongsToMany<Link, $this> The links relationship
      */
     public function links(): BelongsToMany
     {

@@ -56,7 +56,7 @@ class RecentActivity extends BaseWidget
                                     ->columnSpanFull(),
 
                                 Placeholder::make('causer')
-                                    ->content(fn ($record): ?string => $record->causer?->name ?? 'System')
+                                    ->content(fn ($record): string => $record->causer->name ?? 'System')
                                     ->columnSpanFull(),
 
                                 Placeholder::make('timestamp')

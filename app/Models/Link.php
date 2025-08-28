@@ -22,6 +22,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * Links can be password-protected, have availability windows, and support
  * various configuration options for query parameter handling.
  *
+ * @property-read bool $is_available Whether the link is currently available
+ * @property-read bool $has_password Whether the link has password protection
+ *
  * @see \App\Observers\LinkObserver
  * @see \App\Services\VisitService
  */
@@ -130,7 +133,7 @@ class Link extends Model
     /**
      * Get the visits associated with this link.
      *
-     * @return HasMany<Visit> The visits relationship
+     * @return HasMany<Visit, $this> The visits relationship
      */
     public function visits(): HasMany
     {
@@ -140,7 +143,7 @@ class Link extends Model
     /**
      * Get the tags associated with this link.
      *
-     * @return BelongsToMany<Tag> The tags relationship
+     * @return BelongsToMany<Tag, $this> The tags relationship
      */
     public function tags(): BelongsToMany
     {
@@ -150,7 +153,7 @@ class Link extends Model
     /**
      * Get the domains associated with this link.
      *
-     * @return BelongsToMany<Domain> The domains relationship
+     * @return BelongsToMany<Domain, $this> The domains relationship
      */
     public function domains(): BelongsToMany
     {
@@ -160,7 +163,7 @@ class Link extends Model
     /**
      * Get only the active domains associated with this link.
      *
-     * @return BelongsToMany<Domain> The available domains relationship
+     * @return BelongsToMany<Domain, $this> The available domains relationship
      */
     public function availableDomains(): BelongsToMany
     {

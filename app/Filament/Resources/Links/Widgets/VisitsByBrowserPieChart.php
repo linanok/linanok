@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Links\Widgets;
 
+use App\Models\Link;
 use App\Models\Visit;
 use Illuminate\Support\Collection;
 
@@ -16,7 +17,7 @@ class VisitsByBrowserPieChart extends BaseVisitsPieChart
      */
     protected function getData(): array
     {
-        $query = Visit::query()->where('link_id', $this->record->id);
+        $query = Visit::query()->where('link_id', $this->record instanceof Link ? $this->record->id : $this->record);
 
         // Apply date filters
         $query = $this->applyDateFilter($query);
@@ -72,6 +73,7 @@ class VisitsByBrowserPieChart extends BaseVisitsPieChart
     protected function normalizeBrowserNames(Collection $data): Collection
     {
         $normalized = collect();
+        $totals = [];
 
         foreach ($data as $item) {
             $browser = $item->browser;

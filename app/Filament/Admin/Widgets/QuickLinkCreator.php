@@ -13,13 +13,17 @@ use Filament\Schemas\Schema;
 use Filament\Widgets\Widget;
 use Illuminate\Support\HtmlString;
 
+/**
+ * @property mixed $form
+ */
 class QuickLinkCreator extends Widget implements HasForms
 {
     use InteractsWithForms;
 
     protected string $view = 'filament.admin.widgets.quick-link-creator';
 
-    public ?array $data = [];
+    /** @var array<string, mixed> */
+    public array $data = [];
 
     protected int|string|array $columnSpan = 'full';
 

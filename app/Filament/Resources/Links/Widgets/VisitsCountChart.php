@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Links\Widgets;
 
+use App\Models\Link;
 use App\Models\Visit;
 use App\Traits\DatabaseCompatible;
 use Carbon\Carbon;
@@ -83,7 +84,7 @@ class VisitsCountChart extends ChartWidget
         // Get total visits data
         $data = Trend::query(
             Visit::query()
-                ->where('link_id', $this->record->id)
+                ->where('link_id', $this->record instanceof Link ? $this->record->id : $this->record)
         )
             ->between(
                 start: $dateRange['start'],
@@ -101,7 +102,7 @@ class VisitsCountChart extends ChartWidget
                 ->fromSub(
                     Visit::query()
                         ->selectRaw("$dateTruncSql as datetime")
-                        ->where('link_id', $this->record->id)
+                        ->where('link_id', $this->record instanceof Link ? $this->record->id : $this->record)
                         ->groupBy('ip', 'datetime'),
                     'sub')
                 ->groupBy('datetime')

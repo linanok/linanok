@@ -13,6 +13,7 @@ use App\Filament\Resources\Links\Widgets\VisitsByCountryPieChart;
 use App\Filament\Resources\Links\Widgets\VisitsByPlatformPieChart;
 use App\Filament\Resources\Links\Widgets\VisitsCountChart;
 use App\History\HistoryAction;
+use App\Models\Domain;
 use App\Models\Link;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
@@ -265,6 +266,7 @@ class LinkResource extends Resource
                     })
                     ->searchable(),
 
+                // @phpstan-ignore-next-line method.notFound
                 TextColumn::make('visit_count')
                     ->label('Visits')
                     ->sortable()
@@ -322,10 +324,10 @@ class LinkResource extends Resource
             ]);
     }
 
-    public static function getShortUrl($record, $livewire)
+    public static function getShortUrl(mixed $record, mixed $livewire): string
     {
         if ($livewire instanceof LinksRelationManager) {
-            $domain = $livewire->ownerRecord;
+            $domain = $livewire->ownerRecord instanceof Domain ? $livewire->ownerRecord : null;
         } else {
             $domain = null;
         }

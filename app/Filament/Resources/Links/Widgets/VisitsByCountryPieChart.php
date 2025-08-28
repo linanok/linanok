@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Links\Widgets;
 
+use App\Models\Link;
 use App\Models\Visit;
 
 class VisitsByCountryPieChart extends BaseVisitsPieChart
@@ -12,7 +13,7 @@ class VisitsByCountryPieChart extends BaseVisitsPieChart
 
     protected function getData(): array
     {
-        $query = Visit::query()->where('link_id', $this->record->id);
+        $query = Visit::query()->where('link_id', $this->record instanceof Link ? $this->record->id : $this->record);
 
         // Apply date filters
         $query = $this->applyDateFilter($query);

@@ -48,13 +48,11 @@ class EditDomain extends EditRecord
     {
         if (! $this->data['is_admin_panel_active']) {
             $otherAdminPanelExists = Domain::adminPanelAvailable()
-                ->where('id', '!=', $this->record->id)
+                ->where('id', '!=', $this->record instanceof Domain ? $this->record->id : $this->record)
                 ->exists();
 
             if (! $otherAdminPanelExists) {
-                if (! $this->data['is_admin_panel_active']) {
-                    $this->addError('data.is_admin_panel_active', 'At least one domain must have the admin panel activated.');
-                }
+                $this->addError('data.is_admin_panel_active', 'At least one domain must have the admin panel activated.');
 
                 Notification::make()
                     ->danger()

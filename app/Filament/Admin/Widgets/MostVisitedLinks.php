@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Widgets;
 
 use App\Filament\Resources\Domains\RelationManagers\LinksRelationManager;
 use App\Filament\Resources\Links\LinkResource;
+use App\Models\Domain;
 use App\Models\Link;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
@@ -37,9 +38,9 @@ class MostVisitedLinks extends BaseWidget
             ->columns([
                 TextColumn::make('short_path')
                     ->label('Short URL')
-                    ->url(function ($record, $livewire) {
+                    ->url(function (Link $record, $livewire) {
                         if ($livewire instanceof LinksRelationManager) {
-                            $domain = $livewire->ownerRecord;
+                            $domain = $livewire->ownerRecord instanceof Domain ? $livewire->ownerRecord : null;
                         } else {
                             $domain = null;
                         }
@@ -53,7 +54,7 @@ class MostVisitedLinks extends BaseWidget
                 TextColumn::make('original_url')
                     ->label('Original URL')
                     ->limit(30)
-                    ->tooltip(function ($record) {
+                    ->tooltip(function (Link $record) {
                         return $record->original_url;
                     }),
 
@@ -63,20 +64,21 @@ class MostVisitedLinks extends BaseWidget
                     ->trueIcon('heroicon-o-lock-closed')
                     ->falseIcon('heroicon-o-lock-open'),
 
+                // @phpstan-ignore-next-line method.notFound
                 TextColumn::make('visit_count')
                     ->label('Visits')
                     ->alignRight()
                     ->badge()
                     ->color('success')
                     ->numericAbbreviate()
-                    ->tooltip(fn ($record) => number_format($record->visit_count)),
+                    ->tooltip(fn (Link $record) => number_format($record->visit_count)),
             ])
             ->recordActions([
                 Action::make('copy')
                     ->icon('heroicon-m-clipboard')
                     ->tooltip('Copy to clipboard')
                     ->disabled(fn (Link $record) => ! $record->is_available)
-                    ->extraAttributes(fn ($record) => [
+                    ->extraAttributes(fn (Link $record) => [
                         'onclick' => "navigator.clipboard.writeText('".get_short_url($record)."')",
                     ])
                     ->action(fn () => Notification::make('link_copied_to_clipboard')
@@ -87,11 +89,11 @@ class MostVisitedLinks extends BaseWidget
 
                 ViewAction::make()
                     ->schema(fn (Schema $schema): Schema => LinkResource::form($schema))
-                    ->visible(fn ($record) => auth()->user()->can('view', $record) && ! auth()->user()->can('update', $record)),
+                    ->visible(fn (Link $record) => auth()->user()->can('view', $record) && ! auth()->user()->can('update', $record)),
 
                 EditAction::make()
                     ->schema(fn (Schema $schema): Schema => LinkResource::form($schema))
-                    ->visible(fn ($record) => auth()->user()->can('update', $record)),
+                    ->visible(fn (Link $record) => auth()->user()->can('update', $record)),
             ])
             ->paginated(false)
             ->striped();

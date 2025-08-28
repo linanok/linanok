@@ -34,7 +34,7 @@ class Tag extends Model
     /**
      * Get the links associated with this tag.
      *
-     * @return BelongsToMany<Link> The links relationship
+     * @return BelongsToMany<Link, $this> The links relationship
      */
     public function links(): BelongsToMany
     {
@@ -44,7 +44,7 @@ class Tag extends Model
     /**
      * Get all visits for links associated with this tag.
      *
-     * @return HasManyThrough<Visit> The visits relationship
+     * @return HasManyThrough<Visit, LinkTag, $this> The visits relationship
      */
     public function visits(): HasManyThrough
     {

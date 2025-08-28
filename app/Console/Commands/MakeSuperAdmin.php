@@ -26,21 +26,20 @@ class MakeSuperAdmin extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $this->info('Create Super Admin User');
 
         // Get user input interactively
-        $name = $this->ask('Enter name for the super admin');
+        $name = (string) $this->ask('Enter name for the super admin');
 
         $email = null;
         while (! $email) {
-            $email = $this->ask('Enter email address');
+            $email = (string) $this->ask('Enter email address');
 
             // Validate email format
             if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->error('Please enter a valid email address');
-                $email = null;
 
                 continue;
             }
@@ -95,8 +94,8 @@ class MakeSuperAdmin extends Command
 
         // Confirm creation
         $this->info("\nAbout to create super admin with the following details:");
-        $this->info("Name: {$name}");
-        $this->info("Email: {$email}");
+        $this->info("Name: $name");
+        $this->info("Email: $email");
 
         if (! $this->confirm('Do you wish to continue?', true)) {
             $this->info('Operation cancelled');
@@ -119,5 +118,7 @@ class MakeSuperAdmin extends Command
         );
 
         $this->info('You can now log in with these credentials at the admin panel.');
+
+        return 0;
     }
 }

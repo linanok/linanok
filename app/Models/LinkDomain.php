@@ -26,7 +26,7 @@ class LinkDomain extends Model
     /**
      * Get the link that owns this relationship.
      *
-     * @return BelongsTo<Link> The link relationship
+     * @return BelongsTo<Link, $this> The link relationship
      */
     public function link(): BelongsTo
     {
@@ -36,7 +36,7 @@ class LinkDomain extends Model
     /**
      * Get the domain that owns this relationship.
      *
-     * @return BelongsTo<Domain> The domain relationship
+     * @return BelongsTo<Domain, $this> The domain relationship
      */
     public function domain(): BelongsTo
     {
