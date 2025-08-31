@@ -29,15 +29,16 @@ use Number;
 
 class AdminPanelProvider extends PanelProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $numericAbbreviateMacroFunction = function () {
-            $this->formatStateUsing(fn ($component, $state) => Number::abbreviate($state));
+            // @phpstan-ignore-next-line method.notFound
+            $this->formatStateUsing(fn (float|int $state) => Number::abbreviate($state));
 
             return $this;
         };
-        TextEntry::macro('numericAbbreviate', $numericAbbreviateMacroFunction);
         TextColumn::macro('numericAbbreviate', $numericAbbreviateMacroFunction);
+        TextEntry::macro('numericAbbreviate', $numericAbbreviateMacroFunction);
     }
 
     public function panel(Panel $panel): Panel
@@ -67,7 +68,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->navigationItems([
                 NavigationItem::make('App Performance (Pulse)')
-                    ->visible(fn () => request()->user()->can('viewPulse'))
+                    ->visible(fn () => request()->user()?->can('viewPulse') ?? false)
                     ->url(fn () => route('pulse'))
                     ->openUrlInNewTab()
                     ->icon('heroicon-o-chart-bar')
@@ -75,7 +76,7 @@ class AdminPanelProvider extends PanelProvider
                     ->sort(3),
 
                 NavigationItem::make('Queue Monitoring (Horizon)')
-                    ->visible(fn () => request()->user()->can('viewHorizon'))
+                    ->visible(fn () => request()->user()?->can('viewHorizon') ?? false)
                     ->url(fn () => route('horizon.index'))
                     ->openUrlInNewTab()
                     ->icon('heroicon-o-bolt')

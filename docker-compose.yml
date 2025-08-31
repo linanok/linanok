@@ -23,7 +23,7 @@ services:
                 condition: service_healthy
         restart: unless-stopped
         networks:
-            - app
+            - linanok
         healthcheck:
             test: [ "CMD", "curl", "-f", "http://localhost:8000" ]
             interval: 5s
@@ -55,7 +55,7 @@ services:
                 condition: service_healthy
         restart: unless-stopped
         networks:
-            - app
+            - linanok
 
     init:
         build:
@@ -76,7 +76,7 @@ services:
             redis:
                 condition: service_healthy
         networks:
-            - app
+            - linanok
 
     postgres:
         image: postgres:17-alpine
@@ -94,7 +94,7 @@ services:
             timeout: 5s
             retries: 5
         networks:
-            - app
+            - linanok
         restart: unless-stopped
 
     redis:
@@ -110,7 +110,7 @@ services:
             timeout: 5s
             retries: 5
         networks:
-            - app
+            - linanok
         restart: unless-stopped
 
 volumes:
@@ -120,5 +120,5 @@ volumes:
     storage-data:
 
 networks:
-    app:
+    linanok:
         driver: bridge

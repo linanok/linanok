@@ -40,10 +40,11 @@ class VisitService
         $request = request();
 
         // Dispatch job to save visit analytics asynchronously
+        $currentDomain = current_domain();
         SaveVisitJob::dispatch($link->id, [
             'headers' => $request->headers,
             'ip' => $request->ip(),
-            'domain_id' => current_domain()->id,
+            'domain_id' => $currentDomain?->id,
         ]);
 
         // Build query parameters based on link configuration

@@ -33,7 +33,7 @@ class Visit extends Model
     /**
      * Get the link that was visited.
      *
-     * @return BelongsTo<Link> The link relationship
+     * @return BelongsTo<Link, $this> The link relationship
      */
     public function link(): BelongsTo
     {

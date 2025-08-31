@@ -11,6 +11,8 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Schema;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Livewire\Component;
 
 class LinkPage extends Component implements HasForms
@@ -19,24 +21,27 @@ class LinkPage extends Component implements HasForms
 
     public Link $link;
 
+    /** @var array<string, string> */
     public array $data = [];
 
-    public function mount(?string $short_path)
+    public function mount(?string $short_path): Redirector|RedirectResponse|null
     {
         $this->link = Link::available()
             ->where('short_path', $short_path)
             ->forCurrentDomain()
             ->firstOrFail();
 
-        if (! $this->link->hasPassword) {
+        if (! $this->link->has_password) {
             return VisitService::redirectToOriginalUrl($this->link);
         }
+
+        return null;
     }
 
-    public function render()
+    public function render(): mixed
     {
-        if (! $this->link->hasPassword) {
-            return;
+        if (! $this->link->has_password) {
+            return null;
         }
 
         return view('livewire.password-protected-link-page')
@@ -58,7 +63,7 @@ class LinkPage extends Component implements HasForms
             ->statePath('data');
     }
 
-    public function submit()
+    public function submit(): RedirectResponse|null|Redirector
     {
         try {
             $this->rateLimit(5);
@@ -72,7 +77,7 @@ class LinkPage extends Component implements HasForms
                 ->danger()
                 ->send();
 
-            return;
+            return null;
         }
 
         $password = $this->data['password'] ?? null;
@@ -83,7 +88,7 @@ class LinkPage extends Component implements HasForms
                 ->warning()
                 ->send();
 
-            return;
+            return null;
         }
 
         if ($password !== $this->link->password) {
@@ -92,7 +97,7 @@ class LinkPage extends Component implements HasForms
                 ->danger()
                 ->send();
 
-            return;
+            return null;
         }
 
         return VisitService::redirectToOriginalUrl($this->link);

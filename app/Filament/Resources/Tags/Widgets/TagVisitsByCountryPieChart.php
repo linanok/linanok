@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Tags\Widgets;
 
+use App\Models\Tag;
 use App\Models\Visit;
 
 class TagVisitsByCountryPieChart extends BaseTagVisitsPieChart
@@ -12,7 +13,7 @@ class TagVisitsByCountryPieChart extends BaseTagVisitsPieChart
 
     protected function getData(): array
     {
-        $query = Visit::query()->whereIn('link_id', $this->record->links()->select('links.id'));
+        $query = Visit::query()->whereIn('link_id', $this->record instanceof Tag ? $this->record->links()->select('links.id') : []);
 
         // Apply date filters
         $query = $this->applyDateFilter($query);

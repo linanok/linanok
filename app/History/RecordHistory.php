@@ -30,6 +30,7 @@ class RecordHistory extends ManageRelatedRecords
 
     public function getRelationship(): Relation|Builder
     {
+        // @phpstan-ignore-next-line method.notFound
         return $this->getOwnerRecord()
             ->activities()
             ->with('causer')  // Eager load the causer relationship
@@ -47,7 +48,7 @@ class RecordHistory extends ManageRelatedRecords
                             ->columnSpanFull(),
 
                         Placeholder::make('causer')
-                            ->content(fn ($record): ?string => $record->causer?->name ?? 'System')
+                            ->content(fn ($record): string => $record->causer->name ?? 'System')
                             ->columnSpanFull(),
 
                         Placeholder::make('timestamp')
