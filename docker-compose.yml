@@ -57,10 +57,32 @@ services:
         networks:
             - linanok
 
+    cli:
+        build:
+            context: .
+            dockerfile: deployment/cli.Dockerfile
+            args:
+                VERSION: ${VERSION:-dev}
+                BUILD_DATE: ${BUILD_DATE}
+                VCS_REF: ${VCS_REF}
+        volumes:
+            - storage-data:/app/storage
+        env_file:
+            - .env
+        depends_on:
+            postgres:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+        networks:
+            - linanok
+        profiles:
+            - cli
+
     init:
         build:
             context: .
-            dockerfile: deployment/cli.dockerfile
+            dockerfile: deployment/cli.Dockerfile
             args:
                 VERSION: ${VERSION:-dev}
                 BUILD_DATE: ${BUILD_DATE}
