@@ -179,7 +179,7 @@ using our prebuilt Docker images.
 
 4. **Generate application key:**
    ```bash
-   docker-compose run --rm --profile cli cli php artisan key:generate --show
+   docker-compose run --rm cli php artisan key:generate --show
    ```
    Copy the generated key and update it in the `.env` file.
 
@@ -190,7 +190,7 @@ using our prebuilt Docker images.
 
 6. **Create a super admin user:**
    ```bash
-   docker-compose run --rm --profile cli cli php artisan make:super-admin
+   docker-compose run --rm cli php artisan make:super-admin
    ```
 
 The application will be available at `http://localhost:8000`
