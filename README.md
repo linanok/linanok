@@ -179,7 +179,7 @@ using our prebuilt Docker images.
 
 4. **Generate application key:**
    ```bash
-   docker-compose run --rm app php artisan key:generate --show
+   docker-compose run --rm cli php artisan key:generate --show
    ```
    Copy the generated key and update it in the `.env` file.
 
@@ -190,10 +190,27 @@ using our prebuilt Docker images.
 
 6. **Create a super admin user:**
    ```bash
-   docker-compose exec app php artisan make:super-admin
+   docker-compose run --rm cli php artisan make:super-admin
    ```
 
 The application will be available at `http://localhost:8000`
+
+### Using the CLI Container
+
+The CLI container allows you to run artisan commands and other PHP scripts without having to install PHP locally:
+
+```bash
+# Run any artisan command
+docker-compose run --rm cli php artisan migrate
+
+# Access the container shell for multiple commands
+docker-compose run --rm cli bash
+
+# Examples:
+docker-compose run --rm cli php artisan migrate
+docker-compose run --rm cli php artisan queue:work
+docker-compose run --rm cli php artisan tinker
+```
 
 ### Manual Installation
 
@@ -262,7 +279,12 @@ If you prefer to install Linanok without Docker:
    **⚠️ Windows Users**: Laravel Horizon is not supported on Windows due to missing PCNTL and POSIX extensions. Use the
    standard queue worker (`php artisan queue:work`) instead.
 
-8. **Start the development server:**
+8. **Create a super admin user:**
+   ```bash
+   php artisan make:super-admin
+   ```
+
+9. **Start the development server:**
    ```bash
    php artisan serve
    ```
