@@ -3,6 +3,10 @@ set -e
 
 cd /app
 
+# Ensure storage directories exist with proper permissions (in case init didn't run)
+mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/views storage/app storage/octane bootstrap/cache
+chmod -R 0755 storage bootstrap/cache
+
 # Run Laravel optimization commands
 php artisan optimize:clear
 php artisan optimize
