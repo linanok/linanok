@@ -324,7 +324,7 @@ class LinkResource extends Resource
             ]);
     }
 
-    public static function getShortUrl(mixed $record, mixed $livewire): string
+    public static function getShortUrl(mixed $record, mixed $livewire): ?string
     {
         if ($livewire instanceof LinksRelationManager) {
             $domain = $livewire->ownerRecord instanceof Domain ? $livewire->ownerRecord : null;
