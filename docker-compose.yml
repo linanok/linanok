@@ -65,7 +65,7 @@ services:
                 VERSION: ${VERSION:-dev}
                 BUILD_DATE: ${BUILD_DATE}
                 VCS_REF: ${VCS_REF}
-        command: ["sh", "-c", "while true; do php artisan schedule:run; sleep 60; done"]
+        command: [ "sh", "-c", "while true; do php artisan schedule:run; sleep 60; done" ]
         volumes:
             - storage-data:/app/storage
         env_file:

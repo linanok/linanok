@@ -188,6 +188,9 @@ using our prebuilt Docker images.
    docker-compose up -d
    ```
 
+   This launches the `web`, `queue-worker`, `scheduler`, `postgres`, and `redis` services. The `scheduler` runs
+   Laravel's scheduled tasks automatically every minute.
+
 6. **Create a super admin user:**
    ```bash
    docker-compose run --rm cli php artisan make:super-admin
@@ -390,6 +393,19 @@ REDIS_PASSWORD=your-redis-password
 ```
 
 **Note**: Laravel Horizon only works with Redis as the queue driver.
+
+### Scheduler
+
+Linanok uses Laravel's scheduler for recurring tasks (cleanups, data refreshes, etc.).
+
+- Docker: The `scheduler` service runs automatically and invokes `php artisan schedule:run` every minute.
+    - View logs: `docker-compose logs -f scheduler`
+    - Run once manually: `docker-compose run --rm cli php artisan schedule:run`
+- Manual installs: Set up a cron entry to run the scheduler every minute:
+  ```bash
+  * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+  ```
+  On Windows without Docker, use Task Scheduler or run the command via WSL.
 
 ### Optimization Commands
 
