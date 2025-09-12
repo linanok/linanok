@@ -32,3 +32,6 @@ rr
 /_ide_helper.php
 /public/css/
 /public/js/
+# Ignore MaxMind database files
+/storage/maxmind/*
+!/storage/maxmind/.gitignore

@@ -37,7 +37,11 @@ WORKDIR /app
 COPY . .
 
 # Install production dependencies only
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --no-scripts \
+    --optimize-autoloader
 
 # Stage 2: Production Runtime
 # This stage creates the final production image with only runtime dependencies
@@ -66,16 +70,10 @@ WORKDIR /app
 COPY . .
 
 # Copy installed dependencies from build stage
-COPY --from=build_dependencies --chown=www-data:www-data /app/vendor ./vendor
+COPY --from=build_dependencies /app/vendor ./vendor
 
 # Copy custom PHP configuration
 COPY deployment/php.ini /usr/local/etc/php/conf.d/99-custom.ini
-
-# Set proper permissions for Laravel storage and cache directories
-RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
-
-# Switch to non-root user for security
-USER www-data
 
 # Build arguments for dynamic metadata
 ARG VERSION=latest

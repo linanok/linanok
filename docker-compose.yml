@@ -57,6 +57,28 @@ services:
         networks:
             - linanok
 
+    scheduler:
+        build:
+            context: .
+            dockerfile: deployment/cli.Dockerfile
+            args:
+                VERSION: ${VERSION:-dev}
+                BUILD_DATE: ${BUILD_DATE}
+                VCS_REF: ${VCS_REF}
+        command: ["sh", "-c", "while true; do php artisan schedule:run; sleep 60; done"]
+        volumes:
+            - storage-data:/app/storage
+        env_file:
+            - .env
+        depends_on:
+            postgres:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+        restart: unless-stopped
+        networks:
+            - linanok
+
     cli:
         build:
             context: .
