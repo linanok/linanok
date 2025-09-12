@@ -56,10 +56,18 @@ class MakeSuperAdmin extends Command
 
         $password = null;
         while (! $password) {
-            $password = $this->secret('Enter password (input will be hidden)');
+            $firstEntry = $this->secret('Enter password (input will be hidden)');
+            $secondEntry = $this->secret('Confirm password');
 
-            // Strong password validation
-            $strongValidator = Validator::make(['password' => $password], [
+            if ($firstEntry !== $secondEntry) {
+                $this->error('Passwords do not match');
+                $password = null;
+
+                continue;
+            }
+
+            // Strong password validation AFTER confirming both entries match
+            $strongValidator = Validator::make(['password' => $firstEntry], [
                 'password' => [
                     Password::min(8)
                         ->letters()          // At least one letter
@@ -70,7 +78,6 @@ class MakeSuperAdmin extends Command
                 ],
             ]);
 
-            // If password doesn't meet strong requirements, warn the user but allow them to continue
             if ($strongValidator->fails()) {
                 $this->warn("\nWARNING: Your password doesn't meet recommended security standards:");
                 foreach ($strongValidator->errors()->all() as $error) {
@@ -78,18 +85,15 @@ class MakeSuperAdmin extends Command
                 }
                 $this->warn('A strong password should contain uppercase and lowercase letters, numbers, and symbols.');
 
-                if (! $this->confirm('Do you want to continue with this potentially insecure password?', false)) {
+                if (! $this->confirm('Password is not secure. Do you want to continue anyway?')) {
+                    // Re-enter both passwords
                     $password = null;
 
                     continue;
                 }
             }
 
-            $confirmPassword = $this->secret('Confirm password');
-            if ($password !== $confirmPassword) {
-                $this->error('Passwords do not match');
-                $password = null;
-            }
+            $password = $firstEntry;
         }
 
         // Confirm creation
