@@ -319,6 +319,52 @@ environments, while SQLite is perfect for development and smaller deployments.
 
 **For SQLite**, the database file will be automatically created in the `database/` directory.
 
+### Optional: MaxMind GeoLite2 Database
+
+Country-based analytics are optional. To enable them, set `MAXMIND_LICENSE_KEY` in your `.env`. Linanok will download
+and use MaxMind's GeoLite2-Country database automatically. Without a license key, Linanok works normally but shows no
+geolocation data, and related charts and statistics remain empty.
+
+#### Getting a MaxMind License Key
+
+1. **Create a MaxMind account**
+   at [https://www.maxmind.com/en/geolite2/signup](https://www.maxmind.com/en/geolite2/signup)
+2. **Generate a license key**
+   at [https://www.maxmind.com/en/accounts/current/license-key](https://www.maxmind.com/en/accounts/current/license-key)
+3. **Add the license key** to your `.env` file:
+   ```env
+   MAXMIND_LICENSE_KEY=your_license_key_here
+   ```
+
+#### Database Download Commands
+
+```bash
+# Download the database manually
+php artisan maxmind:download
+
+# Force download even if file is recent
+php artisan maxmind:download --force
+
+# Download in quiet mode (useful for cron jobs)
+php artisan maxmind:download --quiet
+```
+
+#### Automatic Updates
+
+The MaxMind database is automatically updated every week via Laravel's scheduler. To enable automatic updates:
+
+**For Docker deployments**, the scheduler service runs automatically and handles all scheduled tasks including MaxMind
+database updates.
+
+**For manual installations**, add this to your crontab:
+
+```bash
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
+
+The database file is stored at `storage/maxmind/GeoLite2-Country.mmdb` and will be automatically used by the application
+for IP geolocation if present. If not present, the application continues to work normally without geolocation data.
+
 ### Redis Setup
 
 Redis is required for caching, sessions, and queue management. Configure Redis in your `.env` file:

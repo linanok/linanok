@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'maxmind' => [
+        'license_key' => env('MAXMIND_LICENSE_KEY'),
+        'download_url' => 'https://download.maxmind.com/app/geoip_download',
+        'database_edition' => 'GeoLite2-Country',
+        'database_suffix' => 'tar.gz',
+    ],
+
 ];

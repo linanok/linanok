@@ -102,8 +102,8 @@ RUN apt-get update && apt-get install -y \
 COPY . .
 
 # Copy built assets from build stage with correct permissions
-COPY --from=build_stage --chown=appuser:appuser /app/vendor ./vendor
-COPY --from=build_stage --chown=appuser:appuser /app/public ./public
+COPY --from=build_stage /app/vendor ./vendor
+COPY --from=build_stage /app/public ./public
 
 # Set up PHP production configuration
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
@@ -112,11 +112,11 @@ RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 COPY deployment/php.ini /usr/local/etc/php/conf.d/99-custom.ini
 
 # Set up entrypoint script
-COPY --chown=appuser:appuser deployment/entrypoint.sh /usr/local/bin/
+COPY deployment/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Create storage directories and set proper permissions
-RUN mkdir -p /app/storage/logs /app/storage/framework/cache /app/storage/framework/sessions /app/storage/framework/views /app/bootstrap/cache
+RUN mkdir -p /app/storage/logs /app/storage/framework/cache /app/storage/framework/sessions /app/storage/framework/views /app/storage/app /app/storage/octane /app/bootstrap/cache
 RUN chmod -R 777 /app/storage /app/bootstrap/cache
 
 # Build arguments for dynamic metadata
