@@ -25,6 +25,7 @@ brand identity while sharing concise, memorable links.
 - [Usage](#-usage)
 - [Contributing](#-contributing)
 - [Testing](#-testing)
+- [Security](#-security)
 - [License](#-license)
 - [Support](#-support)
 
@@ -179,13 +180,13 @@ using our prebuilt Docker images.
 
 4. **Generate application key:**
    ```bash
-   docker-compose run --rm cli php artisan key:generate --show
+   docker compose run --rm cli php artisan key:generate --show
    ```
    Copy the generated key and update it in the `.env` file.
 
 5. **Start the application:**
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
    This launches the `web`, `queue-worker`, `scheduler`, `postgres`, and `redis` services. The `scheduler` runs
@@ -193,7 +194,7 @@ using our prebuilt Docker images.
 
 6. **Create a super admin user:**
    ```bash
-   docker-compose run --rm cli php artisan make:super-admin
+   docker compose run --rm cli php artisan make:super-admin
    ```
 
 The application will be available at `http://localhost:8000`
@@ -204,15 +205,15 @@ The CLI container allows you to run artisan commands and other PHP scripts witho
 
 ```bash
 # Run any artisan command
-docker-compose run --rm cli php artisan migrate
+docker compose run --rm cli php artisan migrate
 
 # Access the container shell for multiple commands
-docker-compose run --rm cli bash
+docker compose run --rm cli bash
 
 # Examples:
-docker-compose run --rm cli php artisan migrate
-docker-compose run --rm cli php artisan queue:work
-docker-compose run --rm cli php artisan tinker
+docker compose run --rm cli php artisan migrate
+docker compose run --rm cli php artisan queue:work
+docker compose run --rm cli php artisan tinker
 ```
 
 ### Manual Installation
@@ -399,8 +400,8 @@ REDIS_PASSWORD=your-redis-password
 Linanok uses Laravel's scheduler for recurring tasks (cleanups, data refreshes, etc.).
 
 - Docker: The `scheduler` service runs automatically and invokes `php artisan schedule:run` every minute.
-    - View logs: `docker-compose logs -f scheduler`
-    - Run once manually: `docker-compose run --rm cli php artisan schedule:run`
+    - View logs: `docker compose logs -f scheduler`
+    - Run once manually: `docker compose run --rm cli php artisan schedule:run`
 - Manual installs: Set up a cron entry to run the scheduler every minute:
   ```bash
   * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
@@ -490,6 +491,15 @@ php artisan test --filter=LinkTest
 # Run with coverage (requires Xdebug)
 php artisan test --coverage
 ```
+
+## 🔐 Security
+
+If you find a security issue in Linanok, please let us know by emailing
+*[security@linanok.com](mailto:security@linanok.com)* with details such as how to reproduce the problem, what you
+expected to happen, what actually happened, and any proof-of-concept if possible. We ask that you do not disrupt
+services or access more data than needed to show the issue. We will confirm your report within 72 hours, review it, and
+fix it based on its seriousness. If needed, we will work with you on when and how to share the details. Thank you for
+helping keep Linanok safe.
 
 ## 📄 License
 
