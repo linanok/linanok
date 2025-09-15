@@ -2,6 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Role Policy
  *
@@ -16,4 +19,13 @@ class RolePolicy extends BasePolicy
 {
     /** @var string The model name used for permission checking */
     protected string $modelName = 'role';
+
+    public function update(User $user, Model $model): bool
+    {
+        if (! $user->is_super_admin && $user->hasRole($model)) {
+            return false;
+        }
+
+        return parent::update($user, $model);
+    }
 }
