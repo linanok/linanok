@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Dashboard;
 use App\Http\Middleware\EnsureAdminPanelAccessible;
 use Filament\Http\Middleware\Authenticate;
@@ -59,7 +60,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(function () {
                 return asset('linanok.svg');
             })
-            ->login()
+            ->login(Login::class)
             ->passwordReset()
             ->sidebarCollapsibleOnDesktop()
             ->spa()
