@@ -98,7 +98,6 @@ class LinkResource extends Resource
                                             ->schema([
                                                 TextInput::make('slug')
                                                     ->autocomplete(false)
-                                                    ->unique(ignoreRecord: true)
                                                     ->placeholder(fn ($record) => $record === null ? 'custom-slug' : '-')
                                                     ->helperText('Leave empty for auto-generation')
                                                     ->readOnly(fn ($record) => $record !== null)
