@@ -20,6 +20,7 @@ use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
@@ -83,6 +84,11 @@ class TagResource extends Resource
                 Placeholder::make('updated_at')
                     ->label('Last Modified Date')
                     ->content(fn (?Tag $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+
+                TextEntry::make('visits_count')
+                    ->icon('heroicon-c-eye')
+                    ->numeric()
+                    ->state(fn ($record) => $record->visits()->count()),
             ]);
     }
 
