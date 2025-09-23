@@ -5,7 +5,6 @@ namespace App\Filament\Imports;
 use App\Filament\Actions\Imports\SyncRelationshipImportColumn;
 use App\Models\Link;
 use App\Models\Tag;
-use App\Models\User;
 use Filament\Actions\Concerns\CanBeAuthorized;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
