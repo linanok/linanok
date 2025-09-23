@@ -19,6 +19,7 @@ class UserExporter extends Exporter
             ExportColumn::make('id'),
 
             ExportColumn::make('is_active')
+                ->boolean()
                 ->enabledByDefault(false),
 
             ExportColumn::make('name'),

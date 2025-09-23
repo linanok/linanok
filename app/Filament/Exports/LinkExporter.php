@@ -21,9 +21,11 @@ class LinkExporter extends Exporter
             ExportColumn::make('id'),
 
             ExportColumn::make('is_active')
+                ->boolean()
                 ->enabledByDefault(false),
 
-            ExportColumn::make('is_available'),
+            ExportColumn::make('is_available')
+                ->boolean(),
 
             ExportColumn::make('slug'),
 
@@ -45,12 +47,14 @@ class LinkExporter extends Exporter
                 ->enabledByDefault(false),
 
             ExportColumn::make('forward_query_parameters')
+                ->boolean()
                 ->enabledByDefault(false),
 
             ExportColumn::make('visit_count')
                 ->enabledByDefault(false),
 
             ExportColumn::make('send_ref_query_parameter')
+                ->boolean()
                 ->enabledByDefault(false),
 
             ExportColumn::make('created_at'),

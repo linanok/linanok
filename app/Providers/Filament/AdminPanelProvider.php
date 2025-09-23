@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Dashboard;
 use App\Http\Middleware\EnsureAdminPanelAccessible;
+use Filament\Actions\Exports\ExportColumn;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -39,6 +40,8 @@ class AdminPanelProvider extends PanelProvider
         };
         TextColumn::macro('numericAbbreviate', $numericAbbreviateMacroFunction);
         TextEntry::macro('numericAbbreviate', $numericAbbreviateMacroFunction);
+
+        ExportColumn::macro('boolean', fn () => $this->formatStateUsing(fn (bool $state) => $state ? 'Yes' : 'No'));
     }
 
     public function panel(Panel $panel): Panel
