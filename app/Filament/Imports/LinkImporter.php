@@ -163,26 +163,4 @@ class LinkImporter extends Importer
                 ->visible(fn () => auth()->user()->can('create tag')),
         ];
     }
-
-    private function validateIdWithRecord($attribute, $value, $fail): void
-    {
-        $record = $this->getRecord(); // <- you have it here
-
-        if (empty($value)) {
-            if (! auth()->user()->can('create link')) {
-                $fail('You do not have permission to create links.');
-            }
-        } else {
-            if (! is_numeric($value) || $value < 1) {
-                $fail('The ID must be a positive integer.');
-            }
-            if (! auth()->user()->can('update link')) {
-                $fail('You do not have permission to update links.');
-            }
-        }
-
-        if ($record && ! $record->exists) {
-            // you can check stuff on the record
-        }
-    }
 }
