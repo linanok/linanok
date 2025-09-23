@@ -19,9 +19,7 @@ class ListTags extends ListRecords
 
             ExportAction::make()
                 ->exporter(TagExporter::class)
-                ->authorize(function () {
-                    return auth()->user()->can('view tag');
-                }),
+                ->authorize(fn () => auth()->user()->can('view tag')),
         ];
     }
 }

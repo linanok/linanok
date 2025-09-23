@@ -43,6 +43,6 @@ class TagExporter extends Exporter
 
     public static function modifyQuery(Builder $query): Builder
     {
-        return parent::modifyQuery($query)->orderBy('id', 'desc');
+        return parent::modifyQuery($query)->orderBy('id');
     }
 }

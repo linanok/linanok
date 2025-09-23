@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users;
 
+use App\Filament\Exports\UserExporter;
 use App\Filament\Resources\Roles\RelationManagers\UsersRelationManager;
 use App\Filament\Resources\Users\Pages\CreateUser;
 use App\Filament\Resources\Users\Pages\EditUser;
@@ -13,6 +14,7 @@ use Closure;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
@@ -181,6 +183,10 @@ class UserResource extends Resource
             ])
             ->toolbarActions([
                 DeleteBulkAction::make()->authorize('delete user'),
+
+                ExportBulkAction::make()
+                    ->exporter(UserExporter::class)
+                    ->authorize(fn () => auth()->user()->can('view user')),
             ]);
     }
 

@@ -22,15 +22,11 @@ class ListLinks extends ListRecords
 
             ImportAction::make()
                 ->importer(LinkImporter::class)
-                ->authorize(function () {
-                    return auth()->user()->canAny(['create link', 'update link']);
-                }),
+                ->authorize(fn () => auth()->user()->canAny(['create link', 'update link'])),
 
             ExportAction::make()
                 ->exporter(LinkExporter::class)
-                ->authorize(function () {
-                    return auth()->user()->can('view link');
-                }),
+                ->authorize(fn () => auth()->user()->can('view link')),
         ];
     }
 

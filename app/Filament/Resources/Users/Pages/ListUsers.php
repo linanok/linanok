@@ -21,15 +21,11 @@ class ListUsers extends ListRecords
 
             ImportAction::make()
                 ->importer(UserImporter::class)
-                ->authorize(function () {
-                    return auth()->user()->canAny(['create user', 'update user']);
-                }),
+                ->authorize(fn () => auth()->user()->canAny(['create user', 'update user'])),
 
             ExportAction::make()
                 ->exporter(UserExporter::class)
-                ->authorize(function () {
-                    return auth()->user()->can('view user');
-                }),
+                ->authorize(fn () => auth()->user()->can('view user')),
         ];
     }
 }
