@@ -66,7 +66,8 @@ class DomainResource extends Resource
                     ->helperText('Domain name, localhost, or IP address with optional port number')
                     ->regex('/^localhost(:\d+)?$|^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])(:\d+)?$|^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?$/')
                     ->validationAttribute('host')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true),
 
                 Toggle::make('is_active')
                     ->default(true)

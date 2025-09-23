@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Links;
 
+use App\Filament\Exports\LinkExporter;
 use App\Filament\Resources\Domains\RelationManagers\LinksRelationManager;
 use App\Filament\Resources\Links\Filters\QueryBuilder\Constraints\HasPasswordConstraint;
 use App\Filament\Resources\Links\Pages\CreateLink;
@@ -19,6 +20,7 @@ use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\RichEditor;
@@ -98,7 +100,6 @@ class LinkResource extends Resource
                                             ->schema([
                                                 TextInput::make('slug')
                                                     ->autocomplete(false)
-                                                    ->unique(ignoreRecord: true)
                                                     ->placeholder(fn ($record) => $record === null ? 'custom-slug' : '-')
                                                     ->helperText('Leave empty for auto-generation')
                                                     ->readOnly(fn ($record) => $record !== null)
@@ -321,6 +322,10 @@ class LinkResource extends Resource
             ])
             ->toolbarActions([
                 DeleteBulkAction::make()->authorize('delete link'),
+
+                ExportBulkAction::make()
+                    ->exporter(LinkExporter::class)
+                    ->authorize(fn () => auth()->user()->can('view link')),
             ]);
     }
 

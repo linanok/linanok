@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Tags;
 
+use App\Filament\Exports\TagExporter;
 use App\Filament\Resources\Tags\Pages\CreateTag;
 use App\Filament\Resources\Tags\Pages\EditTag;
 use App\Filament\Resources\Tags\Pages\ListTags;
@@ -16,10 +17,12 @@ use App\Models\Tag;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
@@ -83,6 +86,11 @@ class TagResource extends Resource
                 Placeholder::make('updated_at')
                     ->label('Last Modified Date')
                     ->content(fn (?Tag $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+
+                TextEntry::make('visits_count')
+                    ->icon('heroicon-c-eye')
+                    ->numeric()
+                    ->state(fn ($record) => $record->visits()->count()),
             ]);
     }
 
@@ -111,6 +119,10 @@ class TagResource extends Resource
             ])
             ->toolbarActions([
                 DeleteBulkAction::make()->authorize('delete tag'),
+
+                ExportBulkAction::make()
+                    ->exporter(TagExporter::class)
+                    ->authorize(fn () => auth()->user()->can('view tag')),
             ]);
     }
 
