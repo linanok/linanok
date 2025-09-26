@@ -39,6 +39,7 @@ brand identity while sharing concise, memorable links.
 - **Password Protection**: Secure sensitive links with password protection
 - **URL Tagging**: Organize links with custom tags
 - **Deep Link Support**: Create nested URL structures like `a/b/c/d` for organized link hierarchies
+- **Import/Export Functionality**: Easily import existing URLs from CSV/Excel files and export your link data for backup or migration purposes
 
 ### 📊 Analytics & Tracking
 
