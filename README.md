@@ -73,7 +73,7 @@ need advanced management, security, and organizational features.
 
 - **PHP**: 8.3, 8.4
 - **Databases (CI-tested)**:
-    - PostgreSQL: 13, 14, 15, 16, 17
+    - PostgreSQL: 13, 14, 15, 16, 17, 18
     - MariaDB: 10.6, 10.11, 11.4, 11.8
     - SQLite
 

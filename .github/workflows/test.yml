@@ -89,6 +89,21 @@ jobs:
               POSTGRES_USER: testuser
               POSTGRES_PASSWORD: testpass
             extensions: pdo_pgsql, pgsql
+          - name: 'postgresql'
+            image: 'postgres:18-alpine'
+            port: 5432
+            env:
+              DB_CONNECTION: pgsql
+              DB_HOST: 127.0.0.1
+              DB_PORT: 5432
+              DB_DATABASE: linanok_test
+              DB_USERNAME: testuser
+              DB_PASSWORD: testpass
+            service-env:
+              POSTGRES_DB: linanok_test
+              POSTGRES_USER: testuser
+              POSTGRES_PASSWORD: testpass
+            extensions: pdo_pgsql, pgsql
           - name: 'mariadb'
             image: 'mariadb:10.6'
             port: 3306

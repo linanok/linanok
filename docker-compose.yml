@@ -123,7 +123,7 @@ services:
             - linanok
 
     postgres:
-        image: postgres:17-alpine
+        image: postgres:18-alpine
         volumes:
             - postgres-data:/var/lib/postgresql/data
         env_file:
