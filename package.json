@@ -9,14 +9,14 @@
         "@tailwindcss/forms": "^0.5.10",
         "@tailwindcss/postcss": "^4.1.11",
         "@tailwindcss/typography": "^0.5.16",
-        "@tailwindcss/vite": "^4.1.11",
+        "@tailwindcss/vite": "^4.3.1",
         "autoprefixer": "^10.4.21",
         "axios": "^1.16.0",
         "concurrently": "^9.0.1",
-        "laravel-vite-plugin": "^1.0",
+        "laravel-vite-plugin": "^3.1",
         "postcss": "^8.5.15",
         "postcss-nesting": "^13.0.1",
         "tailwindcss": "^4.1.11",
-        "vite": "^6.4.3"
+        "vite": "^8.0.16"
     }
 }
